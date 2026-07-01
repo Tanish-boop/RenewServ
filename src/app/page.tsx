@@ -209,23 +209,15 @@ function LandingPageContent() {
       const emailData = await emailRes.json();
       if (!emailRes.ok) throw new Error(emailData.error || 'Email verification failed');
 
-      const phoneRes = await fetch('/api/auth/verify-phone', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'VERIFY_OTP', otpCode: phoneOtp.trim() }),
-      });
-      const phoneData = await phoneRes.json();
-      if (!phoneRes.ok) throw new Error(phoneData.error || 'Phone verification failed');
-
       setVerifySuccess('Verification successful! Redirecting...');
       await fetchSession();
-        setTimeout(() => {
-          setShowAuthModal(false);
-          setRegStep('details');
-          router.push('/dashboard');
-        }, 1500);
+      setTimeout(() => {
+        setShowAuthModal(false);
+        setRegStep('details');
+        router.push('/dashboard');
+      }, 1500);
     } catch (err: any) {
-      setVerifyError(err.message || 'Verification failed. Please check your OTP codes.');
+      setVerifyError(err.message || 'Verification failed. Please check your OTP code.');
       fetchSimulatedLogs();
     } finally {
       setVerifyLoading(false);
@@ -1183,19 +1175,6 @@ function LandingPageContent() {
                       className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-slate-900 focus:outline-none focus:border-blue-500 text-sm font-semibold tracking-widest text-center"
                     />
                   </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-655 text-slate-600">Verify Mobile Phone (Enter OTP)</label>
-                    <input 
-                      type="text" 
-                      placeholder="e.g. 123456" 
-                      required
-                      maxLength={6}
-                      value={phoneOtp}
-                      onChange={(e) => setPhoneOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      className="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-slate-900 focus:outline-none focus:border-blue-500 text-sm font-semibold tracking-widest text-center"
-                    />
-                  </div>
                 </div>
 
                 {verifyError && (
@@ -1215,7 +1194,7 @@ function LandingPageContent() {
                   disabled={verifyLoading}
                   className="w-full py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm sm:text-base shadow transition-all flex items-center justify-center"
                 >
-                  {verifyLoading ? 'Verifying...' : 'Verify OTPs & Activate'}
+                  {verifyLoading ? 'Verifying...' : 'Verify OTP & Activate'}
                 </button>
 
                 <div className="flex gap-2 pt-2">
@@ -1223,17 +1202,9 @@ function LandingPageContent() {
                     type="button"
                     onClick={handleResendEmail}
                     disabled={resendingEmail}
-                    className="flex-1 py-2 text-slate-700 bg-slate-100 hover:bg-slate-200 text-xs font-bold rounded-lg transition"
+                    className="w-full py-2 text-slate-700 bg-slate-100 hover:bg-slate-200 text-xs font-bold rounded-lg transition"
                   >
                     {resendingEmail ? 'Resending...' : 'Resend Email'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleResendPhone}
-                    disabled={resendingPhone}
-                    className="flex-1 py-2 text-slate-700 bg-slate-100 hover:bg-slate-200 text-xs font-bold rounded-lg transition"
-                  >
-                    {resendingPhone ? 'Resending...' : 'Resend Phone'}
                   </button>
                 </div>
 

@@ -75,7 +75,6 @@ export async function POST(req: Request) {
       }
 
       const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
-      const phoneOtpCode = Math.floor(100000 + Math.random() * 900000).toString();
       const tenMinutesFromNow = new Date(Date.now() + 10 * 60 * 1000);
 
       // Create user with profile and wallet (with initial ₹100 promo balance)
@@ -88,7 +87,7 @@ export async function POST(req: Request) {
           passwordHash,
           role: assignedRole,
           emailVerified: false,
-          phoneVerified: false,
+          phoneVerified: true,
           profile: {
             create: {
               name,
@@ -105,7 +104,6 @@ export async function POST(req: Request) {
 
       // Hash and store OTPs in new models
       const emailOtpHash = await hashPassword(verificationToken);
-      const phoneOtpHash = await hashPassword(phoneOtpCode);
 
       await tx.emailVerificationOtp.create({
         data: {
@@ -115,15 +113,7 @@ export async function POST(req: Request) {
         }
       });
 
-      await tx.phoneVerificationOtp.create({
-        data: {
-          phone: cleanPhone,
-          otpHash: phoneOtpHash,
-          expiresAt: tenMinutesFromNow,
-        }
-      });
-
-      return { newUser, verificationToken, phoneOtpCode };
+      return { newUser, verificationToken };
     });
 
     // Dispatch verification email in background
@@ -132,14 +122,6 @@ export async function POST(req: Request) {
       await sendVerificationEmail(email, user.verificationToken);
     } catch (mailErr) {
       console.error('Failed to trigger verification email:', mailErr);
-    }
-
-    // Dispatch SMS OTP in background
-    try {
-      const { sendOtpSms } = require('@/lib/sms');
-      await sendOtpSms(cleanPhone, user.phoneOtpCode);
-    } catch (smsErr) {
-      console.error('Failed to trigger mobile OTP:', smsErr);
     }
 
     const token = await createSessionToken({ userId: user.newUser.id, role: user.newUser.role });
