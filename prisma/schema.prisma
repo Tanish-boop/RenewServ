@@ -1,0 +1,591 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ROOT_OWNER
+  OWNER
+  CLIENT
+  TECHNICIAN
+}
+
+enum BookingStatus {
+  NEW
+  PENDING
+  CONFIRMED
+  TECHNICIAN_ASSIGNED
+  ON_THE_WAY
+  ARRIVED
+  INSPECTION_DONE
+  QUOTE_SENT
+  WAITING_FOR_PAYMENT
+  PAYMENT_RECEIVED
+  WORK_STARTED
+  WORK_COMPLETED
+  INVOICE_SENT
+  CANCELLED
+  
+  // Deprecated/Compat
+  ASSIGNED
+  TECHNICIAN_ON_THE_WAY
+  INSPECTION_COMPLETED
+  APPROVED
+  COMPLETED
+}
+
+enum PaymentType {
+  BOOKING_FEE
+  ADVANCE
+  FINAL
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum LedgerAccount {
+  CUSTOMER_WALLET
+  RENEWSERV_ESCROW
+  RENEWSERV_REVENUE
+  RAZORPAY_GATEWAY
+  REFERRAL_POOL
+}
+
+model User {
+  id                   String        @id @default(uuid())
+  encryptedEmail       String?       @unique
+  emailIndex           String?       @unique
+  encryptedPhone       String?       @unique
+  phoneIndex           String?       @unique
+  
+  passwordHash         String?
+  role                 Role          @default(CLIENT)
+  
+  mfaSecret            String?
+  mfaEnabled           Boolean       @default(false)
+
+  failedLoginAttempts  Int           @default(0)
+  lockedUntil          DateTime?
+  
+  emailVerified        Boolean       @default(false)
+  emailVerifiedAt      DateTime?
+  
+  phoneVerified        Boolean       @default(false)
+  phoneVerifiedAt      DateTime?
+  
+  whatsappNumber       String?
+  whatsappVerified     Boolean       @default(false)
+  whatsappOptIn        Boolean       @default(false)
+
+  notificationPref     String        @default("ALL")
+  deletedAt            DateTime?
+
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  
+  profile              Profile?
+  addresses            Address[]
+  bookings             Booking[]     @relation("CustomerBookings")
+  technician           Technician?
+  notifications        Notification[]
+  jobImagesUploaded    JobImage[]
+  auditLogs            AuditLog[]
+  wallets              Wallet?
+  referralsSent        Referral[]    @relation("Referrer")
+  referralsReceived    Referral[]    @relation("Referee")
+  tickets              SupportTicket[]
+  sessions             Session[]
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  avatarUrl String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model City {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  state       String      @default("Maharashtra")
+  isActive    Boolean     @default(true)
+  territories Territory[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Territory {
+  id          String      @id @default(uuid())
+  name        String
+  cityId      String
+  city        City        @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  postalCodes String      
+  isActive    Boolean     @default(true)
+  technicians Technician[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Address {
+  id               String    @id @default(uuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label            String    
+  encryptedAddress String    
+  postalCode       String    
+  encryptedGps     String?   
+  bookings         Booking[]
+  deletedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model Booking {
+  id                    String         @id @default(uuid())
+  customerId            String
+  customer              User           @relation("CustomerBookings", fields: [customerId], references: [id], onDelete: Cascade)
+  addressId             String
+  address               Address        @relation(fields: [addressId], references: [id])
+  serviceType           String         
+  scheduledDate         String
+  scheduledTime         String
+  status                BookingStatus  @default(PENDING)
+  isEmergency           Boolean        @default(false)
+  
+  bookingFeePaid        Boolean        @default(false)
+  advancePaid           Boolean        @default(false)
+  finalPaid             Boolean        @default(false)
+  paymentStatus         String         @default("UNPAID") // UNPAID, ADVANCE_PAID, PARTIALLY_PAID, PAID, REFUNDED
+  
+  deletedAt             DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  payments              Payment[]
+  technicianAssignments TechnicianAssignment[]
+  jobImages             JobImage[]
+  quote                 Quote?
+  review                Review?
+  invoice               Invoice?
+  inspectionReport      InspectionReport?
+  supportTickets        SupportTicket[]
+  timeline              BookingTimeline[]
+}
+
+model Technician {
+  id              String                 @id @default(uuid())
+  userId          String                 @unique
+  user            User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  employeeId      String                 @unique
+  territoryId     String
+  territory       Territory              @relation(fields: [territoryId], references: [id])
+  isAvailable     Boolean                @default(true)
+  rating          Float                  @default(5.0)
+  attendance      TechnicianAttendance[]
+  assignments     TechnicianAssignment[]
+  reportsCreated  InspectionReport[]
+  deletedAt       DateTime?
+  createdAt       DateTime               @default(now())
+  updatedAt       DateTime               @updatedAt
+}
+
+model TechnicianAttendance {
+  id           String     @id @default(uuid())
+  technicianId String
+  technician   Technician @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+  checkIn      DateTime
+  checkOut     DateTime?
+  gpsLatitude  Float
+  gpsLongitude Float
+  createdAt    DateTime   @default(now())
+}
+
+model TechnicianAssignment {
+  id           String     @id @default(uuid())
+  bookingId    String
+  booking      Booking    @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  technicianId String
+  technician   Technician @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+  status       String     
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  bookingId     String
+  booking       Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  amount        Float
+  type          PaymentType
+  status        PaymentStatus @default(PENDING)
+  provider      String        @default("RAZORPAY")
+  transactionId String        @unique
+  idempotencyKey String       @unique
+  createdAt     DateTime      @default(now())
+}
+
+model Ledger {
+  id                 String        @id @default(uuid())
+  sourceAccount      LedgerAccount
+  destinationAccount LedgerAccount
+  amount             Float
+  referenceId        String        
+  description        String
+  createdAt          DateTime      @default(now())
+}
+
+model PaymentAudit {
+  id         String   @id @default(uuid())
+  bookingId  String
+  action     String   
+  amount     Float
+  details    String   
+  createdAt  DateTime @default(now())
+}
+
+model WebhookEvent {
+  id            String    @id @default(uuid())
+  provider      String
+  eventId       String    @unique
+  payload       String    
+  status        String    @default("PENDING") 
+  processedAt   DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+model Quote {
+  id             String      @id @default(uuid())
+  bookingId      String      @unique
+  booking        Booking     @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  panelCount     Int         @default(0)
+  systemSizeKw   Float       @default(0.0)
+  cleaningCost   Float       @default(0)
+  dismantlingCost Float      @default(0)
+  partsCost      Float       @default(0)
+  tax            Float       @default(0)
+  discount       Float       @default(0)
+  totalAmount    Float
+  notes          String?
+  status         String      @default("PENDING") 
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model InspectionReport {
+  id                 String     @id @default(uuid())
+  bookingId          String     @unique
+  booking            Booking    @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  technicianId       String
+  technician         Technician @relation(fields: [technicianId], references: [id])
+  panelCondition     String
+  outputVoltage      Float
+  efficiencyBefore   Float      
+  efficiencyAfter    Float      
+  carbonSavedKg      Float      @default(0.0)
+  findings           String     
+  pdfUrl             String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+}
+
+model JobImage {
+  id         String   @id @default(uuid())
+  bookingId  String
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  url        String   
+  type       String   
+  uploadedBy String
+  uploader   User     @relation(fields: [uploadedBy], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model Review {
+  id                  String   @id @default(uuid())
+  bookingId           String   @unique
+  booking             Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  ratingTechnician    Int
+  ratingService       Int
+  comment             String?
+  createdAt           DateTime @default(now())
+}
+
+model Wallet {
+  id                String              @id @default(uuid())
+  userId            String              @unique
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  balance           Float               @default(0.0)
+  refundBalance     Float               @default(0.0)
+  referralBalance   Float               @default(0.0)
+  promoBalance      Float               @default(0.0)
+  transactions      WalletTransaction[]
+  updatedAt         DateTime            @updatedAt
+}
+
+model WalletTransaction {
+  id          String   @id @default(uuid())
+  walletId    String
+  wallet      Wallet   @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  amount      Float
+  type        String   
+  source      String   
+  description String
+  createdAt   DateTime @default(now())
+}
+
+model Referral {
+  id            String   @id @default(uuid())
+  referrerId    String
+  referrer      User     @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  refereeId     String
+  referee       User     @relation("Referee", fields: [refereeId], references: [id], onDelete: Cascade)
+  referralCode  String
+  rewardAmount  Float    @default(250.0)
+  status        String   @default("PENDING") 
+  createdAt     DateTime @default(now())
+}
+
+model SupportTicket {
+  id          String          @id @default(uuid())
+  customerId  String
+  customer    User            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  bookingId   String?
+  booking     Booking?        @relation(fields: [bookingId], references: [id])
+  category    String          
+  subject     String
+  status      String          @default("OPEN") 
+  priority    String          @default("MEDIUM")
+  messages    TicketMessage[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model TicketMessage {
+  id         String        @id @default(uuid())
+  ticketId   String
+  ticket     SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  senderId   String
+  message    String
+  createdAt  DateTime      @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  ipAddress String
+  userAgent String
+  details   String   
+  createdAt DateTime @default(now())
+}
+
+model SecurityEvent {
+  id        String   @id @default(uuid())
+  severity  String   
+  type      String   
+  details   String
+  ipAddress String
+  createdAt DateTime @default(now())
+}
+
+model FailedLogin {
+  id              String   @id @default(uuid())
+  loginIdentifier String   @unique 
+  attemptCount    Int      @default(0)
+  lastAttemptAt   DateTime @default(now())
+}
+
+model OtpRequest {
+  id            String   @id @default(uuid())
+  phoneIndex    String   @unique
+  attemptCount  Int      @default(0)
+  lastAttemptAt DateTime @default(now())
+}
+
+model BlogArticle {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String
+  author      String
+  seoTitle    String
+  seoDesc     String
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  bookingId     String   @unique
+  booking       Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  invoiceNumber String   @unique
+  amount        Float
+  tax           Float    @default(0.0)
+  discount      Float    @default(0.0)
+  totalAmount   Float
+  status        String   @default("UNPAID")
+  pdfUrl        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  title     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  Message[]
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderRole     String       
+  senderId       String?      
+  content        String
+  mediaUrl       String?
+  createdAt      DateTime     @default(now())
+}
+
+model NotificationLog {
+  id        String   @id @default(uuid())
+  userId    String
+  channel   String   
+  recipient String
+  subject   String?
+  content   String
+  status    String   
+  errorMsg  String?
+  createdAt DateTime @default(now())
+}
+
+model WhatsappMessage {
+  id          String   @id @default(uuid())
+  direction   String   
+  from        String
+  to          String
+  body        String
+  mediaUrl    String?
+  status      String   @default("DELIVERED")
+  createdAt   DateTime @default(now())
+}
+
+model EmailLog {
+  id        String   @id @default(uuid())
+  to        String
+  subject   String
+  body      String
+  status    String
+  errorMsg  String?
+  createdAt DateTime @default(now())
+}
+
+model SmsLog {
+  id        String   @id @default(uuid())
+  to        String
+  body      String
+  status    String
+  errorMsg  String?
+  createdAt DateTime @default(now())
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @unique
+  deviceInfo   String?
+  ipAddress    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+}
+
+model PasswordResetOtp {
+  id        String   @id @default(uuid())
+  email     String
+  otpHash   String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model EmailVerificationOtp {
+  id        String   @id @default(uuid())
+  email     String
+  otpHash   String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model PhoneVerificationOtp {
+  id        String   @id @default(uuid())
+  phone     String
+  otpHash   String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Task {
+  id               String    @id @default(uuid())
+  title            String
+  description      String?
+  status           String    @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED
+  priority         String    @default("MEDIUM")  // LOW, MEDIUM, HIGH, URGENT
+  assignedTo       String?   // Owner User ID or name
+  dueDate          DateTime?
+  relatedBookingId String?
+  relatedCustomerId String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model Lead {
+  id                String    @id @default(uuid())
+  name              String
+  email             String?
+  phone             String?
+  serviceInterested String
+  source            String    @default("WEBSITE") // WEBSITE, WHATSAPP, PHONE, REFERRAL, GOOGLE, FACEBOOK, INSTAGRAM
+  status            String    @default("NEW")     // NEW, CONTACTED, INTERESTED, CONVERTED, LOST
+  notes             String?
+  followUpDate      DateTime?
+  assignedOwner     String?   // Owner User ID or name
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model BookingTimeline {
+  id        String   @id @default(uuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  status    String
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
