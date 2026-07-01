@@ -46,9 +46,8 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      // Return a generic error to prevent email harvesting
       return NextResponse.json(
-        { error: 'Invalid credentials. Please verify your details.' },
+        { error: 'This identifier is not registered. Please register first.' },
         { status: 401 }
       );
     }
@@ -70,7 +69,7 @@ export async function POST(req: Request) {
       // Increment failed attempts
       const newAttempts = user.failedLoginAttempts + 1;
       let lockedUntil: Date | null = null;
-      let errorMsg = 'Invalid credentials. Please verify your details.';
+      let errorMsg = 'Password wrong, try again.';
 
       if (newAttempts >= 5) {
         lockedUntil = new Date(Date.now() + 30 * 60 * 1000); // 30 mins lock per requirements

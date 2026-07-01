@@ -83,9 +83,13 @@ export default function CustomerDashboard() {
   const [chatSending, setChatSending] = useState(false);
   const [developerLogs, setDeveloperLogs] = useState<any>({ smsLogs: [], emailLogs: [] });
   const [developerLogsLoading, setDeveloperLogsLoading] = useState(false);
+  const [isLocalhost, setIsLocalhost] = useState(false);
 
   useEffect(() => {
     fetchSessionAndData();
+    if (typeof window !== 'undefined') {
+      setIsLocalhost(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    }
   }, [router]);
 
   // Clean up SSE stream on unmount or tracking target change
@@ -1282,151 +1286,153 @@ export default function CustomerDashboard() {
         )}
 
         {/* ==================== DEVELOPER SANDBOX SECTION ==================== */}
-        <div className="mt-12 p-6 rounded-2xl bg-slate-950 text-slate-100 border border-slate-850 space-y-6 shadow-2xl">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-            <div className="space-y-1">
-              <h3 className="font-extrabold text-white text-base flex items-center gap-2">
-                <span>🔧 Local Developer Sandbox (SMS & WhatsApp Simulation)</span>
-              </h3>
-              <p className="text-slate-400 text-xs">
-                Since real SMS gateways are mock-logged in local mode, you can copy verification OTPs, click links, and chat with the WhatsApp bot right here.
-              </p>
+        {isLocalhost && (
+          <div className="mt-12 p-6 rounded-2xl bg-slate-950 text-slate-100 border border-slate-850 space-y-6 shadow-2xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+              <div className="space-y-1">
+                <h3 className="font-extrabold text-white text-base flex items-center gap-2">
+                  <span>🔧 Local Developer Sandbox (SMS & WhatsApp Simulation)</span>
+                </h3>
+                <p className="text-slate-400 text-xs">
+                  Since real SMS gateways are mock-logged in local mode, you can copy verification OTPs, click links, and chat with the WhatsApp bot right here.
+                </p>
+              </div>
+              <button 
+                onClick={fetchSimulatedLogs}
+                disabled={developerLogsLoading}
+                className="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 rounded-lg text-white transition-all flex items-center gap-1.5"
+              >
+                {developerLogsLoading ? 'Refreshing...' : '🔄 Refresh Logs'}
+              </button>
             </div>
-            <button 
-              onClick={fetchSimulatedLogs}
-              disabled={developerLogsLoading}
-              className="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 rounded-lg text-white transition-all flex items-center gap-1.5"
-            >
-              {developerLogsLoading ? 'Refreshing...' : '🔄 Refresh Logs'}
-            </button>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            {/* COLUMN 1: Simulated Inbox */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Simulated Message Inbox</h4>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               
-              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
-                {/* SMS Logs */}
-                <div>
-                  <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block mb-2">SMS Logs (OTPs)</span>
-                  {developerLogs.smsLogs?.length === 0 ? (
-                    <p className="text-xs text-slate-500 italic p-3 rounded-lg bg-slate-900/50 border border-slate-850">No simulated SMS messages found.</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {developerLogs.smsLogs?.map((log: any) => (
-                        <div key={log.id} className="p-3.5 rounded-lg bg-slate-900 border border-slate-850 text-left space-y-1">
-                          <div className="flex justify-between items-center text-[10px] text-slate-500">
-                            <span>To: {log.to}</span>
-                            <span>{new Date(log.createdAt).toLocaleTimeString()}</span>
-                          </div>
-                          <p className="text-xs font-semibold text-slate-200">{log.body}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Email Logs */}
-                <div className="pt-2">
-                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block mb-2">Email Logs (Verification Links)</span>
-                  {developerLogs.emailLogs?.length === 0 ? (
-                    <p className="text-xs text-slate-500 italic p-3 rounded-lg bg-slate-900/50 border border-slate-850">No simulated emails found.</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {developerLogs.emailLogs?.map((log: any) => {
-                        // Extract token if present
-                        const tokenMatch = log.body.match(/token=([a-f0-9]+)/);
-                        const token = tokenMatch ? tokenMatch[1] : '';
-                        const verifyUrl = token ? `/api/auth/verify-email?token=${token}` : null;
-
-                        return (
-                          <div key={log.id} className="p-3.5 rounded-lg bg-slate-900 border border-slate-850 text-left space-y-1.5">
+              {/* COLUMN 1: Simulated Inbox */}
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Simulated Message Inbox</h4>
+                
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
+                  {/* SMS Logs */}
+                  <div>
+                    <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest block mb-2">SMS Logs (OTPs)</span>
+                    {developerLogs.smsLogs?.length === 0 ? (
+                      <p className="text-xs text-slate-500 italic p-3 rounded-lg bg-slate-900/50 border border-slate-850">No simulated SMS messages found.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {developerLogs.smsLogs?.map((log: any) => (
+                          <div key={log.id} className="p-3.5 rounded-lg bg-slate-900 border border-slate-850 text-left space-y-1">
                             <div className="flex justify-between items-center text-[10px] text-slate-500">
                               <span>To: {log.to}</span>
                               <span>{new Date(log.createdAt).toLocaleTimeString()}</span>
                             </div>
-                            <p className="text-xs font-bold text-slate-200 border-b border-slate-800 pb-1.5">{log.subject}</p>
-                            
-                            {verifyUrl ? (
-                              <div className="pt-1">
-                                <a 
-                                  href={verifyUrl}
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="inline-block px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-extrabold transition-all"
-                                >
-                                  🔗 Click to Verify Email
-                                </a>
-                              </div>
-                            ) : (
-                              <p className="text-[11px] text-slate-400 whitespace-pre-wrap">{log.body}</p>
-                            )}
+                            <p className="text-xs font-semibold text-slate-200">{log.body}</p>
                           </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-              </div>
-            </div>
-
-            {/* COLUMN 2: WhatsApp Chatbot Simulator */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">WhatsApp Bot Simulator</h4>
-              
-              <div className="border border-slate-800 rounded-xl overflow-hidden flex flex-col bg-slate-900 text-left h-[300px]">
-                {/* Chat window Header */}
-                <div className="bg-slate-850 p-3 flex items-center gap-2 border-b border-slate-800">
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-                  <div>
-                    <span className="text-xs font-extrabold text-white block leading-tight">Renewserv Support Bot</span>
-                    <span className="text-[9px] text-slate-500">Online</span>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
 
-                {/* Messages scroll area */}
-                <div className="flex-1 p-3 overflow-y-auto space-y-3 flex flex-col">
-                  {chatMessages.map((msg, idx) => (
-                    <div 
-                      key={idx} 
-                      className={`max-w-[85%] rounded-lg p-2.5 text-xs ${
-                        msg.role === 'user' 
-                          ? 'bg-blue-600 text-white self-end rounded-tr-none' 
-                          : 'bg-slate-800 text-slate-200 self-start rounded-tl-none'
-                      }`}
-                    >
-                      <p className="whitespace-pre-wrap leading-relaxed">{msg.text}</p>
-                      <span className="block text-[8px] text-slate-400 text-right mt-1">{msg.time}</span>
-                    </div>
-                  ))}
-                </div>
+                  {/* Email Logs */}
+                  <div className="pt-2">
+                    <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block mb-2">Email Logs (Verification Links)</span>
+                    {developerLogs.emailLogs?.length === 0 ? (
+                      <p className="text-xs text-slate-500 italic p-3 rounded-lg bg-slate-900/50 border border-slate-850">No simulated emails found.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {developerLogs.emailLogs?.map((log: any) => {
+                          // Extract token if present
+                          const tokenMatch = log.body.match(/token=([a-f0-9]+)/);
+                          const token = tokenMatch ? tokenMatch[1] : '';
+                          const verifyUrl = token ? `/api/auth/verify-email?token=${token}` : null;
 
-                {/* Chat input box */}
-                <form onSubmit={handleSendWhatsappMessage} className="p-2 bg-slate-850 border-t border-slate-850 flex gap-2">
-                  <input 
-                    type="text" 
-                    placeholder="Type 'Hi', 'Track', 'Pay Now'..." 
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    disabled={chatSending}
-                    className="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-blue-500"
-                  />
-                  <button 
-                    type="submit"
-                    disabled={chatSending}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-xs transition-all"
-                  >
-                    Send
-                  </button>
-                </form>
+                          return (
+                            <div key={log.id} className="p-3.5 rounded-lg bg-slate-900 border border-slate-850 text-left space-y-1.5">
+                              <div className="flex justify-between items-center text-[10px] text-slate-500">
+                                <span>To: {log.to}</span>
+                                <span>{new Date(log.createdAt).toLocaleTimeString()}</span>
+                              </div>
+                              <p className="text-xs font-bold text-slate-200 border-b border-slate-800 pb-1.5">{log.subject}</p>
+                              
+                              {verifyUrl ? (
+                                <div className="pt-1">
+                                  <a 
+                                    href={verifyUrl}
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="inline-block px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-[10px] font-extrabold transition-all"
+                                  >
+                                    🔗 Click to Verify Email
+                                  </a>
+                                </div>
+                              ) : (
+                                <p className="text-[11px] text-slate-400 whitespace-pre-wrap">{log.body}</p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                </div>
               </div>
-            </div>
 
+              {/* COLUMN 2: WhatsApp Chatbot Simulator */}
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">WhatsApp Bot Simulator</h4>
+                
+                <div className="border border-slate-800 rounded-xl overflow-hidden flex flex-col bg-slate-900 text-left h-[300px]">
+                  {/* Chat window Header */}
+                  <div className="bg-slate-850 p-3 flex items-center gap-2 border-b border-slate-800">
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+                    <div>
+                      <span className="text-xs font-extrabold text-white block leading-tight">Renewserv Support Bot</span>
+                      <span className="text-[9px] text-slate-500">Online</span>
+                    </div>
+                  </div>
+
+                  {/* Messages scroll area */}
+                  <div className="flex-1 p-3 overflow-y-auto space-y-3 flex flex-col">
+                    {chatMessages.map((msg, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`max-w-[85%] rounded-lg p-2.5 text-xs ${
+                          msg.role === 'user' 
+                            ? 'bg-blue-600 text-white self-end rounded-tr-none' 
+                            : 'bg-slate-800 text-slate-200 self-start rounded-tl-none'
+                        }`}
+                      >
+                        <p className="whitespace-pre-wrap leading-relaxed">{msg.text}</p>
+                        <span className="block text-[8px] text-slate-400 text-right mt-1">{msg.time}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Chat input box */}
+                  <form onSubmit={handleSendWhatsappMessage} className="p-2 bg-slate-850 border-t border-slate-850 flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="Type 'Hi', 'Track', 'Pay Now'..." 
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      disabled={chatSending}
+                      className="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                    />
+                    <button 
+                      type="submit"
+                      disabled={chatSending}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-xs transition-all"
+                    >
+                      Send
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
+        )}
 
       </main>
 

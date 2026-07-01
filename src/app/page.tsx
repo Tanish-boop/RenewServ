@@ -57,6 +57,7 @@ function LandingPageContent() {
   const [resendingPhone, setResendingPhone] = useState(false);
   const [developerLogs, setDeveloperLogs] = useState<any>({ smsLogs: [], emailLogs: [] });
   const [developerLogsLoading, setDeveloperLogsLoading] = useState(false);
+  const [isLocalhost, setIsLocalhost] = useState(false);
 
   // Coverage Checker State
   const [pincode, setPincode] = useState('');
@@ -71,6 +72,9 @@ function LandingPageContent() {
     if (searchParams.get('login') === 'true') {
       setShowAuthModal(true);
       setAuthTab('login');
+    }
+    if (typeof window !== 'undefined') {
+      setIsLocalhost(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
     }
   }, [searchParams]);
 
@@ -1132,7 +1136,7 @@ function LandingPageContent() {
                 </form>
 
                 {/* Developer Sandbox in Forgot Password Modal */}
-                {authTab === 'forgot' && forgotStep === 'otp' && developerLogs && developerLogs.emailLogs?.length > 0 && (
+                {isLocalhost && authTab === 'forgot' && forgotStep === 'otp' && developerLogs && developerLogs.emailLogs?.length > 0 && (
                   <div className="p-3 bg-slate-900 text-slate-300 rounded-xl space-y-2 border border-slate-700 text-left mt-4">
                     <div className="flex justify-between items-center pb-1 border-b border-slate-800">
                       <span className="text-[10px] uppercase font-black text-amber-400">Developer Sandbox Logs</span>
@@ -1234,7 +1238,7 @@ function LandingPageContent() {
                 </div>
 
                 {/* Developer Sandbox in Register Modal */}
-                {developerLogs && (developerLogs.smsLogs?.length > 0 || developerLogs.emailLogs?.length > 0) && (
+                {isLocalhost && developerLogs && (developerLogs.smsLogs?.length > 0 || developerLogs.emailLogs?.length > 0) && (
                   <div className="p-3 bg-slate-900 text-slate-300 rounded-xl space-y-2 border border-slate-700 text-left">
                     <div className="flex justify-between items-center pb-1 border-b border-slate-800">
                       <span className="text-[10px] uppercase font-black text-amber-400">Developer Sandbox Logs</span>
