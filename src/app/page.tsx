@@ -120,7 +120,10 @@ function LandingPageContent() {
   const fetchSimulatedLogs = async () => {
     setDeveloperLogsLoading(true);
     try {
-      const res = await fetch('/api/auth/me/simulated-logs');
+      const url = email.trim()
+        ? `/api/auth/me/simulated-logs?email=${encodeURIComponent(email.trim())}`
+        : '/api/auth/me/simulated-logs';
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
         setDeveloperLogs(data);
