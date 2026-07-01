@@ -1389,7 +1389,7 @@ export default function CustomerDashboard() {
             <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
               <h3 className="font-extrabold text-slate-950 text-sm">Solar Installation Coverage</h3>
               <p className="text-xs text-slate-600">
-                We currently support installation and servicing locations in Pune and surrounding PCMC areas starting with pincode <strong>411, 412, and 410</strong>. You can enter or update your address directly during booking.
+                We currently support installation and servicing locations in Pune City (pincodes <strong>411001 to 411062</strong>) and surrounding outskirts/PMR areas starting with <strong>410 or 412</strong>. You can enter or update your address directly during booking.
               </p>
             </div>
           </div>
@@ -1845,7 +1845,6 @@ export default function CustomerDashboard() {
           <div className="flex items-center gap-6 text-slate-400">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <span className="text-slate-500">WhatsApp: +91 9657331331</span>
           </div>
         </div>
       </footer>

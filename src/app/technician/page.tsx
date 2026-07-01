@@ -512,7 +512,6 @@ export default function TechnicianPortal() {
           <div className="flex items-center gap-6 text-slate-400">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <span className="text-slate-500">WhatsApp: +91 9657331331</span>
           </div>
         </div>
       </footer>

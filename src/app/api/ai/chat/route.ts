@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       },
       {
         keywords: ['refund', '99', 'booking fee'],
-        answer: 'The ₹99 booking fee is completely refundable. It is automatically credited back to your Renewserv wallet if you cancel 2 hours before the slot, or adjusted directly in your final washing invoice.'
+        answer: 'The ₹99 fee is collected to arrange and conduct the site inspection and is therefore treated as a separate service charge from the final quotation.'
       },
       {
         keywords: ['water', 'tap water', 'hard water', 'ro'],
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     if (match) {
       aiReply = match.answer;
     } else if (query.includes('invoice') || query.includes('bill') || query.includes('pay')) {
-      aiReply = 'Renewserv invoices include an 18% GST tax rate according to clean energy guidelines. Your ₹99 booking fee is also subtracted from the total, so you only pay the net balance.';
+      aiReply = 'Renewserv invoices include an 18% GST tax rate according to clean energy guidelines. Note that the ₹99 booking fee is treated as a separate service charge for site inspection.';
     } else if (query.includes('predict') || query.includes('maintenance')) {
       aiReply = '🔮 *Renewserv AI Maintenance Predictor:* Based on local Pune air quality index (AQI) values and historic rainfall records, your rooftop installation will experience a 12% output degradation in approximately *42 days*. We suggest booking a wash session around mid-August.';
     } else {

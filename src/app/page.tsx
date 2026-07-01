@@ -106,17 +106,23 @@ function LandingPageContent() {
       return;
     }
 
-    const isPunePin = ['411', '412', '410'].some(prefix => trimmed.startsWith(prefix));
+    const isSupportedPincode = (pin: string) => {
+      if (pin.length !== 6 || !/^\d+$/.test(pin)) return false;
+      const num = parseInt(pin, 10);
+      if (num >= 411001 && num <= 411062) return true;
+      if (pin.startsWith('410') || pin.startsWith('412')) return true;
+      return false;
+    };
     
-    if (isPunePin) {
+    if (isSupportedPincode(trimmed)) {
       setCoverageResult({
         status: 'success',
-        message: '✓ We service your area! You can book your Health Check now.'
+        message: '✓ We service your area! You can book your solar service now.'
       });
     } else {
       setCoverageResult({
         status: 'fail',
-        message: 'Coming soon! We currently cover all Pune and surrounding Pune areas (starting with 411, 412, 410).'
+        message: 'We are expanding soon to your area! We currently cover Pune City (411001-411062) & surrounding outskirts starting with 410/412.'
       });
     }
   };
@@ -534,13 +540,13 @@ function LandingPageContent() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg mx-auto">1</div>
-            <h3 className="font-bold text-lg text-slate-900">Book Health Check (₹99)</h3>
+            <h3 className="font-bold text-lg text-slate-900">Book Expert Visit (₹99)</h3>
             <p className="text-slate-600 text-xs sm:text-sm">Select service, enter pincode, and pay ₹99 online booking fee to secure dispatch.</p>
           </div>
 
           <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3">
             <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg mx-auto">2</div>
-            <h3 className="font-bold text-lg text-slate-900">Inspection & AI Quote</h3>
+            <h3 className="font-bold text-lg text-slate-900">Inspection & Price Quote</h3>
             <p className="text-slate-600 text-xs sm:text-sm">Technician checks output voltages. Admin sends a transparent, itemized quotation to your portal.</p>
           </div>
 
@@ -840,7 +846,7 @@ function LandingPageContent() {
             <div className="p-5 rounded-xl bg-white border border-slate-200 space-y-2">
               <h4 className="font-bold text-slate-900 text-sm sm:text-base">Q: Is the ₹99 booking fee refundable?</h4>
               <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                Yes! When our technician visits and admin generates your final cleaning/service quotation, the ₹99 booking fee is automatically deducted from the final payable sum.
+                The ₹99 fee is collected to arrange and conduct the site inspection and is therefore treated as a separate service charge from the final quotation.
               </p>
             </div>
 
@@ -887,7 +893,6 @@ function LandingPageContent() {
           <div className="flex items-center gap-6 text-slate-400">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <span className="text-slate-500">WhatsApp: +91 9657331331</span>
           </div>
         </div>
       </footer>

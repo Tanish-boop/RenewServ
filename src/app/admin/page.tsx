@@ -19,7 +19,7 @@ import {
   LogOut,
   ChevronRight,
   TrendingUp,
-  DollarSign,
+  IndianRupee,
   MessageSquare,
   ClipboardList,
   UserCheck,
@@ -59,7 +59,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [globalSearch, setGlobalSearch] = useState('');
-  const [founderMode, setFounderMode] = useState(true);
+
 
   // Main Operations Data
   const [bookings, setBookings] = useState<any[]>([]);
@@ -67,6 +67,55 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
   const [technicians, setTechnicians] = useState<any[]>([]);
   const [owners, setOwners] = useState<any[]>([]);
   const [leads, setLeads] = useState<any[]>([]);
+
+  const renderSourceBadge = (source: string) => {
+    switch (source) {
+      case 'WEBSITE':
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            🌐 Website
+          </span>
+        );
+      case 'WHATSAPP':
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            💬 WhatsApp Chat
+          </span>
+        );
+      case 'PHONE':
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            📞 Phone Call
+          </span>
+        );
+      case 'OFFLINE':
+      case 'OFFLINE_CALL':
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-black bg-orange-500/20 text-orange-400 border border-orange-500/30 shadow-sm animate-pulse">
+            🚨 Offline Lead (Call)
+          </span>
+        );
+      case 'REFERRAL':
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-purple-500/10 text-purple-400 border border-purple-500/20">
+            🤝 Referral
+          </span>
+        );
+      case 'GOOGLE':
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            🔍 Google Ads
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-extrabold bg-slate-500/10 text-slate-450 border border-slate-500/20">
+            {source}
+          </span>
+        );
+    }
+  };
+
   const [tasks, setTasks] = useState<any[]>([]);
   const [supportData, setSupportData] = useState<any>({ tickets: [], whatsappMessages: [], emailLogs: [], smsLogs: [] });
   const [settings, setSettings] = useState<any>({});
@@ -156,12 +205,14 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
   const [sortBy, setSortBy] = useState('newest'); // newest, oldest, revenue, date, status
 
   // Theme Toggle (Light / Dark)
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('adminTheme') as 'dark' | 'light';
     if (savedTheme) {
       setTheme(savedTheme);
+    } else {
+      setTheme('light');
     }
   }, []);
 
@@ -740,7 +791,26 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
       })
       .reduce((sum: number, l: any) => sum + l.amount, 0);
 
-    return todayRevenue || 3450; 
+    return todayRevenue; 
+  };
+
+  const getQuoteConversionRate = () => {
+    const bookingsWithQuotes = bookings.filter((b: any) => b.quote);
+    if (bookingsWithQuotes.length === 0) return 0;
+    const approvedQuotes = bookingsWithQuotes.filter((b: any) => b.quote.status === 'APPROVED');
+    return Math.round((approvedQuotes.length / bookingsWithQuotes.length) * 100);
+  };
+
+  const getAverageRating = () => {
+    const reviewedBookings = bookings.filter((b: any) => b.review);
+    if (reviewedBookings.length === 0) return 5.0;
+    const totalRating = reviewedBookings.reduce((sum: number, b: any) => {
+      const serviceRating = b.review.ratingService || 5;
+      const techRating = b.review.ratingTechnician || 5;
+      return sum + ((serviceRating + techRating) / 2);
+    }, 0);
+    const avg = totalRating / reviewedBookings.length;
+    return avg.toFixed(2);
   };
 
   // Fetch unique service types and areas/postal codes for filter dropdowns
@@ -1080,9 +1150,9 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
 
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
           <button 
-            onClick={() => { setActiveTab('dashboard'); setFounderMode(true); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('dashboard'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-              activeTab === 'dashboard' && founderMode 
+              activeTab === 'dashboard' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
                 : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
             }`}
@@ -1093,7 +1163,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('customers'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('customers'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'customers' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1105,7 +1175,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('bookings'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('bookings'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'bookings' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1117,7 +1187,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('technicians'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('technicians'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'technicians' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1129,7 +1199,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('owners'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('owners'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'owners' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1141,7 +1211,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('leads'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('leads'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'leads' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1153,7 +1223,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('support'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('support'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'support' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1165,7 +1235,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('finance'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('finance'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'finance' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1177,7 +1247,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('analytics'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('analytics'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'analytics' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1189,7 +1259,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
           </button>
 
           <button 
-            onClick={() => { setActiveTab('settings'); setFounderMode(false); setIsMobileSidebarOpen(false); }}
+            onClick={() => { setActiveTab('settings'); setIsMobileSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
               activeTab === 'settings' 
                 ? 'bg-amber-500/10 text-amber-500 border-l-4 border-amber-500' 
@@ -1251,37 +1321,14 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                 {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </span>
             </button>
-
-            <div className="flex items-center gap-3 bg-slate-900 border border-slate-800 p-1.5 rounded-lg">
-              <button 
-                onClick={() => { setFounderMode(true); setActiveTab('dashboard'); }}
-                className={`px-3 py-1.5 rounded text-xs font-bold uppercase transition-all ${
-                  founderMode 
-                    ? 'bg-amber-500 text-slate-950 shadow-md' 
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                Founder Mode
-              </button>
-              <button 
-                onClick={() => setFounderMode(false)}
-                className={`px-3 py-1.5 rounded text-xs font-bold uppercase transition-all ${
-                  !founderMode 
-                    ? 'bg-amber-500 text-slate-950 shadow-md' 
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                Standard Tabs
-              </button>
-            </div>
           </div>
         </header>
 
         {/* CONTENT AREA */}
         <div className="p-8 flex-1">
           
-          {/* TAB 1: DASHBOARD (FOUNDER MODE) */}
-          {(activeTab === 'dashboard' || founderMode) && (
+          {/* TAB 1: DASHBOARD */}
+          {activeTab === 'dashboard' && (
             <div className="space-y-8 animate-fadeIn">
               
               {/* 1. COMMAND CENTER SUMMARY */}
@@ -1328,7 +1375,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
 
                 <div className="bg-slate-950 p-5 rounded-xl border border-slate-800 shadow-xl relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-3 bg-purple-500/10 text-purple-500 rounded-bl-lg transition-transform group-hover:scale-110">
-                    <DollarSign className="w-5 h-5" />
+                    <IndianRupee className="w-5 h-5" />
                   </div>
                   <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Revenue Today</p>
                   <p className="text-3xl font-extrabold mt-2 text-purple-400">₹{getRevenueToday()}</p>
@@ -1518,7 +1565,10 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                         {leads.slice(0, 3).map((l) => (
                           <div key={l.id} className="p-3 bg-slate-900 border border-slate-850 rounded-lg flex items-center justify-between">
                             <div>
-                              <p className="text-xs font-bold text-slate-200">{l.name}</p>
+                              <div className="flex items-center gap-1.5 mb-0.5">
+                                <p className="text-xs font-bold text-slate-200">{l.name}</p>
+                                {renderSourceBadge(l.source)}
+                              </div>
                               <p className="text-[10px] text-slate-400">{l.serviceInterested} • {l.phone}</p>
                             </div>
                             <span className="text-[9px] font-bold bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded uppercase">{l.status}</span>
@@ -2274,15 +2324,29 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                       />
                     </div>
                     <div>
+                      <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Service Interested</label>
+                      <select 
+                        value={newLeadService}
+                        onChange={(e) => setNewLeadService(e.target.value)}
+                        className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm focus:outline-none focus:border-amber-500 text-slate-100"
+                      >
+                        <option value="Solar Panel Cleaning">Solar Panel Cleaning</option>
+                        <option value="Solar Health Check">Solar Health Check</option>
+                        <option value="Solar Panel Removal & Reinstallation">Solar Panel Removal & Reinstallation</option>
+                        <option value="Annual Maintenance Plan">Annual Maintenance Plan</option>
+                      </select>
+                    </div>
+                    <div>
                       <label className="block text-xs font-bold text-slate-400 uppercase mb-1">Lead Source</label>
                       <select 
                         value={newLeadSource}
                         onChange={(e) => setNewLeadSource(e.target.value)}
-                        className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm focus:outline-none focus:border-amber-500"
+                        className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm focus:outline-none focus:border-amber-500 text-slate-100"
                       >
                         <option value="WEBSITE">Website</option>
                         <option value="WHATSAPP">WhatsApp Chat</option>
                         <option value="PHONE">Phone Call</option>
+                        <option value="OFFLINE_CALL">Offline Lead (Call)</option>
                         <option value="REFERRAL">Referral</option>
                         <option value="GOOGLE">Google Ads</option>
                       </select>
@@ -2309,11 +2373,13 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                     {leads.map((l) => (
                       <div key={l.id} className="p-4 bg-slate-900 border border-slate-850 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
-                          <p className="font-bold text-slate-200">{l.name}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-bold text-slate-200">{l.name}</p>
+                            {renderSourceBadge(l.source)}
+                          </div>
                           <p className="text-xs text-slate-400">{l.phone} • {l.email || 'No email'}</p>
                           <p className="text-xs text-amber-500 font-semibold mt-1">Interested in: {l.serviceInterested}</p>
                           {l.notes && <p className="text-xs text-slate-500 mt-2 bg-slate-950 p-2 rounded italic">"{l.notes}"</p>}
-                          <span className="text-[10px] text-slate-500 font-mono block mt-2">Source: {l.source}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <select 
@@ -2497,11 +2563,11 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                     </div>
                     <div className="flex justify-between">
                       <span>Conversion Rate (Quotes -&gt; Approved):</span>
-                      <span className="font-bold">85%</span>
+                      <span className="font-bold">{getQuoteConversionRate()}%</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Average Customer Rating:</span>
-                      <span className="font-bold text-amber-500">4.92 / 5.0</span>
+                      <span className="font-bold text-amber-500">{getAverageRating()} / 5.0</span>
                     </div>
                   </div>
                 </div>

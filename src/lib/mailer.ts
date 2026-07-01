@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import prisma from './db';
+import { makeBlindIndex } from './crypto';
 
 const smtpHost = process.env.SMTP_HOST || '';
 const smtpPort = parseInt(process.env.SMTP_PORT || '587');
@@ -77,16 +78,44 @@ export async function sendEmail({
 }
 
 export async function sendVerificationEmail(to: string, token: string) {
-  const subject = 'Verify your Renewserv Email Account';
-  const body = `Welcome to Renewserv!\n\nYour 6-digit email verification OTP code is: ${token}\n\nEnter this code on the website to verify your email address.`;
+  const subject = 'Verify Your Email Address – Renewserv';
+  
+  let userName = 'Customer';
+  try {
+    const emailIndex = makeBlindIndex(to);
+    const user = await prisma.user.findFirst({
+      where: { emailIndex, deletedAt: null },
+      include: { profile: true }
+    });
+    if (user?.profile?.name) {
+      userName = user.profile.name;
+    }
+  } catch (err) {
+    console.error('Failed to fetch user name for email:', err);
+  }
+
+  const body = `Dear ${userName},\n\nWelcome to Renewserv! Thank you for creating an account with us.\n\nTo complete your registration, please verify your email address using the OTP below:\n\nVerification Code: ${token}\n\nThis code is valid for 10 minutes.\n\nIf you did not create an account with Renewserv, please ignore this email.\n\nBest regards,\n\nTeam Renewserv\nSolar Maintenance & Services\n🌐 https://renewserv.com`;
+  
   const html = `
-    <div style="font-family: sans-serif; padding: 20px; border: 1px solid #e2e8f0; max-width: 500px; border-radius: 10px;">
-      <h2 style="color: #2563eb;">Verify Your Email</h2>
-      <p>Thank you for choosing Renewserv. Please enter the following 6-digit verification code to complete your registration:</p>
-      <div style="font-size: 32px; font-weight: bold; color: #2563eb; letter-spacing: 4px; padding: 15px; background-color: #f8fafc; border-radius: 8px; text-align: center; margin: 15px 0;">
+    <div style="font-family: sans-serif; padding: 25px; border: 1px solid #e2e8f0; max-width: 600px; border-radius: 12px; color: #1e293b; line-height: 1.6;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="color: #0f172a; margin: 0; font-size: 22px;">Verify Your Email Address</h2>
+        <p style="color: #64748b; font-size: 14px; margin-top: 5px;">Renewserv Solar Maintenance & Services</p>
+      </div>
+      <p style="font-size: 15px;">Dear <strong>${userName}</strong>,</p>
+      <p style="font-size: 15px;">Welcome to Renewserv! Thank you for creating an account with us.</p>
+      <p style="font-size: 15px;">To complete your registration, please verify your email address using the OTP below:</p>
+      <div style="font-size: 32px; font-weight: 800; color: #0284c7; letter-spacing: 5px; padding: 18px; background-color: #f0f9ff; border: 1px solid #e0f2fe; border-radius: 10px; text-align: center; margin: 25px 0; font-family: monospace;">
         ${token}
       </div>
-      <p style="margin-top: 20px; font-size: 11px; color: #64748b;">This OTP code is valid for 15 minutes. Do not share it with anyone.</p>
+      <p style="font-size: 14px; color: #ef4444; font-weight: 650;">This code is valid for 10 minutes.</p>
+      <p style="font-size: 14px; color: #64748b; margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 15px;">If you did not create an account with Renewserv, please ignore this email.</p>
+      <p style="font-size: 14px; color: #475569; margin-top: 20px; line-height: 1.5;">
+        Best regards,<br>
+        <strong>Team Renewserv</strong><br>
+        Solar Maintenance & Services<br>
+        🌐 <a href="https://renewserv.com" style="color: #0284c7; text-decoration: none;">https://renewserv.com</a>
+      </p>
     </div>
   `;
 
@@ -101,16 +130,44 @@ export async function sendInvoiceEmail(to: string, invoiceNumber: string, amount
 }
 
 export async function sendPasswordResetEmail(to: string, token: string) {
-  const subject = 'Reset your Renewserv Account Password';
-  const body = `Reset your Renewserv Password\n\nYour 6-digit password reset OTP code is: ${token}\n\nEnter this code on the website to reset your password.`;
+  const subject = 'Reset Your Renewserv Password';
+
+  let userName = 'Customer';
+  try {
+    const emailIndex = makeBlindIndex(to);
+    const user = await prisma.user.findFirst({
+      where: { emailIndex, deletedAt: null },
+      include: { profile: true }
+    });
+    if (user?.profile?.name) {
+      userName = user.profile.name;
+    }
+  } catch (err) {
+    console.error('Failed to fetch user name for email:', err);
+  }
+
+  const body = `Dear ${userName},\n\nWe received a request to reset your Renewserv account password.\n\nPlease use the following OTP to proceed:\n\nPassword Reset Code: ${token}\n\nThis code is valid for 10 minutes.\n\nIf you did not request a password reset, please ignore this email. Your account remains secure.\n\nBest regards,\n\nTeam Renewserv\nSolar Maintenance & Services\n🌐 https://renewserv.com`;
+  
   const html = `
-    <div style="font-family: sans-serif; padding: 20px; border: 1px solid #e2e8f0; max-width: 500px; border-radius: 10px;">
-      <h2 style="color: #ef4444;">Reset Your Password</h2>
-      <p>Please enter the following 6-digit verification code to reset your account password:</p>
-      <div style="font-size: 32px; font-weight: bold; color: #ef4444; letter-spacing: 4px; padding: 15px; background-color: #f8fafc; border-radius: 8px; text-align: center; margin: 15px 0;">
+    <div style="font-family: sans-serif; padding: 25px; border: 1px solid #e2e8f0; max-width: 600px; border-radius: 12px; color: #1e293b; line-height: 1.6;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="color: #0f172a; margin: 0; font-size: 22px;">Reset Your Password</h2>
+        <p style="color: #64748b; font-size: 14px; margin-top: 5px;">Renewserv Solar Maintenance & Services</p>
+      </div>
+      <p style="font-size: 15px;">Dear <strong>${userName}</strong>,</p>
+      <p style="font-size: 15px;">We received a request to reset your Renewserv account password.</p>
+      <p style="font-size: 15px;">Please use the following OTP to proceed:</p>
+      <div style="font-size: 32px; font-weight: 800; color: #ef4444; letter-spacing: 5px; padding: 18px; background-color: #fef2f2; border: 1px solid #fee2e2; border-radius: 10px; text-align: center; margin: 25px 0; font-family: monospace;">
         ${token}
       </div>
-      <p style="margin-top: 20px; font-size: 11px; color: #64748b;">This OTP code is valid for 10 minutes. Do not share it with anyone.</p>
+      <p style="font-size: 14px; color: #ef4444; font-weight: 650;">This code is valid for 10 minutes.</p>
+      <p style="font-size: 14px; color: #64748b; margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 15px;">If you did not request a password reset, please ignore this email. Your account remains secure.</p>
+      <p style="font-size: 14px; color: #475569; margin-top: 20px; line-height: 1.5;">
+        Best regards,<br>
+        <strong>Team Renewserv</strong><br>
+        Solar Maintenance & Services<br>
+        🌐 <a href="https://renewserv.com" style="color: #0284c7; text-decoration: none;">https://renewserv.com</a>
+      </p>
     </div>
   `;
 

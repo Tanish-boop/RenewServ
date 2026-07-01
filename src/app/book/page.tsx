@@ -44,6 +44,15 @@ export default function BookService() {
   const [bookingError, setBookingError] = useState('');
   const [createdBookingId, setCreatedBookingId] = useState('');
 
+  // Lead state for out-of-coverage area
+  const [outOfCoverage, setOutOfCoverage] = useState(false);
+  const [leadName, setLeadName] = useState('');
+  const [leadEmail, setLeadEmail] = useState('');
+  const [leadPhone, setLeadPhone] = useState('');
+  const [submittingLead, setSubmittingLead] = useState(false);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [leadError, setLeadError] = useState('');
+
   useEffect(() => {
     const saved = typeof window !== 'undefined' ? localStorage.getItem('selected_service') : null;
     if (saved) {
@@ -59,6 +68,9 @@ export default function BookService() {
           router.push('/?login=true');
         } else {
           setCurrentUser(data.user);
+          setLeadName(data.user.name || '');
+          setLeadEmail(data.user.email || '');
+          setLeadPhone(data.user.phone || '');
         }
         setLoadingUser(false);
       })
@@ -95,20 +107,69 @@ export default function BookService() {
       setCoverageError('');
       
       const trimmed = postalCode.trim();
-      const isPunePin = ['411', '412', '410'].some(prefix => trimmed.startsWith(prefix)) && trimmed.length === 6;
       
-      if (!isPunePin) {
-        setCoverageError('Sorry! We do not cover this area code yet. Pune and surrounding Pune areas (starting with 411, 412, 410) only.');
+      const isSupportedPincode = (pin: string) => {
+        if (pin.length !== 6 || !/^\d+$/.test(pin)) return false;
+        const num = parseInt(pin, 10);
+        // Primary Pune/PCMC: 411001 to 411062
+        if (num >= 411001 && num <= 411062) return true;
+        // Outskirts & PMR approved: starts with 410 or 412
+        if (pin.startsWith('410') || pin.startsWith('412')) return true;
+        return false;
+      };
+
+      const isSupported = isSupportedPincode(trimmed);
+      
+      if (!isSupported) {
+        setOutOfCoverage(true);
         setCheckingCoverage(false);
         return;
       }
       
+      setOutOfCoverage(false);
       if (!gpsCoords) {
         setGpsCoords(`${18.5204 + Math.random() * 0.05}, ${73.8567 + Math.random() * 0.05}`);
       }
       
       setCheckingCoverage(false);
       setStep(3);
+    }
+  };
+
+  const handleLeadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!leadName.trim()) {
+      setLeadError('Name is required.');
+      return;
+    }
+    setSubmittingLead(true);
+    setLeadError('');
+    try {
+      const cleanService = serviceType === 'PANEL_CLEANING' ? 'Solar Panel Cleaning' :
+                           serviceType === 'HEALTH_CHECK' ? 'Solar Health Check' :
+                           serviceType === 'REMOVAL_REINSTALL' ? 'Solar Panel Removal & Reinstallation' :
+                           serviceType === 'AMC_PLAN' ? 'Annual Maintenance Plan' : serviceType;
+
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: leadName.trim(),
+          email: leadEmail.trim() || null,
+          phone: leadPhone.trim() || null,
+          serviceInterested: cleanService,
+          notes: `Out of coverage area request. Pincode: ${postalCode.trim()}. Address: ${addressLine.trim()}`
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to submit details');
+
+      setLeadSubmitted(true);
+    } catch (err: any) {
+      setLeadError(err.message || 'Error submitting details. Please try again.');
+    } finally {
+      setSubmittingLead(false);
     }
   };
 
@@ -198,98 +259,188 @@ export default function BookService() {
               <p className="text-slate-500 text-sm">Tell us where the solar panels are located and choose a slot.</p>
             </div>
 
-            {coverageError && (
-              <div className="p-3.5 rounded-lg border border-red-200 bg-red-50 text-red-755 flex gap-2 text-xs sm:text-sm">
-                <AlertCircle className="w-5 h-5 shrink-0" />
-                <span>{coverageError}</span>
-              </div>
-            )}
-
-            <div className="space-y-4">
-              <div className="space-y-1 text-left">
-                <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Installation Address</label>
-                <textarea 
-                  placeholder="Flat/House No., Building Name, Street Address, Land-mark" 
-                  rows={3}
-                  value={addressLine}
-                  onChange={(e) => setAddressLine(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-lg border border-slate-350 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 text-sm resize-none"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1 text-left">
-                  <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">6-digit Postal Pincode</label>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. 411038" 
-                    maxLength={6}
-                    value={postalCode}
-                    onChange={(e) => setPostalCode(e.target.value.replace(/\D/g, ''))}
-                    className="w-full px-3 py-2.5 rounded-lg border border-slate-350 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 text-sm"
-                  />
-                </div>
-
-                <div className="space-y-1 text-left">
-                  <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Preferred Service Date</label>
-                  <input 
-                    type="date" 
-                    value={scheduledDate}
-                    min={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setScheduledDate(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-slate-350 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1 text-left">
-                  <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Preferred Time Window</label>
-                  <select 
-                    value={scheduledTime}
-                    onChange={(e) => setScheduledTime(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-slate-350 bg-white text-slate-900 focus:outline-none focus:border-blue-500 text-sm"
-                  >
-                    <option value="09:00 AM">09:00 AM - 11:00 AM</option>
-                    <option value="11:00 AM">11:00 AM - 01:00 PM</option>
-                    <option value="01:00 PM">01:00 PM - 03:00 PM</option>
-                    <option value="03:00 PM">03:00 PM - 05:00 PM</option>
-                  </select>
-                </div>
-
-                <div className="flex items-center justify-between p-4 rounded-lg bg-slate-50 border border-slate-200 mt-4">
-                  <div className="space-y-0.5 text-left">
-                    <span className="text-xs font-bold text-slate-900">Same-Day Emergency?</span>
-                    <p className="text-[10px] text-slate-500">Dispatch technician within 4 hours (+₹50)</p>
+            {outOfCoverage ? (
+              <div className="bg-amber-50/40 border-2 border-amber-305 border-amber-300 p-6 rounded-2xl space-y-6 text-left shadow-sm">
+                <div className="flex gap-3">
+                  <AlertCircle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
+                  <div className="space-y-1.5">
+                    <h3 className="font-extrabold text-slate-950 text-base font-sans">Service Area Notice</h3>
+                    <p className="text-slate-700 text-xs font-semibold leading-relaxed font-sans">
+                      Thank you for your interest. We are expanding soon to your area. Please leave your details and we will notify you once services become available.
+                    </p>
                   </div>
-                  <input 
-                    type="checkbox"
-                    checked={isEmergency}
-                    onChange={(e) => setIsEmergency(e.target.checked)}
-                    className="w-5 h-5 text-blue-600 accent-blue-600"
-                  />
                 </div>
-              </div>
-            </div>
 
-            <div className="pt-4 flex justify-between gap-4">
-              <button 
-                onClick={() => router.push('/dashboard')}
-                className="px-6 py-3.5 rounded-lg border border-slate-350 hover:bg-slate-55 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-1 min-h-[52px]"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                Back
-              </button>
-              
-              <button 
-                onClick={handleNextStep}
-                disabled={checkingCoverage}
-                className="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm flex items-center gap-1 min-h-[52px]"
-              >
-                {checkingCoverage ? 'Verifying Coverage...' : 'Proceed to Payment'}
-                {!checkingCoverage && <ChevronRight className="w-4 h-4" />}
-              </button>
-            </div>
+                {leadSubmitted ? (
+                  <div className="p-5 bg-green-55 bg-green-50 border border-green-200 rounded-xl text-center space-y-3.5">
+                    <span className="text-3xl text-green-600 block">✓</span>
+                    <h4 className="font-black text-green-905 text-sm">Details Saved Successfully!</h4>
+                    <p className="text-green-700 text-xs font-bold">
+                      We have saved your details for pincode <strong>{postalCode}</strong>. We'll notify you as soon as we expand here!
+                    </p>
+                    <button
+                      onClick={() => router.push('/dashboard')}
+                      className="mt-2 w-full py-2.5 bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs rounded-lg transition-all shadow-sm"
+                    >
+                      Return to Dashboard
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleLeadSubmit} className="space-y-4">
+                    {leadError && (
+                      <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg font-bold">
+                        {leadError}
+                      </div>
+                    )}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Full Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={leadName}
+                        onChange={(e) => setLeadName(e.target.value)}
+                        placeholder="Your Name"
+                        className="w-full px-3 py-2.5 border border-slate-350 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-amber-500 bg-white"
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Phone Number</label>
+                        <input
+                          type="tel"
+                          value={leadPhone}
+                          onChange={(e) => setLeadPhone(e.target.value)}
+                          placeholder="Your Phone Number"
+                          className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-amber-500 bg-white"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Email Address</label>
+                        <input
+                          type="email"
+                          value={leadEmail}
+                          onChange={(e) => setLeadEmail(e.target.value)}
+                          placeholder="Your Email"
+                          className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-amber-500 bg-white"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setOutOfCoverage(false)}
+                        className="flex-1 py-2.5 border border-slate-350 hover:bg-slate-100 text-slate-800 font-extrabold text-xs rounded-lg transition-all text-center"
+                      >
+                        Change Pincode
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={submittingLead}
+                        className="flex-1 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs rounded-lg shadow-sm transition-all"
+                      >
+                        {submittingLead ? 'Submitting...' : 'Notify Me'}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            ) : (
+              <>
+                {coverageError && (
+                  <div className="p-3.5 rounded-lg border border-red-200 bg-red-50 text-red-755 flex gap-2 text-xs sm:text-sm">
+                    <AlertCircle className="w-5 h-5 shrink-0" />
+                    <span>{coverageError}</span>
+                  </div>
+                )}
+
+                <div className="space-y-4">
+                  <div className="space-y-1 text-left">
+                    <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Installation Address</label>
+                    <textarea 
+                      placeholder="Flat/House No., Building Name, Street Address, Land-mark" 
+                      rows={3}
+                      value={addressLine}
+                      onChange={(e) => setAddressLine(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-lg border border-slate-350 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 text-sm resize-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">6-digit Postal Pincode</label>
+                      <input 
+                        type="text" 
+                        placeholder="e.g. 411038" 
+                        maxLength={6}
+                        value={postalCode}
+                        onChange={(e) => setPostalCode(e.target.value.replace(/\D/g, ''))}
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-350 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 text-sm"
+                      />
+                    </div>
+
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Preferred Service Date</label>
+                      <input 
+                        type="date" 
+                        value={scheduledDate}
+                        min={new Date().toISOString().split('T')[0]}
+                        onChange={(e) => setScheduledDate(e.target.value)}
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-350 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1 text-left">
+                      <label className="text-xs font-bold text-slate-600 uppercase tracking-wider">Preferred Time Window</label>
+                      <select 
+                        value={scheduledTime}
+                        onChange={(e) => setScheduledTime(e.target.value)}
+                        className="w-full px-3 py-2.5 rounded-lg border border-slate-350 bg-white text-slate-900 focus:outline-none focus:border-blue-500 text-sm"
+                      >
+                        <option value="09:00 AM">09:00 AM - 11:00 AM</option>
+                        <option value="11:00 AM">11:00 AM - 01:00 PM</option>
+                        <option value="01:00 PM">01:00 PM - 03:00 PM</option>
+                        <option value="03:00 PM">03:00 PM - 05:00 PM</option>
+                      </select>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 rounded-lg bg-slate-50 border border-slate-200 mt-4">
+                      <div className="space-y-0.5 text-left">
+                        <span className="text-xs font-bold text-slate-900">Same-Day Emergency?</span>
+                        <p className="text-[10px] text-slate-500">Dispatch technician within 4 hours (+₹50)</p>
+                      </div>
+                      <input 
+                        type="checkbox"
+                        checked={isEmergency}
+                        onChange={(e) => setIsEmergency(e.target.checked)}
+                        className="w-5 h-5 text-blue-600 accent-blue-600"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex justify-between gap-4">
+                  <button 
+                    onClick={() => router.push('/dashboard')}
+                    className="px-6 py-3.5 rounded-lg border border-slate-350 hover:bg-slate-55 text-slate-800 font-bold text-xs sm:text-sm flex items-center gap-1 min-h-[52px]"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Back
+                  </button>
+                  
+                  <button 
+                    onClick={handleNextStep}
+                    disabled={checkingCoverage}
+                    className="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm flex items-center gap-1 min-h-[52px]"
+                  >
+                    {checkingCoverage ? 'Verifying Coverage...' : 'Proceed to Payment'}
+                    {!checkingCoverage && <ChevronRight className="w-4 h-4" />}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         )}
 
@@ -298,7 +449,7 @@ export default function BookService() {
           <div className="space-y-6">
             <div className="space-y-2">
               <h2 className="text-2xl font-extrabold text-slate-900">Pay Booking Fee</h2>
-              <p className="text-slate-500 text-sm">To verify slot booking, we collect a refundable ₹99 inspection fee.</p>
+              <p className="text-slate-500 text-sm">To verify slot booking, we collect a ₹99 inspection fee that covers technician scheduling.</p>
             </div>
 
             {bookingError && (
@@ -416,7 +567,6 @@ export default function BookService() {
           <div className="flex items-center gap-6 text-slate-400">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <span className="text-slate-500">WhatsApp: +91 9657331331</span>
           </div>
         </div>
       </footer>

@@ -82,6 +82,7 @@ export async function GET() {
             },
           },
           quote: true,
+          review: true,
           inspectionReport: true,
           technicianAssignments: {
             include: {
