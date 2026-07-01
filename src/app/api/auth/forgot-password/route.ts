@@ -11,10 +11,13 @@ export async function POST(req: NextRequest) {
     }
 
     const emailIndex = makeBlindIndex(email.trim().toLowerCase());
+    console.log(`[Forgot Password] Searching for emailIndex: ${emailIndex}`);
+    
     const user = await prisma.user.findFirst({
       where: { emailIndex, deletedAt: null }
     });
 
+    console.log(`[Forgot Password] User found: ${!!user}`);
     if (user) {
       // Generate 6 digit OTP
       const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
