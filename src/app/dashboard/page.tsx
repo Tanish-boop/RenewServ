@@ -553,7 +553,9 @@ export default function CustomerDashboard() {
               </p>
               
               <button 
-                onClick={() => handleBookServiceType('PANEL_CLEANING')}
+                onClick={() => {
+                  document.getElementById('choose-service')?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl shadow-md transition-all text-sm flex items-center gap-2"
               >
                 <span>BOOK SERVICE NOW</span>
@@ -623,7 +625,7 @@ export default function CustomerDashboard() {
             )}
 
             {/* Service Selection Cards */}
-            <div className="space-y-4 text-left">
+            <div id="choose-service" className="space-y-4 text-left">
               <h3 className="font-extrabold text-slate-900 text-lg">Choose Solar Service</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1563,7 +1565,12 @@ export default function CustomerDashboard() {
         </button>
 
         <button 
-          onClick={() => handleBookServiceType('PANEL_CLEANING')}
+          onClick={() => {
+            setActiveTab('home');
+            setTimeout(() => {
+              document.getElementById('choose-service')?.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }}
           className="flex flex-col items-center justify-center -mt-5"
         >
           <div className="w-12 h-12 bg-amber-400 text-slate-950 font-black rounded-full flex items-center justify-center shadow-md border-2 border-white">
