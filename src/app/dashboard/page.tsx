@@ -75,6 +75,14 @@ export default function CustomerDashboard() {
   const [auditorCapacity, setAuditorCapacity] = useState<number>(3);
   const [auditorMonths, setAuditorMonths] = useState<number>(3);
 
+  // Edit Profile States
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState('');
+  const [editSuccess, setEditSuccess] = useState('');
+
   // Developer Simulator State
   const [chatMessages, setChatMessages] = useState<any[]>([
     { role: 'bot', text: '👋 *Renewserv WhatsApp Chatbot Simulator* ☀️\n\nType any message like *Hi*, *Track*, *Pay Now*, or *Invoice* to test the WhatsApp automation in real time.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
@@ -175,6 +183,42 @@ export default function CustomerDashboard() {
   const handleLogout = async () => {
     await fetch('/api/auth/login', { method: 'DELETE' });
     router.push('/');
+  };
+
+  const startEditing = () => {
+    setEditName(currentUser?.name || '');
+    setEditPhone(currentUser?.phone || '');
+    setIsEditingProfile(true);
+    setEditError('');
+    setEditSuccess('');
+  };
+
+  const handleSaveProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setEditLoading(true);
+    setEditError('');
+    setEditSuccess('');
+
+    try {
+      const res = await fetch('/api/auth/me', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editName, phone: editPhone }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to update profile');
+
+      setEditSuccess('Profile updated successfully!');
+      await fetchSessionAndData();
+      setTimeout(() => {
+        setIsEditingProfile(false);
+        setEditSuccess('');
+      }, 1500);
+    } catch (err: any) {
+      setEditError(err.message || 'Failed to save changes');
+    } finally {
+      setEditLoading(false);
+    }
   };
 
   const handleApproveQuote = async (bookingId: string) => {
@@ -1233,47 +1277,111 @@ export default function CustomerDashboard() {
         {/* ==================== TAB: PROFILE ==================== */}
         {activeTab === 'profile' && (
           <div className="space-y-6 text-left">
-            <h2 className="font-black text-slate-950 text-xl">My Profile Details</h2>
-            
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg">
-                  {currentUser.profile?.name?.slice(0,1).toUpperCase() || 'U'}
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-slate-950 text-base">
-                    {currentUser.profile?.name || 'Renewserv Customer'}
-                  </h3>
-                  <p className="text-xs text-slate-500">Registered Account</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4 text-xs">
-                <div>
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Email Address</span>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <strong className="text-slate-800">{currentUser.email}</strong>
-                    {currentUser.emailVerified ? (
-                      <span className="text-[9px] font-extrabold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Verified</span>
-                    ) : (
-                      <span className="text-[9px] font-extrabold bg-red-50 text-red-750 px-2 py-0.5 rounded-full">Unverified</span>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Mobile Phone</span>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <strong className="text-slate-800">+91 {currentUser.phone}</strong>
-                    {currentUser.phoneVerified ? (
-                      <span className="text-[9px] font-extrabold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Verified</span>
-                    ) : (
-                      <span className="text-[9px] font-extrabold bg-red-50 text-red-750 px-2 py-0.5 rounded-full">Unverified</span>
-                    )}
-                  </div>
-                </div>
-              </div>
+            <div className="flex justify-between items-center">
+              <h2 className="font-black text-slate-950 text-xl">My Profile Details</h2>
+              {!isEditingProfile && (
+                <button
+                  onClick={startEditing}
+                  className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-xs transition-all shadow-sm flex items-center gap-1"
+                >
+                  ✏️ Edit Profile
+                </button>
+              )}
             </div>
+            
+            {isEditingProfile ? (
+              <form onSubmit={handleSaveProfile} className="bg-white p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                <h3 className="font-extrabold text-slate-900 text-sm">Update Profile Details</h3>
+                
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-655 text-slate-600">Full Name</label>
+                    <input 
+                      type="text"
+                      required
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-slate-300 text-slate-900 focus:outline-none focus:border-blue-500 text-xs font-semibold"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-655 text-slate-600">Mobile Phone Number</label>
+                    <input 
+                      type="text"
+                      required
+                      value={editPhone}
+                      onChange={(e) => setEditPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      className="w-full px-3 py-2 rounded-lg border border-slate-300 text-slate-900 focus:outline-none focus:border-blue-500 text-xs font-semibold"
+                    />
+                  </div>
+                </div>
+
+                {editError && (
+                  <p className="text-xs text-red-600 font-semibold">{editError}</p>
+                )}
+                {editSuccess && (
+                  <p className="text-xs text-green-600 font-semibold">{editSuccess}</p>
+                )}
+
+                <div className="flex gap-2 pt-2 border-t border-slate-100">
+                  <button 
+                    type="submit" 
+                    disabled={editLoading}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold rounded-lg text-xs transition-all"
+                  >
+                    {editLoading ? 'Saving...' : 'Save Changes'}
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setIsEditingProfile(false)}
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-705 text-slate-700 font-bold rounded-lg text-xs transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg">
+                    {(currentUser.profile?.name || currentUser.name || 'U').slice(0,1).toUpperCase()}
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-slate-950 text-base">
+                      {currentUser.profile?.name || currentUser.name || 'Renewserv Customer'}
+                    </h3>
+                    <p className="text-xs text-slate-500">Registered Account</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-4 text-xs">
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Email Address</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <strong className="text-slate-800">{currentUser.email}</strong>
+                      {currentUser.emailVerified ? (
+                        <span className="text-[9px] font-extrabold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Verified</span>
+                      ) : (
+                        <span className="text-[9px] font-extrabold bg-red-50 text-red-750 px-2 py-0.5 rounded-full">Unverified</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Mobile Phone</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <strong className="text-slate-800">+91 {currentUser.phone}</strong>
+                      {currentUser.phoneVerified ? (
+                        <span className="text-[9px] font-extrabold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Verified</span>
+                      ) : (
+                        <span className="text-[9px] font-extrabold bg-red-50 text-red-750 px-2 py-0.5 rounded-full">Unverified</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Saved addresses / Details info */}
             <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
