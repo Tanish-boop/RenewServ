@@ -1578,7 +1578,12 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                         <h4 className="text-xs font-bold text-slate-200">{b.customer?.profile?.name || 'Guest Customer'}</h4>
                         <div className="grid grid-cols-2 gap-2 mt-2 text-[11px] text-slate-400">
                           <span className="flex items-center gap-1">
-                            <Sun className="w-3.5 h-3.5 text-amber-500" /> {b.serviceType}
+                            {b.serviceType?.toLowerCase().includes('waste') || b.serviceType?.toLowerCase().includes('itad') ? (
+                              <RefreshCw className="w-3.5 h-3.5 text-green-400 shrink-0" />
+                            ) : (
+                              <Sun className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                            )}
+                            {b.serviceType}
                           </span>
                           <span className="flex items-center gap-1">
                             <MapPin className="w-3.5 h-3.5 text-slate-500" /> {b.address?.postalCode || 'Pune'}
@@ -2013,7 +2018,11 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                             <p className="text-slate-500 text-[10px]">{b.address?.postalCode}</p>
                           </td>
                           <td className="p-4 font-semibold text-slate-300 flex items-center gap-1.5">
-                            <Sun className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                            {b.serviceType?.toLowerCase().includes('waste') || b.serviceType?.toLowerCase().includes('itad') ? (
+                              <RefreshCw className="w-3.5 h-3.5 text-green-400 shrink-0" />
+                            ) : (
+                              <Sun className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                            )}
                             {b.serviceType}
                           </td>
                           <td className="p-4">
@@ -2378,6 +2387,9 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                         <option value="Solar Health Check">Solar Health Check</option>
                         <option value="Solar Panel Removal & Reinstallation">Solar Panel Removal & Reinstallation</option>
                         <option value="Annual Maintenance Plan">Annual Maintenance Plan</option>
+                        <option value="E-Waste Disposal & Recycling">E-Waste Disposal & Recycling</option>
+                        <option value="ITAD (IT Asset Disposal)">ITAD (IT Asset Disposal)</option>
+                        <option value="E-Waste Consultation">E-Waste Consultation</option>
                       </select>
                     </div>
                     <div>
@@ -2422,7 +2434,11 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                             {renderSourceBadge(l.source)}
                           </div>
                           <p className="text-xs text-slate-400">{l.phone} • {l.email || 'No email'}</p>
-                          <p className="text-xs text-amber-500 font-semibold mt-1">Interested in: {l.serviceInterested}</p>
+                          <p className={`text-xs font-semibold mt-1 ${
+                            l.serviceInterested?.toLowerCase().includes('waste') || l.serviceInterested?.toLowerCase().includes('itad')
+                              ? 'text-green-400'
+                              : 'text-amber-500'
+                          }`}>Interested in: {l.serviceInterested}</p>
                           {l.notes && <p className="text-xs text-slate-500 mt-2 bg-slate-950 p-2 rounded italic">"{l.notes}"</p>}
                         </div>
                         <div className="flex items-center gap-2">
@@ -2912,7 +2928,12 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                   {/* Block 2: Requested Service & Reschedule Panel */}
                   <div className="bg-slate-900 border border-slate-850 p-4 rounded-xl space-y-3">
                     <h4 className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                      <Sun className="w-4 h-4 text-amber-500" /> Requested Service Details
+                      {loadedBookingDetails.booking.serviceType?.toLowerCase().includes('waste') || loadedBookingDetails.booking.serviceType?.toLowerCase().includes('itad') ? (
+                        <RefreshCw className="w-4 h-4 text-green-400" />
+                      ) : (
+                        <Sun className="w-4 h-4 text-amber-500" />
+                      )}
+                      Requested Service Details
                     </h4>
                     <div className="space-y-3 text-xs">
                       <div>

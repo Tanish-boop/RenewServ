@@ -656,149 +656,34 @@ function LandingPageContent() {
       </section>
 
       {/* 2.5 E-Waste Section */}
-      <section id="e-waste-preview" className="px-4 sm:px-6 py-16 bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div className="text-center space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 border border-green-200 text-green-700 text-xs font-extrabold uppercase tracking-wider">
-              ♻️ Sustainability Solutions
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              E-Waste Management &amp; Recycling
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-              Responsible Collection • Secure Disposal • Certified Recycling • EPR Compliance
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Card 1 */}
-            <div className="p-6 rounded-2xl bg-slate-50/80 backdrop-blur-md border border-slate-200/80 shadow-xs hover:shadow-md hover:border-green-500/50 hover:translate-y-[-2px] transition-all duration-300 group flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center border border-green-100 group-hover:bg-green-100 transition-colors">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">Collection &amp; Logistics</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    End-to-end chain of custody with secure corporate pickups, bulk collection, and specialized reverse logistics across regions.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="text-[10px] font-bold text-slate-655 text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Corporate Pickup</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Reverse Logistics</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Bulk Collection</span>
-                </div>
+      <section id="e-waste-preview" className="px-4 sm:px-6 py-12 bg-green-50/10 border-b border-slate-200">
+        <div className="max-w-6xl mx-auto">
+          <div className="p-6 sm:p-8 rounded-2xl bg-green-50/70 border-2 border-green-300 shadow-md shadow-green-600/5 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="space-y-4 max-w-2xl text-center md:text-left">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 border border-green-300 text-green-800 text-[10px] font-extrabold uppercase tracking-wider w-fit mx-auto md:mx-0">
+                <ShieldCheck className="w-3.5 h-3.5" /> Sustainability Division
               </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="p-6 rounded-2xl bg-slate-50/80 backdrop-blur-md border border-slate-200/80 shadow-xs hover:shadow-md hover:border-green-500/50 hover:translate-y-[-2px] transition-all duration-300 group flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center border border-green-100 group-hover:bg-green-100 transition-colors">
-                  <Activity className="w-6 h-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">IT Asset Disposal (ITAD)</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Secure dismantling and ecological retirement of outdated enterprise infrastructure, storage, and personal devices.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Servers</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Laptops &amp; Desktops</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Networking</span>
-                </div>
+              <div className="space-y-1">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                  E-Waste Management &amp; Recycling
+                </h3>
+                <p className="text-green-800 text-xs sm:text-sm font-bold tracking-wide">
+                  Responsible Collection • Secure Disposal • Certified Recycling • EPR Compliance
+                </p>
               </div>
+              <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
+                Ensure certified IT asset retirement, NIST-compliant disk wiping, and CPCB audit readiness for your retired enterprise hardware.
+              </p>
             </div>
-
-            {/* Card 3 */}
-            <div className="p-6 rounded-2xl bg-slate-50/80 backdrop-blur-md border border-slate-200/80 shadow-xs hover:shadow-md hover:border-green-500/50 hover:translate-y-[-2px] transition-all duration-300 group flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center border border-green-100 group-hover:bg-green-100 transition-colors">
-                  <ShieldCheck className="w-6 h-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">Secure Data Destruction</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Certified degaussing, physical shredding of hard disks/SSDs, and cryptographic wiping with validation certificates.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Hard Disk Shredding</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">SSD Wiping</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Data Erasure Cert</span>
-                </div>
-              </div>
+            <div className="w-full md:w-auto shrink-0 text-center">
+              <button
+                onClick={() => router.push('/e-waste')}
+                className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+              >
+                Explore E-Waste Division <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-
-            {/* Card 4 */}
-            <div className="p-6 rounded-2xl bg-slate-50/80 backdrop-blur-md border border-slate-200/80 shadow-xs hover:shadow-md hover:border-green-500/50 hover:translate-y-[-2px] transition-all duration-300 group flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center border border-green-100 group-hover:bg-green-100 transition-colors">
-                  <Droplet className="w-6 h-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">Certified Recycling</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Authorized processing facilities extracting secondary raw materials, recovering precious metals, and disposing residue cleanly.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Authorized Recycle</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Material Recovery</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Zero-Landfill</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 5 */}
-            <div className="p-6 rounded-2xl bg-slate-50/80 backdrop-blur-md border border-slate-200/80 shadow-xs hover:shadow-md hover:border-green-500/50 hover:translate-y-[-2px] transition-all duration-300 group flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center border border-green-100 group-hover:bg-green-100 transition-colors">
-                  <FileCheck className="w-6 h-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">EPR Compliance</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Complete end-to-end Extended Producer Responsibility facilitation including audits, registry filings, and compliance reports.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Registration Support</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Annual Returns</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">CPCB Audit Ready</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 6 */}
-            <div className="p-6 rounded-2xl bg-slate-50/80 backdrop-blur-md border border-slate-200/80 shadow-xs hover:shadow-md hover:border-green-500/50 hover:translate-y-[-2px] transition-all duration-300 group flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center border border-green-100 group-hover:bg-green-100 transition-colors">
-                  <Sun className="w-6 h-6" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-slate-900">ESG &amp; Sustainability</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed">
-                    Helping you achieve a carbon-negative circular economy model. Receive detailed environmental footprint reduction metrics.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Circular Economy</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">Carbon Savings</span>
-                  <span className="text-[10px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">ESG Reporting</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center pt-4">
-            <button
-              onClick={() => router.push('/e-waste')}
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-extrabold text-sm sm:text-base shadow-md hover:shadow-lg transition-all duration-300 hover:translate-x-1 cursor-pointer"
-            >
-              Learn More About E-Waste <ArrowRight className="w-4.5 h-4.5" />
-            </button>
           </div>
         </div>
       </section>

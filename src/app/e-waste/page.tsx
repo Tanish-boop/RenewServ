@@ -57,6 +57,8 @@ export default function EWastePage() {
   // Session states
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showAllElectronics, setShowAllElectronics] = useState(false);
+  const [showAllIndustries, setShowAllIndustries] = useState(false);
 
   // Load current user session
   useEffect(() => {
@@ -582,45 +584,45 @@ export default function EWastePage() {
           {[
             { 
               name: 'IT Companies', 
-              desc: 'Secure sanitization of old corporate workstations, notebooks, and hardware decommissioning.',
+              desc: 'Secure decommissioning of workstations and systems.',
               icon: Laptop 
             },
             { 
               name: 'Banking & Finance', 
-              desc: 'High-security NIST-compliant data erasure, audit trails, and strict compliance logs.',
+              desc: 'High-security data erasure, audit trails, and compliance logs.',
               icon: Building2 
             },
             { 
               name: 'Manufacturing & Plants', 
-              desc: 'Responsible disposal of heavy industrial electrical scrap, control panels, and automation boards.',
+              desc: 'Responsible disposal of heavy industrial electrical scrap.',
               icon: Factory 
             },
             { 
               name: 'Hospitals & Medical', 
-              desc: 'Compliant decommissioning of retired electronic diagnostic machinery and monitoring equipment.',
+              desc: 'Compliant decommissioning of retired electronic diagnostic machinery.',
               icon: Stethoscope 
             },
             { 
               name: 'Schools & Universities', 
-              desc: 'Safe, sustainable clearing of outdated computer lab terminals, projectors, and audio setups.',
+              desc: 'Safe, sustainable clearing of outdated computer lab terminals.',
               icon: GraduationCap 
             },
             { 
               name: 'Government Organizations', 
-              desc: 'Official Form-2 records, central pollutant compliance, and zero-landfill auditing.',
+              desc: 'Official Form-2 records, central pollutant compliance, and auditing.',
               icon: Building 
             },
             { 
               name: 'Telecom Providers', 
-              desc: 'Recycling of cellular network switches, old transceivers, cabling networks, and routers.',
+              desc: 'Recycling of cellular network switches and old transceivers.',
               icon: Radio 
             },
             { 
               name: 'Enterprise Data Centers', 
-              desc: 'Bulk disposal of server cabinet blades, network arrays, and certified disk shredding.',
+              desc: 'Bulk disposal of server cabinet blades and disk shredding.',
               icon: Database 
             }
-          ].map((ind, idx) => {
+          ].slice(0, showAllIndustries ? 8 : 4).map((ind, idx) => {
             const IconComponent = ind.icon;
             return (
               <div key={idx} className="p-6 bg-white border border-slate-200 rounded-2xl space-y-4 hover:border-green-600 hover:shadow-md transition-all flex flex-col justify-between">
@@ -636,13 +638,23 @@ export default function EWastePage() {
           })}
         </div>
 
-        <div className="text-center pt-4">
+        <div className="text-center space-y-4 pt-4">
           <button 
-            onClick={() => { scrollToForm(); trackCTA('Industries_Corporate_Partner'); }}
-            className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer"
+            type="button"
+            onClick={() => setShowAllIndustries(!showAllIndustries)}
+            className="text-xs font-extrabold text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 border border-green-200/50 px-4 py-2 rounded-xl transition cursor-pointer mx-auto"
           >
-            Become Corporate Partner
+            {showAllIndustries ? 'Show Less Industries' : 'View All Industries We Serve'}
           </button>
+          
+          <div>
+            <button 
+              onClick={() => { scrollToForm(); trackCTA('Industries_Corporate_Partner'); }}
+              className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer"
+            >
+              Become Corporate Partner
+            </button>
+          </div>
         </div>
       </section>
 
@@ -670,7 +682,7 @@ export default function EWastePage() {
               { item: 'Medical Equipment', desc: 'Lab Devices, Monitors', icon: Activity },
               { item: 'Mobile Systems', desc: 'Smartphones, Tablets', icon: Smartphone },
               { item: 'Datastore Modules', desc: 'Backup Arrays, Tape Vaults', icon: Database }
-            ].map((itm, idx) => {
+            ].slice(0, showAllElectronics ? 12 : 6).map((itm, idx) => {
               const IconComp = itm.icon;
               return (
                 <div key={idx} className="p-5 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-3 hover:border-green-500/50 hover:bg-slate-900/80 transition duration-300">
@@ -686,113 +698,23 @@ export default function EWastePage() {
             })}
           </div>
 
-          <div className="text-center pt-4">
+          <div className="text-center space-y-4 pt-4">
             <button 
-              onClick={() => { scrollToForm(); trackCTA('Accepted_Download_Brochure'); }}
-              className="px-6 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-slate-950 font-extrabold text-xs transition-all shadow-md cursor-pointer"
+              type="button"
+              onClick={() => setShowAllElectronics(!showAllElectronics)}
+              className="text-xs font-extrabold text-green-400 hover:text-green-300 bg-slate-900 hover:bg-slate-800 border border-slate-850 px-4 py-2 rounded-xl transition cursor-pointer mx-auto"
             >
-              Download Full Inventory Catalog PDF
+              {showAllElectronics ? 'Show Less Items' : 'View All Accepted Items'}
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Recycling Process Infographic */}
-      <section className="px-4 sm:px-6 py-20 bg-white">
-        <div className="max-w-6xl mx-auto space-y-16">
-          <div className="text-center space-y-3">
-            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Our Recycling Process Timeline</h2>
-            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-              We manage a transparent, fully tracked chain of custody from initial corporate booking to final compliance certification.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* Phase 1: Intake & Logistics */}
-            <div className="space-y-6 relative">
-              <div className="p-3.5 bg-green-50 border border-green-200 rounded-xl text-center">
-                <span className="text-xs uppercase font-extrabold tracking-wider text-green-800">Phase 1: Scheduling & Intake</span>
-              </div>
-              <div className="space-y-4 pl-4 border-l-2 border-green-100 relative">
-                {[
-                  { step: '1', title: 'Request Pickup', desc: 'Log on to the digital portal or call support to submit inventory manifests.', icon: FileCheck },
-                  { step: '2', title: 'Audits & Consultation', desc: 'Free regulatory compliance survey and inventory valuation.', icon: Users },
-                  { step: '3', title: 'Commercial Valuation', desc: 'Transparent asset appraisal matching circular commodity rates.', icon: FileText },
-                  { step: '4', title: 'Scheduling & Dispatch', desc: 'Secure transit vehicle lock-in and arrival date scheduling.', icon: Calendar }
-                ].map((st, idx) => {
-                  return (
-                    <div key={idx} className="relative bg-slate-50 border border-slate-200 p-5 rounded-2xl hover:border-green-600 hover:bg-white transition duration-300">
-                      <div className="absolute -left-[27px] top-6 w-3.5 h-3.5 rounded-full bg-green-500 border-4 border-white shadow-sm" />
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-green-100 text-green-700 flex items-center justify-center font-bold text-xs">
-                          {st.step}
-                        </div>
-                        <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
-                      </div>
-                      <p className="text-slate-500 text-xs leading-relaxed">{st.desc}</p>
-                    </div>
-                  );
-                })}
-              </div>
+            <div>
+              <button 
+                onClick={() => { scrollToForm(); trackCTA('Accepted_Download_Brochure'); }}
+                className="px-6 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-slate-950 font-extrabold text-xs transition-all shadow-md cursor-pointer"
+              >
+                Download Full Inventory Catalog PDF
+              </button>
             </div>
-
-            {/* Phase 2: Processing & Data Security */}
-            <div className="space-y-6">
-              <div className="p-3.5 bg-slate-900 text-white rounded-xl text-center">
-                <span className="text-xs uppercase font-extrabold tracking-wider text-slate-350">Phase 2: Secure Processing</span>
-              </div>
-              <div className="space-y-4 pl-4 border-l-2 border-slate-200 relative">
-                {[
-                  { step: '5', title: 'Physical Collection', desc: 'Physical load verify matching inventory checklist at your facility.', icon: Upload },
-                  { step: '6', title: 'GPS Tracked Transit', desc: 'Materials are transported in locked containers with live tracking.', icon: MapPin },
-                  { step: '7', title: 'Logistics Sorting', desc: 'Sorting materials by element type and precious metal grades.', icon: Activity },
-                  { step: '8', title: 'Certified Data Wiping', desc: 'NIST SP 800-88 compliant degaussing or physical shredding.', icon: Lock }
-                ].map((st, idx) => {
-                  return (
-                    <div key={idx} className="relative bg-slate-50 border border-slate-200 p-5 rounded-2xl hover:border-green-600 hover:bg-white transition duration-300">
-                      <div className="absolute -left-[27px] top-6 w-3.5 h-3.5 rounded-full bg-slate-700 border-4 border-white shadow-sm" />
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-xs">
-                          {st.step}
-                        </div>
-                        <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
-                      </div>
-                      <p className="text-slate-500 text-xs leading-relaxed">{st.desc}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Phase 3: Compliance & Recovery */}
-            <div className="space-y-6">
-              <div className="p-3.5 bg-green-900 text-white rounded-xl text-center">
-                <span className="text-xs uppercase font-extrabold tracking-wider text-green-300">Phase 3: Material Recycling</span>
-              </div>
-              <div className="space-y-4 pl-4 border-l-2 border-green-800 relative">
-                {[
-                  { step: '9', title: 'Eco-Friendly Refining', desc: 'Disassembling parts for pollution-free material recovery.', icon: RefreshCw },
-                  { step: '10', title: 'Circular Commodity Recovery', desc: 'Precious metal extraction and channeling back to factories.', icon: Award },
-                  { step: '11', title: 'Compliance Green Certs', desc: 'Issuance of MPCB/CPCB Form-2 and ecological certificates.', icon: ShieldCheck },
-                  { step: '12', title: 'Enterprise SLA Lock-In', desc: 'Annual agreements to secure ongoing corporate waste audits.', icon: CheckCircle }
-                ].map((st, idx) => {
-                  return (
-                    <div key={idx} className="relative bg-slate-50 border border-slate-200 p-5 rounded-2xl hover:border-green-600 hover:bg-white transition duration-300">
-                      <div className="absolute -left-[27px] top-6 w-3.5 h-3.5 rounded-full bg-green-800 border-4 border-white shadow-sm" />
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-green-950 text-green-400 flex items-center justify-center font-bold text-xs">
-                          {st.step}
-                        </div>
-                        <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
-                      </div>
-                      <p className="text-slate-500 text-xs leading-relaxed">{st.desc}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
           </div>
         </div>
       </section>
@@ -827,8 +749,9 @@ export default function EWastePage() {
             ))}
           </div>
 
-          <div className="p-6 rounded-2xl bg-green-500/10 border border-green-500/20 text-center max-w-2xl mx-auto">
-            <span className="text-xs text-green-300 font-bold">💡 Every ton of e-waste recycled prevents approximately 3.7 tons of CO2 emissions.</span>
+          <div className="p-6 rounded-2xl bg-green-500/10 border border-green-500/20 text-center max-w-2xl mx-auto flex items-center justify-center gap-2">
+            <Award className="w-5 h-5 text-green-400 shrink-0" />
+            <span className="text-xs text-green-300 font-bold">Every ton of e-waste recycled prevents approximately 3.7 tons of CO2 emissions.</span>
           </div>
         </div>
       </section>
@@ -844,25 +767,41 @@ export default function EWastePage() {
 
         {/* Certifications Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-            <span className="text-3xl block">📜</span>
-            <h4 className="font-extrabold text-xs text-slate-900">CPCB Authorized</h4>
-            <p className="text-slate-500 text-[10px]">Strictly adhering to central pollution control guidelines</p>
+          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-3 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-xl bg-green-50 text-green-700 flex items-center justify-center">
+              <Award className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-xs text-slate-900">CPCB Authorized</h4>
+              <p className="text-slate-500 text-[10px] mt-1">Strictly adhering to central pollution control guidelines</p>
+            </div>
           </div>
-          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-            <span className="text-3xl block">🛡️</span>
-            <h4 className="font-extrabold text-xs text-slate-900">ISO 27001 Certified</h4>
-            <p className="text-slate-500 text-[10px]">Information security protocols for data erasure</p>
+          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-3 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-xl bg-green-50 text-green-700 flex items-center justify-center">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-xs text-slate-900">ISO 27001 Certified</h4>
+              <p className="text-slate-500 text-[10px] mt-1">Information security protocols for data erasure</p>
+            </div>
           </div>
-          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-            <span className="text-3xl block">♻️</span>
-            <h4 className="font-extrabold text-xs text-slate-900">Form-2 Dispatched</h4>
-            <p className="text-slate-500 text-[10px]">Legally binding transfer documentation logged</p>
+          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-3 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-xl bg-green-50 text-green-700 flex items-center justify-center">
+              <RefreshCw className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-xs text-slate-900">Form-2 Dispatched</h4>
+              <p className="text-slate-500 text-[10px] mt-1">Legally binding transfer documentation logged</p>
+            </div>
           </div>
-          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
-            <span className="text-3xl block">🏢</span>
-            <h4 className="font-extrabold text-xs text-slate-900">Audit Ready</h4>
-            <p className="text-slate-500 text-[10px]">Fully traceable chain-of-custody reporting</p>
+          <div className="p-5 bg-white border border-slate-200 rounded-2xl space-y-3 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-xl bg-green-50 text-green-700 flex items-center justify-center">
+              <Building2 className="w-6 h-6" />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-xs text-slate-900">Audit Ready</h4>
+              <p className="text-slate-500 text-[10px] mt-1">Fully traceable chain-of-custody reporting</p>
+            </div>
           </div>
         </div>
 
@@ -1318,6 +1257,38 @@ export default function EWastePage() {
         </div>
       </section>
 
+      {/* Recycling Process Infographic (Shortened & Moved to Bottom) */}
+      <section className="px-4 sm:px-6 py-16 bg-white border-t border-slate-200">
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="text-center space-y-3">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Our Recycling Process</h2>
+            <p className="text-slate-600 text-sm max-w-xl mx-auto leading-relaxed">
+              A secure, audited process from initial scheduling to final compliance certification.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+            {[
+              { step: '1', title: 'Schedule Pickup', desc: 'Book online or via phone with your inventory list.', icon: Calendar },
+              { step: '2', title: 'Secure Transit', desc: 'GPS-tracked transport and verified chain of custody.', icon: MapPin },
+              { step: '3', title: 'Sanitization', desc: 'NIST-compliant disk shredding and cryptographic wiping.', icon: Lock },
+              { step: '4', title: 'Compliance Logs', desc: 'Authorized recycling with official green Form-2 certification.', icon: ShieldCheck }
+            ].map((st, idx) => {
+              const IconComponent = st.icon;
+              return (
+                <div key={idx} className="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 relative hover:border-green-600 hover:bg-white transition duration-300">
+                  <div className="w-10 h-10 rounded-lg bg-green-50 text-green-700 flex items-center justify-center">
+                    <IconComponent className="w-5 h-5" />
+                  </div>
+                  <h4 className="font-extrabold text-slate-900 text-sm">{st.step}. {st.title}</h4>
+                  <p className="text-slate-500 text-[11px] leading-relaxed">{st.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Accordion FAQs */}
       <section className="px-4 sm:px-6 py-16 max-w-4xl mx-auto space-y-12">
         <div className="text-center space-y-3">
@@ -1364,47 +1335,6 @@ export default function EWastePage() {
         </div>
       </section>
 
-      {/* Downloads Section */}
-      <section className="py-16 bg-slate-900 text-white border-b border-slate-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
-          <div className="text-center space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Resource Downloads</h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-              Get our compliance briefs and company prospectus documentation.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { file: 'Company Profile', size: '2.4 MB', desc: 'Overview of Renewserv platforms &amp; services.' },
-              { file: 'E-Waste Brochure', size: '1.8 MB', desc: 'Technical documentation of sorting facilities.' },
-              { file: 'Compliance Guide', size: '3.1 MB', desc: 'Handbook on Form-2 and CPCB recycling laws.' },
-              { file: 'EPR Information', size: '1.2 MB', desc: 'Extended Producer Responsibility registry details.' }
-            ].map((res, idx) => (
-              <div key={idx} className="p-5 bg-slate-850 bg-slate-800 border border-slate-700 rounded-2xl flex flex-col justify-between space-y-4 hover:border-green-500/50 transition-colors">
-                <div className="space-y-2">
-                  <div className="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center">
-                    <FileText className="w-5.5 h-5.5" />
-                  </div>
-                  <h4 className="font-extrabold text-sm text-white" dangerouslySetInnerHTML={{ __html: res.file }} />
-                  <p className="text-slate-400 text-xs leading-relaxed" dangerouslySetInnerHTML={{ __html: res.desc }} />
-                </div>
-                <div className="pt-2 flex justify-between items-center border-t border-slate-700 pt-3">
-                  <span className="text-[10px] text-slate-500 font-bold">{res.size}</span>
-                  <a 
-                    href="#" 
-                    onClick={(e) => { e.preventDefault(); trackCTA(`Download_${res.file}`); alert(`Downloading ${res.file} PDF...`); }}
-                    className="text-xs font-bold text-green-400 hover:text-green-300 flex items-center gap-1"
-                  >
-                    Download <Download className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer id="footer" className="bg-slate-950 text-slate-400 border-t border-slate-900 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -1427,16 +1357,22 @@ export default function EWastePage() {
           target="_blank" 
           rel="noopener noreferrer"
           onClick={() => trackCTA('Floating_WhatsApp')}
-          className="w-12 h-12 bg-green-500 hover:bg-green-600 text-slate-950 rounded-full shadow-2xl flex items-center justify-center text-xl transition-all hover:scale-105"
+          className="w-12 h-12 bg-green-500 hover:bg-green-600 text-slate-950 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-105"
           title="Contact via WhatsApp"
         >
-          💬
+          <svg 
+            className="w-6 h-6 fill-current text-slate-950" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.456L0 24zm6.59-4.846c1.6.95 3.498 1.452 5.418 1.453 5.474 0 9.928-4.453 9.931-9.929.002-2.653-1.03-5.147-2.906-7.025C17.214 1.775 14.723.744 12.01.744 6.536.744 2.083 5.197 2.08 10.67c-.001 1.928.502 3.814 1.457 5.414L2.53 21.57l5.117-1.341zM16.924 13.916c-.27-.135-1.597-.788-1.845-.878-.248-.09-.429-.135-.61.135-.181.27-.7.878-.858 1.058-.158.18-.316.203-.586.068-.27-.135-1.14-.42-2.172-1.34-.803-.717-1.346-1.603-1.503-1.873-.158-.27-.017-.417.118-.552.122-.122.27-.316.406-.473.135-.158.18-.27.27-.45.09-.18.045-.338-.023-.473-.068-.135-.61-1.468-.836-2.008-.22-.529-.44-.457-.61-.466-.157-.008-.338-.01-.518-.01-.18 0-.474.068-.72.338-.249.27-.95.928-.95 2.263s.972 2.628 1.108 2.81c.135.18 1.91 2.917 4.629 4.091.646.279 1.151.446 1.543.57.65.207 1.242.177 1.709.108.52-.078 1.597-.653 1.822-1.283.226-.63.226-1.171.158-1.283-.068-.112-.248-.18-.518-.315z" />
+          </svg>
         </a>
         <button 
           onClick={() => { scrollToForm(); trackCTA('Floating_Book_Pickup'); }}
           className="px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs rounded-lg shadow-2xl transition-all flex items-center gap-1.5 cursor-pointer"
         >
-          ♻️ Book Pickup
+          <RefreshCw className="w-4 h-4 text-white" /> Book Pickup
         </button>
       </div>
 
