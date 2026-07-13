@@ -48,7 +48,8 @@ import {
   Radio,
   Car,
   Settings,
-  ShieldAlert
+  ShieldAlert,
+  ChevronDown
 } from 'lucide-react';
 
 export default function EWastePage() {
@@ -306,11 +307,25 @@ export default function EWastePage() {
               <a href="/" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">Home</a>
               <a href="/#why-us" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">About</a>
               <a href="/#services" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">Services</a>
-              <a href="#" className="text-sm font-semibold text-green-700 hover:text-green-800 transition-colors flex items-center gap-1">
-                E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[9px] font-bold">New</span>
-              </a>
-              <a href="#industries" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">Industries</a>
-              <a href="#footer" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">Contact</a>
+              
+              {/* E-Waste Dropdown Menu */}
+              <div className="relative group py-2">
+                <button className="text-sm font-semibold text-green-700 hover:text-green-800 transition-colors flex items-center gap-1 cursor-pointer focus:outline-none">
+                  E-Waste <ChevronDown className="w-3 h-3 text-green-600" />
+                  <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[9px] font-bold">New</span>
+                </button>
+                <div className="absolute left-0 mt-1 w-48 rounded-xl bg-white border border-slate-100 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1.5">
+                  <a href="#" className="block px-4 py-2 text-xs font-semibold text-slate-750 hover:bg-slate-50 hover:text-green-600 transition-colors">
+                    Overview
+                  </a>
+                  <a href="#industries" className="block px-4 py-2 text-xs font-semibold text-slate-750 hover:bg-slate-50 hover:text-green-600 transition-colors">
+                    Industries We Serve
+                  </a>
+                  <a href="#footer" className="block px-4 py-2 text-xs font-semibold text-slate-750 hover:bg-slate-50 hover:text-green-600 transition-colors">
+                    Contact Us
+                  </a>
+                </div>
+              </div>
             </nav>
 
             <div className="flex items-center gap-3">
@@ -347,11 +362,16 @@ export default function EWastePage() {
             <a href="/" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">Home</a>
             <a href="/#why-us" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">About</a>
             <a href="/#services" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">Services</a>
-            <a href="#" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-green-700 py-1 transition-colors flex items-center gap-1.5">
-              E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">New</span>
-            </a>
-            <a href="#industries" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">Industries</a>
-            <a href="#footer" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-655 py-1 transition-colors">Contact</a>
+            <div className="border-t border-slate-100 my-1 pt-1.5">
+              <span className="block text-sm font-semibold text-green-700 py-1 flex items-center gap-1.5">
+                E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">New</span>
+              </span>
+              <div className="pl-3 border-l-2 border-green-500/25 ml-1 my-1 space-y-1">
+                <a href="#" onClick={() => setShowMobileMenu(false)} className="block text-xs font-semibold text-slate-600 hover:text-green-600 py-1 transition-colors">Overview</a>
+                <a href="#industries" onClick={() => setShowMobileMenu(false)} className="block text-xs font-semibold text-slate-600 hover:text-green-600 py-1 transition-colors">Industries We Serve</a>
+                <a href="#footer" onClick={() => setShowMobileMenu(false)} className="block text-xs font-semibold text-slate-600 hover:text-green-600 py-1 transition-colors">Contact Us</a>
+              </div>
+            </div>
           </div>
         )}
       </div>
