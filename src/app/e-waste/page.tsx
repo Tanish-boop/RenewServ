@@ -669,16 +669,16 @@ export default function EWastePage() {
       </section>
 
       {/* Accepted Items Grid */}
-      <section className="px-4 sm:px-6 py-20 bg-slate-950 text-white border-b border-slate-900">
-        <div className="max-w-6xl mx-auto space-y-12">
-          <div className="text-center space-y-3">
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">Accepted Electronics</h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+      <section className="px-4 sm:px-6 py-12 bg-green-50/30 text-slate-900 border-b border-green-100">
+        <div className="max-w-6xl mx-auto space-y-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Accepted Electronics</h2>
+            <p className="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
               We collect and process a wide range of redundant enterprise technology assets, networking infrastructure, and clinical electrical hardware.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {[
               { item: 'Laptops & PCs', desc: 'Workstations, Notebooks', icon: Laptop },
               { item: 'Enterprise Servers', desc: 'Blade Cabinets, Racks', icon: Server },
@@ -695,34 +695,34 @@ export default function EWastePage() {
             ].slice(0, showAllElectronics ? 12 : 6).map((itm, idx) => {
               const IconComp = itm.icon;
               return (
-                <div key={idx} className="p-5 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-3 hover:border-green-500/50 hover:bg-slate-900/80 transition duration-300">
-                  <div className="mx-auto w-11 h-11 bg-slate-800 rounded-xl flex items-center justify-center text-green-400">
-                    <IconComp className="w-5 h-5" />
+                <div key={idx} className="p-3.5 bg-white border border-green-100 rounded-xl text-center space-y-2 hover:border-green-500 hover:shadow-sm hover:shadow-green-600/5 transition duration-300">
+                  <div className="mx-auto w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center text-green-700">
+                    <IconComp className="w-4 h-4" />
                   </div>
-                  <div className="space-y-1">
-                    <span className="block text-sm font-extrabold text-white">{itm.item}</span>
-                    <span className="block text-[10px] text-slate-500 font-medium">{itm.desc}</span>
+                  <div className="space-y-0.5">
+                    <span className="block text-xs font-bold text-slate-800">{itm.item}</span>
+                    <span className="block text-[9px] text-slate-500 font-medium">{itm.desc}</span>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className="text-center space-y-4 pt-4">
+          <div className="text-center space-y-3 pt-2">
             <button 
               type="button"
               onClick={() => setShowAllElectronics(!showAllElectronics)}
-              className="text-xs font-extrabold text-green-400 hover:text-green-300 bg-slate-900 hover:bg-slate-800 border border-slate-850 px-4 py-2 rounded-xl transition cursor-pointer mx-auto"
+              className="text-xs font-bold text-green-700 hover:text-green-800 bg-white hover:bg-green-50 border border-green-200 px-4 py-2 rounded-lg transition cursor-pointer"
             >
-              {showAllElectronics ? 'Show Less Items' : 'View All Accepted Items'}
+              {showAllElectronics ? 'Show Less' : 'View All Accepted Items'}
             </button>
             
             <div>
               <button 
                 onClick={() => { scrollToForm(); trackCTA('Accepted_Download_Brochure'); }}
-                className="px-6 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-slate-950 font-extrabold text-xs transition-all shadow-md cursor-pointer"
+                className="px-5 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold text-xs transition-all shadow-sm cursor-pointer"
               >
-                Download Full Inventory Catalog PDF
+                Download Inventory Catalog PDF
               </button>
             </div>
           </div>
