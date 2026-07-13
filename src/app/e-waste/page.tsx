@@ -314,7 +314,7 @@ export default function EWastePage() {
             </nav>
 
             <div className="flex items-center gap-3">
-              {currentUser ? (
+              {currentUser && (
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={() => {
@@ -328,16 +328,6 @@ export default function EWastePage() {
                     My Dashboard
                   </button>
                 </div>
-              ) : (
-                <button 
-                  onClick={() => {
-                    router.push('/?login=true');
-                    trackCTA('Header_Login');
-                  }}
-                  className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-800 text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer"
-                >
-                  Sign In / Register
-                </button>
               )}
 
               {/* Mobile Hamburger menu */}
