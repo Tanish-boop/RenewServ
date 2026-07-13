@@ -124,7 +124,12 @@ export async function POST(req: Request) {
       console.error('Failed to trigger verification email:', mailErr);
     }
 
-    const token = await createSessionToken({ userId: user.newUser.id, role: user.newUser.role });
+    const token = await createSessionToken({ 
+      userId: user.newUser.id, 
+      role: user.newUser.role,
+      emailVerified: false,
+      phoneVerified: true
+    });
 
     const response = NextResponse.json({
       success: true,

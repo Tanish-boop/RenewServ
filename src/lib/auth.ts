@@ -7,7 +7,12 @@ const secret = new TextEncoder().encode(JWT_SECRET);
 /**
  * Sign a session token (expires in 2h).
  */
-export async function createSessionToken(payload: { userId: string; role: string }): Promise<string> {
+export async function createSessionToken(payload: { 
+  userId: string; 
+  role: string; 
+  emailVerified?: boolean; 
+  phoneVerified?: boolean;
+}): Promise<string> {
   return await new jose.SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -18,12 +23,19 @@ export async function createSessionToken(payload: { userId: string; role: string
 /**
  * Verify a session token.
  */
-export async function verifySessionToken(token: string): Promise<{ userId: string; role: string } | null> {
+export async function verifySessionToken(token: string): Promise<{ 
+  userId: string; 
+  role: string; 
+  emailVerified?: boolean; 
+  phoneVerified?: boolean;
+} | null> {
   try {
     const { payload } = await jose.jwtVerify(token, secret);
     return {
       userId: payload.userId as string,
       role: payload.role as string,
+      emailVerified: payload.emailVerified as boolean | undefined,
+      phoneVerified: payload.phoneVerified as boolean | undefined,
     };
   } catch (err) {
     return null;

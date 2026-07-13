@@ -37,6 +37,7 @@ export default function CustomerDashboard() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'home' | 'services' | 'invoices' | 'support' | 'profile'>('home');
+  const [activeLightboxImage, setActiveLightboxImage] = useState<string | null>(null);
 
   // Tracking states (used in modal)
   const [trackingStatus, setTrackingStatus] = useState<string>('');
@@ -473,7 +474,7 @@ export default function CustomerDashboard() {
       <header className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-4 shadow-sm hidden md:block">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('home')}>
-            <img src="/logo.png" alt="Renewserv Logo" className="h-14 w-auto object-contain" />
+            <img src="/logo.png" alt="Renewserv Logo" className="h-14 md:h-16 w-auto object-contain transition-all duration-350" />
           </div>
 
           <nav className="flex items-center gap-6">
@@ -522,7 +523,7 @@ export default function CustomerDashboard() {
       {/* Mobile Top Header */}
       <header className="bg-white border-b border-slate-200 px-4 py-3 shadow-sm md:hidden flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setActiveTab('home')}>
-          <img src="/logo.png" alt="Renewserv Logo" className="h-14 w-auto object-contain" />
+          <img src="/logo.png" alt="Renewserv Logo" className="h-14 sm:h-16 w-auto object-contain transition-all duration-350" />
         </div>
 
         <button 
@@ -844,7 +845,10 @@ export default function CustomerDashboard() {
               </div>
 
               {/* Before/After Image split display */}
-              <div className="relative rounded-xl overflow-hidden border border-slate-200 h-64 md:h-[380px] bg-slate-900">
+              <div 
+                className="relative rounded-xl overflow-hidden border border-slate-200 h-64 md:h-[380px] bg-slate-900 cursor-zoom-in group/img hover:border-slate-350 transition-all"
+                onClick={() => setActiveLightboxImage('/solar_hero_comparison.png')}
+              >
                 <img 
                   src="/solar_hero_comparison.png" 
                   alt="Solar panels before and after cleaning comparison" 
@@ -880,12 +884,18 @@ export default function CustomerDashboard() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Clean Panel Card */}
                 <div className="rounded-xl overflow-hidden border border-green-200 bg-white shadow-sm">
-                  <div className="relative h-44 overflow-hidden">
+                  <div 
+                    className="relative h-44 overflow-hidden cursor-zoom-in group/img"
+                    onClick={() => setActiveLightboxImage('/solar_panel_clean.png')}
+                  >
                     <img
                       src="/solar_panel_clean.png"
                       alt="Clean solar panels after professional cleaning"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
                     />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity">
+                      <span className="text-[10px] font-bold text-white bg-black/60 px-2 py-1 rounded">View Full Image</span>
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
                     <div className="absolute top-2 left-2 bg-green-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wide">
                       ✨ Solar Panel Cleaning
@@ -913,12 +923,18 @@ export default function CustomerDashboard() {
 
                 {/* Panel Reinstallation Card */}
                 <div className="rounded-xl overflow-hidden border border-blue-200 bg-white shadow-sm">
-                  <div className="relative h-44 overflow-hidden">
+                  <div 
+                    className="relative h-44 overflow-hidden cursor-zoom-in group/img"
+                    onClick={() => setActiveLightboxImage('/panel_reinstallation.png')}
+                  >
                     <img
                       src="/panel_reinstallation.png"
                       alt="Solar panel removal and reinstallation service"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
                     />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity">
+                      <span className="text-[10px] font-bold text-white bg-black/60 px-2 py-1 rounded">View Full Image</span>
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
                     <div className="absolute top-2 left-2 bg-blue-650 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wide">
                       🔧 Removal &amp; Reinstallation
@@ -1090,15 +1106,23 @@ export default function CustomerDashboard() {
                       {/* Diagnostic image preview if completed */}
                       {isCompleted && booking.jobImages?.length > 0 && (
                         <div className="pt-2">
-                          <span className="text-[10px] text-slate-450 block mb-1">Before & After Work Photos</span>
-                          <div className="flex gap-2">
+                          <span className="text-[10px] text-slate-450 block mb-1.5 font-medium">Before &amp; After Work Photos (Click to Enlarge)</span>
+                          <div className="flex flex-wrap gap-2.5">
                             {booking.jobImages.map((img: any) => (
-                              <img 
+                              <div 
                                 key={img.id}
-                                src={img.encryptedUrl || 'https://via.placeholder.com/150'}
-                                alt="Solar Panel Clean"
-                                className="w-16 h-16 object-cover rounded-lg border border-slate-200"
-                              />
+                                className="relative group cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 hover:border-blue-500 transition-all hover:scale-[1.03]"
+                                onClick={() => setActiveLightboxImage(img.encryptedUrl || img.url)}
+                              >
+                                <img 
+                                  src={img.encryptedUrl || 'https://via.placeholder.com/150'}
+                                  alt="Solar Panel Clean"
+                                  className="w-24 h-24 sm:w-28 sm:h-28 object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                  <span className="text-[10px] font-bold text-white uppercase tracking-wider bg-black/60 px-2.5 py-1 rounded-md">View</span>
+                                </div>
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -1838,7 +1862,7 @@ export default function CustomerDashboard() {
       <footer className="bg-slate-900 text-slate-400 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm mt-12 w-full">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-left">
-            <img src="/logo.png" alt="Renewserv Logo" className="h-12 w-auto object-contain" />
+            <img src="/logo.png" alt="Renewserv Logo" className="h-12 md:h-14 w-auto object-contain transition-all duration-300" />
             <span className="text-slate-500">© 2026. Pune, Maharashtra, India.</span>
           </div>
 
@@ -1848,6 +1872,28 @@ export default function CustomerDashboard() {
           </div>
         </div>
       </footer>
+
+      {activeLightboxImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-md cursor-zoom-out"
+          onClick={() => setActiveLightboxImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 p-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 rounded-full transition-all cursor-pointer"
+            onClick={() => setActiveLightboxImage(null)}
+          >
+            <span className="sr-only">Close</span>
+            <X className="w-6 h-6" />
+          </button>
+          <div className="relative max-w-5xl max-h-[85vh] w-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={activeLightboxImage} 
+              alt="Enlarged preview" 
+              className="max-w-full max-h-[85vh] object-contain rounded-2xl border border-slate-800 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

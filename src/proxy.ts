@@ -17,6 +17,9 @@ export async function proxy(request: NextRequest) {
   try {
     const { payload } = await jose.jwtVerify(token, secret);
     const role = payload.role as string;
+    const emailVerified = payload.emailVerified as boolean;
+
+
 
     if (pathname.startsWith('/admin')) {
       const isAdminRole = ['ROOT_OWNER', 'OWNER'].includes(role);
@@ -34,7 +37,7 @@ export async function proxy(request: NextRequest) {
       }
     }
 
-    if (pathname.startsWith('/dashboard')) {
+    if (pathname.startsWith('/dashboard') || pathname === '/book') {
       if (['ROOT_OWNER', 'OWNER'].includes(role)) {
         return NextResponse.redirect(new URL('/admin', request.url));
       }
@@ -52,5 +55,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/technician/:path*', '/admin/:path*'],
+  matcher: ['/dashboard/:path*', '/technician/:path*', '/admin/:path*', '/book'],
 };

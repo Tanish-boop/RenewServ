@@ -131,8 +131,35 @@ export default function BookService() {
         setGpsCoords(`${18.5204 + Math.random() * 0.05}, ${73.8567 + Math.random() * 0.05}`);
       }
       
-      setCheckingCoverage(false);
-      setStep(3);
+      try {
+        const response = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            serviceType,
+            scheduledDate,
+            scheduledTime,
+            addressLabel: 'Home Installation',
+            addressLine,
+            postalCode,
+            gpsCoords,
+            isEmergency
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to submit booking');
+        }
+
+        // Direct redirect to checkout
+        router.push(`/checkout/${data.bookingId}`);
+      } catch (err: any) {
+        setCoverageError(err.message || 'Booking submission failed. Please try again.');
+      } finally {
+        setCheckingCoverage(false);
+      }
     }
   };
 
@@ -223,7 +250,7 @@ export default function BookService() {
       <header className="border-b border-slate-200 bg-white px-4 sm:px-6 py-3 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-            <img src="/logo.png" alt="Renewserv Logo" className="h-14 w-auto object-contain" />
+            <img src="/logo.png" alt="Renewserv Logo" className="h-14 md:h-16 w-auto object-contain transition-all duration-350" />
           </div>
           <button 
             onClick={() => router.push('/dashboard')}
@@ -421,6 +448,11 @@ export default function BookService() {
                   </div>
                 </div>
 
+                {/* Site Visit Fee Notice */}
+                <div className="p-4 rounded-xl bg-blue-50 border border-blue-100 text-xs text-blue-800 leading-relaxed text-left">
+                  <strong>Notice:</strong> The ₹99 Site Visit Fee covers technician scheduling and site inspection services and is charged separately from the final service quotation.
+                </div>
+
                 <div className="pt-4 flex justify-between gap-4">
                   <button 
                     onClick={() => router.push('/dashboard')}
@@ -453,9 +485,19 @@ export default function BookService() {
             </div>
 
             {bookingError && (
-              <div className="p-3.5 rounded-lg border border-red-200 bg-red-50 text-red-750 flex gap-2 text-xs sm:text-sm">
-                <AlertCircle className="w-5 h-5 shrink-0" />
-                <span>{bookingError}</span>
+              <div className="p-3.5 rounded-lg border border-red-200 bg-red-50 text-red-750 flex flex-col gap-2 text-xs sm:text-sm text-left">
+                <div className="flex gap-2 items-start">
+                  <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                  <span>{bookingError}</span>
+                </div>
+                {bookingError.toLowerCase().includes('verified') && (
+                  <button
+                    onClick={() => router.push('/?verify=true')}
+                    className="mt-2 w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-center text-xs transition"
+                  >
+                    Verify Email & Mobile Now
+                  </button>
+                )}
               </div>
             )}
 
@@ -560,7 +602,7 @@ export default function BookService() {
       <footer className="bg-slate-900 text-slate-400 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm mt-12 w-full">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-left">
-            <img src="/logo.png" alt="Renewserv Logo" className="h-12 w-auto object-contain" />
+            <img src="/logo.png" alt="Renewserv Logo" className="h-12 md:h-14 w-auto object-contain transition-all duration-300" />
             <span className="text-slate-500">© 2026. Pune, Maharashtra, India.</span>
           </div>
 

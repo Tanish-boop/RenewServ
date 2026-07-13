@@ -33,8 +33,10 @@ export async function sendEmail({
   body: string;
   html?: string;
 }): Promise<{ success: boolean; error?: string }> {
+  const resendApiKey = process.env.RESEND_API_KEY || '';
+  const isRealResend = resendApiKey && !resendApiKey.startsWith('re_mock');
   let status = 'SENT';
-  let errorMsg = null;
+  let errorMsg: string | null = null;
 
   try {
     if (transporter) {
@@ -45,7 +47,26 @@ export async function sendEmail({
         text: body,
         html: html || body.replace(/\n/g, '<br>'),
       });
+    } else if (isRealResend) {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [to],
+          subject: subject,
+          html: html || body.replace(/\n/g, '<br>'),
+        }),
+      });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.message || `Resend API returned status ${res.status}`);
+      }
     } else {
+      status = 'MOCK';
       console.log(`\n========================================`);
       console.log(`[MOCK EMAIL SENT]`);
       console.log(`To: ${to}`);
@@ -56,7 +77,7 @@ export async function sendEmail({
   } catch (err: any) {
     console.error('Email dispatch failed:', err);
     status = 'FAILED';
-    errorMsg = err.message || 'SMTP delivery failed';
+    errorMsg = err.message || 'Delivery failed';
   }
 
   // Persist permanently in EmailLog table
@@ -74,7 +95,7 @@ export async function sendEmail({
     console.error('Failed to log email transaction:', dbErr);
   }
 
-  return { success: status === 'SENT', error: errorMsg || undefined };
+  return { success: status === 'SENT' || status === 'MOCK', error: errorMsg || undefined };
 }
 
 export async function sendVerificationEmail(to: string, token: string) {

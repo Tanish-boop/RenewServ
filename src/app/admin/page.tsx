@@ -59,6 +59,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [globalSearch, setGlobalSearch] = useState('');
+  const [activeLightboxImage, setActiveLightboxImage] = useState<string | null>(null);
 
 
   // Main Operations Data
@@ -123,6 +124,44 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
   const [ledgerBalances, setLedgerBalances] = useState<any>({});
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
   const [territories, setTerritories] = useState<any[]>([]);
+  const [financeData, setFinanceData] = useState<any>({ pendingPayments: [], fraudEvents: [], stats: {} });
+
+  const handleApprovePayment = async (paymentId: string) => {
+    try {
+      const res = await fetch(`/api/admin/payments/${paymentId}/verify`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        alert('Payment manually verified successfully!');
+        fetchSessionAndAllData();
+      } else {
+        alert(data.error || 'Failed to verify payment');
+      }
+    } catch (err) {
+      alert('Error verifying payment');
+    }
+  };
+
+  const handleRejectPayment = async (paymentId: string, customReason?: string) => {
+    const reason = customReason || prompt('Enter reason for rejecting this payment:') || '';
+    if (!reason && !customReason) return;
+    try {
+      const res = await fetch(`/api/admin/payments/${paymentId}/reject`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reason }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Payment rejected successfully!');
+        fetchSessionAndAllData();
+      } else {
+        alert(data.error || 'Failed to reject payment');
+      }
+    } catch (err) {
+      alert('Error rejecting payment');
+    }
+  };
+
 
   // Selection Drawers/Modals state
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
@@ -257,7 +296,8 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         settingsRes,
         ledgerRes,
         auditLogsRes,
-        territoriesRes
+        territoriesRes,
+        financeRes
       ] = await Promise.all([
         fetch('/api/bookings'),
         fetch('/api/admin/technicians'),
@@ -268,7 +308,8 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         fetch('/api/admin/settings'),
         fetch('/api/admin/ledger'),
         fetch('/api/admin/audit-logs'),
-        fetch('/api/admin/territories')
+        fetch('/api/admin/territories'),
+        fetch('/api/admin/finance')
       ]);
 
       const [
@@ -281,7 +322,8 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         settingsData,
         ledgerData,
         auditLogsData,
-        territoriesData
+        territoriesData,
+        financeDataVal
       ] = await Promise.all([
         bookingsRes.json(),
         techsRes.json(),
@@ -292,7 +334,8 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         settingsRes.json(),
         ledgerRes.json(),
         auditLogsRes.json(),
-        territoriesRes.json()
+        territoriesRes.json(),
+        financeRes.json()
       ]);
 
       setBookings(Array.isArray(bookingsData) ? bookingsData : []);
@@ -306,6 +349,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
       setLedgerBalances(ledgerData.balances || {});
       setAuditLogs(Array.isArray(auditLogsData) ? auditLogsData : []);
       setTerritories(Array.isArray(territoriesData) ? territoriesData : []);
+      setFinanceData(financeDataVal || { pendingPayments: [], fraudEvents: [], stats: {} });
 
       // Extract unique customers from bookings
       const custMap = new Map<string, any>();
@@ -1133,7 +1177,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
         <div className="p-2 border-b border-slate-800 flex justify-center items-center">
-          <img src="/logo.png" alt="RenewServ Logo" className="h-20 w-auto object-contain max-w-full" />
+          <img src="/logo.png" alt="RenewServ Logo" className="h-16 sm:h-20 w-auto object-contain max-w-full transition-all duration-300" />
         </div>
 
         <div className="p-4 border-b border-slate-800 bg-slate-900/50">
@@ -2472,70 +2516,226 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
             </div>
           )}
 
-          {/* TAB 8: FINANCE (RELOCATED ESCROW & LEDGER ENTRIES) */}
+          {/* TAB 8: FINANCE (VERIFICATION QUEUE, ANALYTICS & FRAUD PANEL) */}
           {activeTab === 'finance' && (
             <div className="space-y-8 animate-fadeIn">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight">Audit Double-Entry Ledger Console</h2>
-                <p className="text-sm text-slate-400">View real-time balances, escrow vaults, clearing registers, and audit trails</p>
+                <h2 className="text-2xl font-bold tracking-tight">Financial Clearing & Security Desk</h2>
+                <p className="text-sm text-slate-400">Audit manual UPI payments, scan for transaction fraud, and track realized revenues</p>
               </div>
 
-              {/* Balances widgets */}
+              {/* 1. Analytics Dashboard widgets */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {/* Revenue Monthly */}
                 <div className="bg-slate-950 p-5 rounded-xl border border-slate-850 shadow-xl relative overflow-hidden">
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Escrow Vault Balance</p>
-                  <p className="text-3xl font-extrabold mt-2 text-blue-400">₹{ledgerBalances?.RENEWSERV_ESCROW || 0}</p>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Revenue This Month</p>
+                  <p className="text-3xl font-extrabold mt-2 text-emerald-400">₹{financeData.stats?.monthlyRevenue || 0}</p>
+                  <p className="text-[10px] text-slate-400 mt-1">Net realized customer payments</p>
                 </div>
+                {/* Today's Payments */}
                 <div className="bg-slate-950 p-5 rounded-xl border border-slate-855 shadow-xl relative overflow-hidden">
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Net Realized Revenue</p>
-                  <p className="text-3xl font-extrabold mt-2 text-emerald-400">₹{ledgerBalances?.RENEWSERV_REVENUE || 0}</p>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Today's Collections</p>
+                  <p className="text-3xl font-extrabold mt-2 text-sky-400">₹{financeData.stats?.todayRevenue || 0}</p>
+                  <p className="text-[10px] text-slate-400 mt-1">{financeData.stats?.todayCount || 0} transaction attempts verified</p>
                 </div>
+                {/* Pending verification count */}
                 <div className="bg-slate-950 p-5 rounded-xl border border-slate-855 shadow-xl relative overflow-hidden">
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Payment Gateway Clearing</p>
-                  <p className="text-3xl font-extrabold mt-2 text-yellow-400">₹{ledgerBalances?.RAZORPAY_GATEWAY || 0}</p>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Verification Queue</p>
+                  <p className="text-3xl font-extrabold mt-2 text-amber-500">{financeData.stats?.pendingCount || 0}</p>
+                  <p className="text-[10px] text-slate-400 mt-1">UPI receipts awaiting manual check</p>
                 </div>
+                {/* Total Refunds */}
                 <div className="bg-slate-950 p-5 rounded-xl border border-slate-855 shadow-xl relative overflow-hidden">
-                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Customer Wallet Registry</p>
-                  <p className="text-3xl font-extrabold mt-2 text-purple-400">₹{ledgerBalances?.CUSTOMER_WALLET || 0}</p>
+                  <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Total Refunds</p>
+                  <p className="text-3xl font-extrabold mt-2 text-red-400">₹{financeData.stats?.totalRefunds || 0}</p>
+                  <p className="text-[10px] text-slate-400 mt-1">{financeData.stats?.refundsCount || 0} disputes reversed</p>
                 </div>
               </div>
 
-              {/* Transactions list */}
+              {/* 2. Escrow & Wallet Balances */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-850 text-xs">
+                  <span className="text-slate-500">Escrow Vault:</span>
+                  <span className="float-right font-mono font-bold text-slate-200">₹{ledgerBalances?.RENEWSERV_ESCROW || 0}</span>
+                </div>
+                <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-850 text-xs">
+                  <span className="text-slate-500">Net Realized Revenue:</span>
+                  <span className="float-right font-mono font-bold text-slate-200">₹{ledgerBalances?.RENEWSERV_REVENUE || 0}</span>
+                </div>
+                <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-850 text-xs">
+                  <span className="text-slate-500">Razorpay Clearing:</span>
+                  <span className="float-right font-mono font-bold text-slate-200">₹{ledgerBalances?.RAZORPAY_GATEWAY || 0}</span>
+                </div>
+                <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-850 text-xs">
+                  <span className="text-slate-500">Customer Wallets:</span>
+                  <span className="float-right font-mono font-bold text-slate-200">₹{ledgerBalances?.CUSTOMER_WALLET || 0}</span>
+                </div>
+              </div>
+
+              {/* 3. UPI Verification Queue */}
               <div className="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-xl p-6">
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
-                  <h3 className="font-bold text-slate-200">Double Entry Ledger Transactions Log</h3>
-                  <span className="text-xs bg-slate-900 border border-slate-800 text-slate-400 px-3 py-1 rounded font-bold uppercase">Audited</span>
+                  <h3 className="font-bold text-slate-200 flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-amber-500" />
+                    UPI Verification Queue ({financeData.pendingPayments?.length || 0})
+                  </h3>
+                  <span className="text-xs bg-slate-900 border border-slate-800 text-slate-400 px-3 py-1 rounded font-bold uppercase">Pending statement checks</span>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-850 text-slate-500 text-xs uppercase font-semibold">
-                        <th className="p-3">Source Account</th>
-                        <th className="p-3">Destination Account</th>
-                        <th className="p-3">Reference / Payment</th>
-                        <th className="p-3">Description</th>
-                        <th className="p-3 text-right">Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-850 text-xs text-slate-300">
-                      {ledgerEntries.map((entry) => (
-                        <tr key={entry.id} className="hover:bg-slate-900/30">
-                          <td className="p-3 font-mono font-semibold text-red-400">{entry.sourceAccount}</td>
-                          <td className="p-3 font-mono font-semibold text-emerald-400">{entry.destinationAccount}</td>
-                          <td className="p-3 font-mono text-slate-500">#{entry.referenceId.substring(0, 10)}</td>
-                          <td className="p-3 text-slate-400">{entry.description}</td>
-                          <td className="p-3 text-right font-bold text-slate-200">₹{entry.amount}</td>
-                        </tr>
-                      ))}
-                      {ledgerEntries.length === 0 && (
-                        <tr>
-                          <td colSpan={5} className="text-center text-slate-600 p-8">No ledger entries audited</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                <div className="space-y-4">
+                  {financeData.pendingPayments?.map((payment: any) => {
+                    const hasHighFraud = payment.fraudScore >= 50;
+                    
+                    return (
+                      <div key={payment.id} className="p-4 bg-slate-900 border border-slate-850 rounded-xl flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+                        <div className="flex flex-col md:flex-row items-start gap-4 flex-1">
+                          {/* Screenshot preview */}
+                          {payment.screenshotUrl ? (
+                            <div 
+                              className="relative group block rounded-lg overflow-hidden border border-slate-850 shrink-0 w-28 h-28 cursor-zoom-in hover:border-amber-500 transition-all hover:scale-[1.02]"
+                              onClick={() => setActiveLightboxImage(payment.screenshotUrl)}
+                            >
+                              <img src={payment.screenshotUrl} alt="Receipt Screenshot" className="object-cover w-full h-full group-hover:scale-110 transition-transform" />
+                              <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <span className="text-[10px] font-bold text-white uppercase bg-black/60 px-2 py-1 rounded">Zoom Receipt</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="w-24 h-24 bg-slate-950 border border-slate-850 rounded-lg flex items-center justify-center text-slate-650 font-bold text-xs uppercase text-center p-2">
+                              No Receipt Image
+                            </div>
+                          )}
+
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-[10px] font-mono bg-slate-950 border border-slate-850 px-2 py-0.5 rounded font-semibold text-slate-450">
+                                Booking: #{payment.booking?.id?.substring(0, 8).toUpperCase()}
+                              </span>
+                              <span className="text-xs font-bold text-sky-400">₹{payment.amount.toFixed(2)}</span>
+                            </div>
+                            <p className="text-xs font-bold text-slate-200">{payment.booking?.customer?.profile?.name || 'Customer'}</p>
+                            <p className="text-[10px] text-slate-400 font-mono">UTR: <span className="text-slate-200 font-bold">{payment.utr || 'N/A'}</span></p>
+                            
+                            {/* Fraud score warning banner */}
+                            {payment.fraudScore > 0 && (
+                              <div className={`mt-2 p-2 rounded-lg text-[10px] flex items-center gap-2 ${
+                                hasHighFraud ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                              }`}>
+                                <ShieldAlert className="w-3.5 h-3.5" />
+                                <span>
+                                  <strong>Fraud Alert Level:</strong> Score {payment.fraudScore} (Potential duplicate UTR or receipt hash match)
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-wrap gap-2 w-full md:w-auto shrink-0 border-t md:border-t-0 border-slate-800/80 pt-3 md:pt-0">
+                          <button
+                            onClick={() => handleApprovePayment(payment.id)}
+                            className="flex-1 md:flex-initial bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-4 py-2 rounded-lg text-xs transition duration-150 uppercase tracking-wider cursor-pointer"
+                          >
+                            Verify & Confirm
+                          </button>
+                          <button
+                            onClick={() => handleRejectPayment(payment.id)}
+                            className="flex-1 md:flex-initial bg-slate-800 hover:bg-red-500/20 hover:text-red-400 text-slate-200 font-semibold px-3 py-2 rounded-lg text-xs transition duration-150 uppercase tracking-wider cursor-pointer"
+                          >
+                            Reject
+                          </button>
+                          <button
+                            onClick={() => handleRejectPayment(payment.id, 'Uploaded screenshot or UTR number is illegible. Please submit a clearer transaction proof.')}
+                            className="flex-1 md:flex-initial bg-slate-850 hover:bg-slate-800 text-slate-450 hover:text-slate-200 px-3 py-2 rounded-lg text-xs transition duration-155 cursor-pointer"
+                          >
+                            Request New Receipt
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {(!financeData.pendingPayments || financeData.pendingPayments.length === 0) && (
+                    <div className="text-center py-12 border border-dashed border-slate-850 rounded-xl">
+                      <CheckCircle className="w-8 h-8 text-slate-500 mx-auto mb-2" />
+                      <p className="text-xs text-slate-500">UPI verification queue is empty. No action required.</p>
+                    </div>
+                  )}
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                {/* 4. Fraud Events Audit Log Panel */}
+                <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-xl lg:col-span-1 flex flex-col h-[450px]">
+                  <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800 shrink-0">
+                    <h3 className="font-bold text-slate-200 flex items-center gap-2">
+                      <ShieldAlert className="w-5 h-5 text-red-400" />
+                      Payment Fraud Log
+                    </h3>
+                    <span className="text-[10px] font-mono bg-red-500/10 text-red-400 px-2 py-0.5 rounded uppercase">Active Scan</span>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto space-y-3 pr-1 text-xs">
+                    {financeData.fraudEvents?.map((event: any) => (
+                      <div key={event.id} className="p-3 bg-slate-900 border border-slate-850 rounded-lg space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-slate-200">{event.eventType}</span>
+                          <span className="text-[10px] font-mono text-slate-500">
+                            {new Date(event.createdAt).toLocaleDateString('en-IN', { timeStyle: 'short' })}
+                          </span>
+                        </div>
+                        <p className="text-slate-450 leading-normal">{event.description}</p>
+                        <div className="pt-1.5 flex justify-between text-[9px] text-slate-500 font-mono">
+                          <span>IP: {event.ipAddress}</span>
+                          <span className="text-red-450 font-bold">Severity: {event.severityScore}</span>
+                        </div>
+                      </div>
+                    ))}
+                    {(!financeData.fraudEvents || financeData.fraudEvents.length === 0) && (
+                      <p className="text-center text-slate-600 py-12">No payment security alerts logged.</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* 5. Audited Transactions list */}
+                <div className="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-xl p-6 lg:col-span-2 flex flex-col h-[450px]">
+                  <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800 shrink-0">
+                    <h3 className="font-bold text-slate-200">Double Entry Ledger Log</h3>
+                    <span className="text-[10px] bg-emerald-500/10 text-emerald-450 px-2 py-0.5 rounded font-bold uppercase">Audited Ledger</span>
+                  </div>
+
+                  <div className="overflow-y-auto flex-1 pr-1">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-850 text-slate-500 uppercase font-semibold">
+                          <th className="p-3">Accounts</th>
+                          <th className="p-3">Reference</th>
+                          <th className="p-3">Details</th>
+                          <th className="p-3 text-right">Value</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-850 text-slate-300">
+                        {ledgerEntries.map((entry) => (
+                          <tr key={entry.id} className="hover:bg-slate-900/30">
+                            <td className="p-3">
+                              <p className="font-mono text-red-400">Dr: {entry.sourceAccount}</p>
+                              <p className="font-mono text-emerald-400 mt-0.5">Cr: {entry.destinationAccount}</p>
+                            </td>
+                            <td className="p-3 font-mono text-slate-500">#{entry.referenceId.substring(0, 8)}</td>
+                            <td className="p-3 text-slate-400 leading-normal">{entry.description}</td>
+                            <td className="p-3 text-right font-bold text-slate-200">₹{entry.amount}</td>
+                          </tr>
+                        ))}
+                        {ledgerEntries.length === 0 && (
+                          <tr>
+                            <td colSpan={4} className="text-center text-slate-600 p-8">No ledger entries audited</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
               </div>
             </div>
           )}
@@ -2965,12 +3165,19 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                     
                     {/* Render existing images */}
                     {loadedBookingDetails.booking.jobImages && loadedBookingDetails.booking.jobImages.length > 0 ? (
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-2.5">
                         {loadedBookingDetails.booking.jobImages.map((img: any) => (
-                          <div key={img.id} className="relative group border border-slate-800 rounded-lg overflow-hidden bg-slate-950">
-                            <img src={img.url} alt={img.type || 'Job Photo'} className="w-full h-24 object-cover" />
+                          <div 
+                            key={img.id} 
+                            className="relative group border border-slate-800 rounded-lg overflow-hidden bg-slate-950 cursor-zoom-in hover:border-amber-500 transition-all hover:scale-[1.02]"
+                            onClick={() => setActiveLightboxImage(img.url)}
+                          >
+                            <img src={img.url} alt={img.type || 'Job Photo'} className="w-full h-28 object-cover" />
+                            <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                              <span className="text-[9px] font-bold text-white bg-black/60 px-2 py-0.5 rounded">View</span>
+                            </div>
                             {img.type && (
-                              <div className="p-1 bg-slate-900/90 text-[9px] text-slate-400 absolute bottom-0 left-0 right-0 truncate">
+                              <div className="p-1 bg-slate-900/90 text-[9px] text-slate-400 absolute bottom-0 left-0 right-0 truncate pointer-events-none">
                                 {img.type}
                               </div>
                             )}
@@ -3307,6 +3514,27 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         </div>
       )}
 
+      {activeLightboxImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-955/95 backdrop-blur-md cursor-zoom-out"
+          onClick={() => setActiveLightboxImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 p-2 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 rounded-full transition-all cursor-pointer"
+            onClick={() => setActiveLightboxImage(null)}
+          >
+            <span className="sr-only">Close</span>
+            <X className="w-6 h-6" />
+          </button>
+          <div className="relative max-w-5xl max-h-[85vh] w-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={activeLightboxImage} 
+              alt="Enlarged preview" 
+              className="max-w-full max-h-[85vh] object-contain rounded-2xl border border-slate-800 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -195,7 +195,26 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      return NextResponse.json({ success: true, message: 'Mobile number verified successfully!' });
+      const { createSessionToken } = require('@/lib/auth');
+      const token = await createSessionToken({
+        userId: user.id,
+        role: user.role,
+        emailVerified: user.emailVerified,
+        phoneVerified: true,
+      });
+
+      const response = NextResponse.json({ success: true, message: 'Mobile number verified successfully!' });
+      response.cookies.set({
+        name: 'renewserv_session',
+        value: token,
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 2, // 2 hours
+      });
+
+      return response;
     }
 
     return NextResponse.json({ error: 'Invalid action parameter' }, { status: 400 });

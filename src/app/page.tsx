@@ -530,110 +530,128 @@ function LandingPageContent() {
         </div>
       </section>
 
-      {/* 2. How It Works */}
-      <section id="how-it-works" className="px-4 sm:px-6 py-16 max-w-6xl mx-auto border-b border-slate-200">
-        <div className="text-center space-y-3 mb-12">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">How It Works</h2>
-          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">Book solar service in 3 simple steps without complex tech jargon.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3">
-            <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg mx-auto">1</div>
-            <h3 className="font-bold text-lg text-slate-900">Book Expert Visit (₹99)</h3>
-            <p className="text-slate-600 text-xs sm:text-sm">Select service, enter pincode, and pay ₹99 online booking fee to secure dispatch.</p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3">
-            <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg mx-auto">2</div>
-            <h3 className="font-bold text-lg text-slate-900">Inspection & Price Quote</h3>
-            <p className="text-slate-600 text-xs sm:text-sm">Technician checks output voltages. Admin sends a transparent, itemized quotation to your portal.</p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-3">
-            <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 font-bold flex items-center justify-center text-lg mx-auto">3</div>
-            <h3 className="font-bold text-lg text-slate-900">Restore & Clear</h3>
-            <p className="text-slate-600 text-xs sm:text-sm">Pay 50% advance to start work. Post-cleaning, verify the restored outputs and pay remaining invoice.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Services Section */}
-      <section id="services" className="px-4 sm:px-6 py-16 bg-slate-900 border-b border-slate-800">
+      {/* 2. Services Section */}
+      <section id="services" className="px-4 sm:px-6 py-16 bg-slate-50 border-b border-slate-200">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="text-center space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Our Services</h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">Professional operations to maintain and clean your solar installation safely.</p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Our Services</h2>
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">Professional operations to maintain and clean your solar installation safely.</p>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Card 1 - Panel Cleaning */}
-            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700 space-y-3 hover:border-amber-400 transition-all group cursor-pointer" onClick={() => navigateToBooking('PANEL_CLEANING')}>
-              <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center">
-                <Droplet className="w-5 h-5" />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-3 hover:border-amber-400 transition-all group cursor-pointer shadow-sm hover:shadow-md flex flex-col justify-between" onClick={() => navigateToBooking('PANEL_CLEANING')}>
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-500 flex items-center justify-center">
+                  <Droplet className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">Starting ₹99</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Solar Panel Cleaning</h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  Purified water wash with scratch-free brushes. Removes dust, droppings & soot to restore peak efficiency.
+                </p>
               </div>
-              <div>
-                <span className="text-[10px] font-bold text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">Starting ₹99</span>
-              </div>
-              <h3 className="text-base font-bold text-white">Solar Panel Cleaning</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Purified water wash with scratch-free brushes. Removes dust, droppings & soot to restore peak efficiency.
-              </p>
-              <div className="pt-1">
-                <span className="text-xs font-bold text-amber-400 group-hover:underline">Book Now →</span>
+              <div className="pt-2">
+                <button className="w-full py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-extrabold text-xs transition-all shadow-sm flex items-center justify-center gap-1 group-hover:bg-amber-500">
+                  Book Now →
+                </button>
               </div>
             </div>
 
             {/* Card 2 - Removal & Reinstallation */}
-            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700 space-y-3 hover:border-amber-400 transition-all group cursor-pointer" onClick={() => navigateToBooking('SYSTEM_DISMANTLING')}>
-              <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center">
-                <Wrench className="w-5 h-5" />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-3 hover:border-amber-400 transition-all group cursor-pointer shadow-sm hover:shadow-md flex flex-col justify-between" onClick={() => navigateToBooking('SYSTEM_DISMANTLING')}>
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-505 flex items-center justify-center">
+                  <Wrench className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">Starting ₹1,499</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Panel Removal & Reinstallation</h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  Safe dismantling, rewiring, and secure re-installation for rooftop repairs, renovations or relocation.
+                </p>
               </div>
-              <div>
-                <span className="text-[10px] font-bold text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">Starting ₹1,499</span>
-              </div>
-              <h3 className="text-base font-bold text-white">Panel Removal & Reinstallation</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Safe dismantling, rewiring, and secure re-installation for rooftop repairs, renovations or relocation.
-              </p>
-              <div className="pt-1">
-                <span className="text-xs font-bold text-amber-400 group-hover:underline">Book Now →</span>
+              <div className="pt-2">
+                <button className="w-full py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-extrabold text-xs transition-all shadow-sm flex items-center justify-center gap-1 group-hover:bg-amber-500">
+                  Book Now →
+                </button>
               </div>
             </div>
 
             {/* Card 3 - Health Check */}
-            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700 space-y-3 hover:border-amber-400 transition-all group cursor-pointer" onClick={() => navigateToBooking('SITE_INSPECTION')}>
-              <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center">
-                <Activity className="w-5 h-5" />
+            <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-3 hover:border-amber-400 transition-all group cursor-pointer shadow-sm hover:shadow-md flex flex-col justify-between" onClick={() => navigateToBooking('SITE_INSPECTION')}>
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-505 flex items-center justify-center">
+                  <Activity className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">Starting ₹199</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Solar Health Check</h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  Voltage output diagnosis, wiring safety check, degradation audit & official digital inspection report.
+                </p>
               </div>
-              <div>
-                <span className="text-[10px] font-bold text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">Starting ₹199</span>
-              </div>
-              <h3 className="text-base font-bold text-white">Solar Health Check</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Voltage output diagnosis, wiring safety check, degradation audit & official digital inspection report.
-              </p>
-              <div className="pt-1">
-                <span className="text-xs font-bold text-amber-400 group-hover:underline">Book Now →</span>
+              <div className="pt-2">
+                <button className="w-full py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-extrabold text-xs transition-all shadow-sm flex items-center justify-center gap-1 group-hover:bg-amber-500">
+                  Book Now →
+                </button>
               </div>
             </div>
 
             {/* Card 4 - Annual Maintenance Plan */}
-            <div className="p-6 rounded-2xl bg-slate-800 border border-amber-400/30 space-y-3 hover:border-amber-400 transition-all group cursor-pointer relative overflow-hidden" onClick={() => navigateToBooking('AMC_PLAN')}>
+            <div className="p-6 rounded-2xl bg-white border border-amber-400/30 space-y-3 hover:border-amber-400 transition-all group cursor-pointer relative overflow-hidden shadow-sm hover:shadow-md flex flex-col justify-between" onClick={() => navigateToBooking('AMC_PLAN')}>
               <div className="absolute top-2 right-2 bg-amber-400 text-slate-900 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wide">Popular</div>
-              <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-400 flex items-center justify-center">
-                <Calendar className="w-5 h-5" />
+              <div className="space-y-3">
+                <div className="w-11 h-11 rounded-xl bg-amber-400/10 text-amber-505 flex items-center justify-center">
+                  <Calendar className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">Yearly Plan</span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900">Annual Maintenance Plan</h3>
+                <p className="text-slate-600 text-xs leading-relaxed">
+                  4 scheduled cleanings/year, priority callouts, structure checks & free diagnostics when output drops.
+                </p>
               </div>
-              <div>
-                <span className="text-[10px] font-bold text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full">Yearly Plan</span>
+              <div className="pt-2">
+                <button className="w-full py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-extrabold text-xs transition-all shadow-sm flex items-center justify-center gap-1 group-hover:bg-amber-500">
+                  Book Now →
+                </button>
               </div>
-              <h3 className="text-base font-bold text-white">Annual Maintenance Plan</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                4 scheduled cleanings/year, priority callouts, structure checks & free diagnostics when output drops.
-              </p>
-              <div className="pt-1">
-                <span className="text-xs font-bold text-amber-400 group-hover:underline">Book Now →</span>
-              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. How It Works */}
+      <section id="how-it-works" className="px-4 sm:px-6 py-16 bg-slate-900 border-b border-slate-800">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="text-center space-y-3 mb-12">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">How It Works</h2>
+            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto font-medium">Book solar service in 3 simple steps without complex tech jargon.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700 text-center space-y-3">
+              <div className="w-12 h-12 rounded-full bg-amber-400/10 text-amber-400 font-bold flex items-center justify-center text-lg mx-auto border border-amber-400/20">1</div>
+              <h3 className="font-bold text-lg text-white">Book Expert Visit (₹99)</h3>
+              <p className="text-slate-400 text-xs sm:text-sm">Select service, enter pincode, and pay ₹99 online booking fee to secure dispatch.</p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700 text-center space-y-3">
+              <div className="w-12 h-12 rounded-full bg-amber-400/10 text-amber-400 font-bold flex items-center justify-center text-lg mx-auto border border-amber-400/20">2</div>
+              <h3 className="font-bold text-lg text-white">Inspection & Price Quote</h3>
+              <p className="text-slate-400 text-xs sm:text-sm">Technician checks output voltages. Admin sends a transparent, itemized quotation to your portal.</p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-800 border border-slate-700 text-center space-y-3">
+              <div className="w-12 h-12 rounded-full bg-amber-400/10 text-amber-400 font-bold flex items-center justify-center text-lg mx-auto border border-amber-400/20">3</div>
+              <h3 className="font-bold text-lg text-white">Restore & Clear</h3>
+              <p className="text-slate-400 text-xs sm:text-sm">Pay 50% advance to start work. Post-cleaning, verify the restored outputs and pay remaining invoice.</p>
             </div>
           </div>
         </div>

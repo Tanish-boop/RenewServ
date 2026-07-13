@@ -115,7 +115,12 @@ export async function POST(req: Request) {
     });
 
     // Create session token (JWT Access Token)
-    const token = await createSessionToken({ userId: user.id, role: user.role });
+    const token = await createSessionToken({ 
+      userId: user.id, 
+      role: user.role,
+      emailVerified: user.emailVerified,
+      phoneVerified: user.phoneVerified
+    });
     
     // Create Refresh Token / DB Session (Valid for 7 days)
     const crypto = require('crypto');

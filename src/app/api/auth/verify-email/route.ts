@@ -79,7 +79,26 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    return NextResponse.json({ success: true, message: 'Email verified successfully!' });
+    const { createSessionToken } = require('@/lib/auth');
+    const token = await createSessionToken({
+      userId: user.id,
+      role: user.role,
+      emailVerified: true,
+      phoneVerified: user.phoneVerified,
+    });
+
+    const response = NextResponse.json({ success: true, message: 'Email verified successfully!' });
+    response.cookies.set({
+      name: 'renewserv_session',
+      value: token,
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 2, // 2 hours
+    });
+
+    return response;
   } catch (err: any) {
     return NextResponse.json({ error: err.message || 'Verification failed' }, { status: 500 });
   }

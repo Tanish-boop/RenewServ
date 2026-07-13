@@ -30,6 +30,11 @@ enum BookingStatus {
   INVOICE_SENT
   CANCELLED
   
+  // New statuses
+  PAYMENT_PENDING
+  IN_PROGRESS
+  PAYMENT_EXPIRED
+  
   // Deprecated/Compat
   ASSIGNED
   TECHNICIAN_ON_THE_WAY
@@ -46,8 +51,10 @@ enum PaymentType {
 
 enum PaymentStatus {
   PENDING
+  UNDER_VERIFICATION
   SUCCESS
   FAILED
+  EXPIRED
   REFUNDED
 }
 
@@ -233,7 +240,32 @@ model Payment {
   provider      String        @default("RAZORPAY")
   transactionId String        @unique
   idempotencyKey String       @unique
+  
+  // Custom manual/UPI receipt audit details
+  utr                 String?
+  screenshotUrl       String?
+  screenshotHash      String?
+  screenshotPublicId  String?
+  screenshotUploadedAt DateTime?
+  verifiedAt          DateTime?
+  verifiedBy          String?
+  fraudScore          Int           @default(0)
+  isFlagged           Boolean       @default(false)
+  notes               String?
+  
   createdAt     DateTime      @default(now())
+}
+
+model PaymentFraudEvent {
+  id             String   @id @default(uuid())
+  bookingId      String
+  utr            String?
+  screenshotHash String?
+  eventType      String   // DUPLICATE_UTR, DUPLICATE_SCREENSHOT, EXCESSIVE_ATTEMPTS, MULTIPLE_PAYMENTS
+  ipAddress      String
+  userAgent      String
+  details        String
+  createdAt      DateTime @default(now())
 }
 
 model Ledger {

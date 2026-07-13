@@ -146,12 +146,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    if (!user.emailVerified || !user.phoneVerified) {
-      return NextResponse.json(
-        { error: 'Your account is not service-verified yet. Please verify your email and mobile number to place bookings.' },
-        { status: 403 }
-      );
-    }
+
 
     const {
       serviceType,
@@ -227,36 +222,26 @@ export async function POST(req: Request) {
           serviceType,
           scheduledDate,
           scheduledTime,
-          status: 'PENDING',
+          status: 'PAYMENT_PENDING',
           isEmergency: !!isEmergency,
-          bookingFeePaid: true, // Simulated paid during booking stepper
+          bookingFeePaid: false,
         },
       });
 
       // Generate random transaction ID
-      const transactionId = 'TXN-' + Math.floor(10000000 + Math.random() * 90000000);
-      const idempotencyKey = 'IDEM-' + newBooking.id + '-booking-fee';
+      const transactionId = 'TXN-INIT-' + Math.floor(10000000 + Math.random() * 90000000);
+      const idempotencyKey = 'IDEM-' + newBooking.id + '-booking-fee-init';
 
-      // Record simulated payment
+      // Record pending payment
       const payment = await tx.payment.create({
         data: {
           bookingId: newBooking.id,
           amount: 99.0,
           type: 'BOOKING_FEE',
-          status: 'SUCCESS',
+          status: 'PENDING',
+          provider: 'RAZORPAY',
           transactionId,
           idempotencyKey,
-        },
-      });
-
-      // Double-entry ledger audit
-      await tx.ledger.create({
-        data: {
-          sourceAccount: 'RAZORPAY_GATEWAY',
-          destinationAccount: 'RENEWSERV_ESCROW',
-          amount: 99.0,
-          referenceId: payment.id,
-          description: `Booking Fee of ₹99 for Booking ID: ${newBooking.id}`,
         },
       });
 
@@ -271,69 +256,15 @@ export async function POST(req: Request) {
         },
       });
 
-      // 4. Automated Technician Dispatching
-      // Find a technician in this territory
-      let tech = await tx.technician.findFirst({
-        where: {
-          territoryId: territory.id,
-          isAvailable: true,
-        },
-      });
-
-      // Fallback: any available technician if none found in territory
-      if (!tech) {
-        tech = await tx.technician.findFirst({
-          where: { isAvailable: true },
-        });
-      }
-
-      if (tech) {
-        // Create technician assignment
-        await tx.technicianAssignment.create({
-          data: {
-            bookingId: newBooking.id,
-            technicianId: tech.id,
-            status: 'ASSIGNED',
-          },
-        });
-
-        // Update booking status to ASSIGNED
-        return await tx.booking.update({
-          where: { id: newBooking.id },
-          data: { status: 'ASSIGNED' },
-        });
-      }
-
       return newBooking;
     });
 
-    // Outbound WhatsApp notifications
+    // Send payment initiated notification
     try {
-      const { decrypt } = require('@/lib/crypto');
-      const { sendBookingConfirmedWA, sendTechnicianAssignedWA } = require('@/lib/whatsapp');
-      
-      const customerPhone = decrypt(user.encryptedPhone);
-      
-      await sendBookingConfirmedWA(customerPhone, user.id, booking.id);
-      
-      if (booking.status === 'ASSIGNED') {
-        const assignment = await prisma.technicianAssignment.findFirst({
-          where: { bookingId: booking.id },
-          include: {
-            technician: {
-              include: { user: { include: { profile: true } } }
-            }
-          }
-        });
-        
-        if (assignment) {
-          const techName = assignment.technician.user.profile?.name || 'Technician';
-          const rating = assignment.technician.rating || 5.0;
-          await sendTechnicianAssignedWA(customerPhone, user.id, booking.id, techName, rating);
-        }
-      }
-    } catch (waErr) {
-      console.error('Failed to send WhatsApp booking notification:', waErr);
+      const { sendPaymentInitiatedNotification } = require('@/lib/paymentNotifications');
+      await sendPaymentInitiatedNotification(session.userId, booking.id, 99.0);
+    } catch (notifErr) {
+      console.error('Failed to dispatch payment initiated notification:', notifErr);
     }
 
     return NextResponse.json({ success: true, bookingId: booking.id, status: booking.status });
