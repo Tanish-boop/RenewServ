@@ -736,14 +736,14 @@ export default function CustomerDashboard() {
 
               <div className="flex flex-wrap gap-3">
                 <a 
-                  href="tel:+919657331331" 
+                  href="tel:+919765539107" 
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-blue-600 hover:bg-blue-750 text-white font-extrabold rounded-lg text-xs transition shadow-sm"
                 >
                   <Phone className="w-4 h-4" />
-                  Call Support (+91 9657331331)
+                  Call Support (+91 9765539107)
                 </a>
                 <a 
-                  href="https://wa.me/919657331331?text=Hi%20Renewserv" 
+                  href="https://wa.me/919765539107?text=Hi%20Renewserv" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg text-xs transition shadow-sm"
@@ -1268,11 +1268,11 @@ export default function CustomerDashboard() {
                   <div className="space-y-2 pt-2 text-xs">
                     <div className="flex items-center gap-2">
                       <PhoneCall className="w-4 h-4 text-blue-600" />
-                      <span>Support desk: <strong className="text-slate-900">+91 9657331331</strong></span>
+                      <span>Support desk: <strong className="text-slate-900">+91 9765539107</strong></span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MessageSquare className="w-4 h-4 text-emerald-600" />
-                      <span>WhatsApp Bot Support: <strong className="text-slate-900">+91 9657331331</strong></span>
+                      <span>WhatsApp Bot Support: <strong className="text-slate-900">+91 9765539107</strong></span>
                     </div>
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4 text-slate-400" />

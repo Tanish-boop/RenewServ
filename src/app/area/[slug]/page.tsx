@@ -131,7 +131,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
     "image": `${baseUrl}/icon.png`,
     "@id": `${baseUrl}/area/${slug}#localbusiness`,
     "url": `${baseUrl}/area/${slug}`,
-    "telephone": "+919876543210",
+    "telephone": "+919765539107",
     "priceRange": "₹₹",
     "address": {
       "@type": "PostalAddress",

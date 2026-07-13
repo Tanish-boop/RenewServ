@@ -2156,7 +2156,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                         value={newTechPhone}
                         onChange={(e) => setNewTechPhone(e.target.value)}
                         className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm focus:outline-none focus:border-amber-500"
-                        placeholder="9876543210"
+                        placeholder="9765539107"
                       />
                     </div>
                     <div>

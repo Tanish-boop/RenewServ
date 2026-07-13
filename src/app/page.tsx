@@ -1243,7 +1243,7 @@ function LandingPageContent() {
                           <Mail className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
                           <input 
                             type="text" 
-                            placeholder={authTab === 'login' ? "john@example.com or 9876543210" : "john@example.com"} 
+                            placeholder={authTab === 'login' ? "john@example.com or 9765539107" : "john@example.com"} 
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -1259,7 +1259,7 @@ function LandingPageContent() {
                             <Phone className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
                             <input 
                               type="tel" 
-                              placeholder="9876543210" 
+                              placeholder="9765539107" 
                               required
                               value={phone}
                               onChange={(e) => setPhone(e.target.value)}

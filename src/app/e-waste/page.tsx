@@ -30,7 +30,25 @@ import {
   Award,
   Users,
   BarChart3,
-  HardDrive
+  HardDrive,
+  Laptop,
+  Cpu,
+  Server,
+  Tv,
+  Printer,
+  Battery,
+  Smartphone,
+  Network,
+  Database,
+  Building2,
+  Factory,
+  Stethoscope,
+  GraduationCap,
+  ShoppingBag,
+  Radio,
+  Car,
+  Settings,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function EWastePage() {
@@ -132,9 +150,9 @@ export default function EWastePage() {
   // Simulate file upload
   const handleSimulatedUpload = () => {
     const mockFiles = [
-      'https://res.cloudinary.com/demo/image/upload/v1620000000/ewaste_server.jpg',
-      'https://res.cloudinary.com/demo/image/upload/v1620000000/ewaste_pc.jpg',
-      'https://res.cloudinary.com/demo/image/upload/v1620000000/ewaste_bulk.jpg'
+      'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1591405351990-4726e331f141?auto=format&fit=crop&w=600&q=80'
     ];
     const nextImage = mockFiles[Math.min(uploadedImages.length, mockFiles.length - 1)];
     const uniqueImg = `${nextImage}?rand=${Math.floor(Math.random() * 1000)}`;
@@ -228,7 +246,7 @@ export default function EWastePage() {
                 'logo': 'https://www.renewserv.com/logo.png',
                 'contactPoint': {
                   '@type': 'ContactPoint',
-                  'telephone': '+91-9876543210',
+                  'telephone': '+91-9765539107',
                   'contactType': 'customer service',
                   'areaServed': 'IN',
                   'availableLanguage': ['en', 'hi', 'mr']
@@ -351,7 +369,7 @@ export default function EWastePage() {
         {/* Background Image / Pattern */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40 z-10" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(34,197,94,0.1),transparent_40%)]" />
-        <div className="absolute inset-0 bg-[url('/e_waste_hero_bg.png')] bg-cover bg-center mix-blend-overlay opacity-25" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center mix-blend-overlay opacity-30" />
 
         <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 py-20 flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 space-y-6 text-center md:text-left">
@@ -552,38 +570,76 @@ export default function EWastePage() {
       </section>
 
       {/* Industries We Serve */}
-      <section id="industries" className="px-4 sm:px-6 py-16 max-w-6xl mx-auto space-y-12">
+      <section id="industries" className="px-4 sm:px-6 py-20 max-w-6xl mx-auto space-y-12">
         <div className="text-center space-y-3">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Industries We Serve</h2>
-          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-            Providing custom logistical cycles and safety reporting for diverse sectors.
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Industries We Serve</h2>
+          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+            We provide specialized electronic asset collection, regulatory Form-2 logs, and certified destruction services tailored to the requirements of each industry vertical.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { name: 'IT Companies', icon: '💻' },
-            { name: 'Banks &amp; Finance', icon: '🏦' },
-            { name: 'Manufacturing', icon: '🏭' },
-            { name: 'Hospitals', icon: '🏥' },
-            { name: 'Schools &amp; Unis', icon: '🏫' },
-            { name: 'Government Org', icon: '🏛️' },
-            { name: 'Retail &amp; Logistics', icon: '📦' },
-            { name: 'Telecom Networks', icon: '📡' },
-            { name: 'Data Centers', icon: '🗄️' },
-            { name: 'Automotive Dev', icon: '🚗' }
-          ].map((ind, idx) => (
-            <div key={idx} className="p-5 bg-white border border-slate-200 rounded-2xl text-center space-y-2 hover:border-green-500 hover:shadow-xs transition-all">
-              <span className="text-3xl block">{ind.icon}</span>
-              <h4 className="font-bold text-xs sm:text-sm text-slate-900" dangerouslySetInnerHTML={{ __html: ind.name }} />
-            </div>
-          ))}
+            { 
+              name: 'IT Companies', 
+              desc: 'Secure sanitization of old corporate workstations, notebooks, and hardware decommissioning.',
+              icon: Laptop 
+            },
+            { 
+              name: 'Banking & Finance', 
+              desc: 'High-security NIST-compliant data erasure, audit trails, and strict compliance logs.',
+              icon: Building2 
+            },
+            { 
+              name: 'Manufacturing & Plants', 
+              desc: 'Responsible disposal of heavy industrial electrical scrap, control panels, and automation boards.',
+              icon: Factory 
+            },
+            { 
+              name: 'Hospitals & Medical', 
+              desc: 'Compliant decommissioning of retired electronic diagnostic machinery and monitoring equipment.',
+              icon: Stethoscope 
+            },
+            { 
+              name: 'Schools & Universities', 
+              desc: 'Safe, sustainable clearing of outdated computer lab terminals, projectors, and audio setups.',
+              icon: GraduationCap 
+            },
+            { 
+              name: 'Government Organizations', 
+              desc: 'Official Form-2 records, central pollutant compliance, and zero-landfill auditing.',
+              icon: Building 
+            },
+            { 
+              name: 'Telecom Providers', 
+              desc: 'Recycling of cellular network switches, old transceivers, cabling networks, and routers.',
+              icon: Radio 
+            },
+            { 
+              name: 'Enterprise Data Centers', 
+              desc: 'Bulk disposal of server cabinet blades, network arrays, and certified disk shredding.',
+              icon: Database 
+            }
+          ].map((ind, idx) => {
+            const IconComponent = ind.icon;
+            return (
+              <div key={idx} className="p-6 bg-white border border-slate-200 rounded-2xl space-y-4 hover:border-green-600 hover:shadow-md transition-all flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="p-3 bg-green-50 text-green-700 rounded-xl w-fit">
+                    <IconComponent className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-extrabold text-sm text-slate-900">{ind.name}</h4>
+                  <p className="text-slate-500 text-xs leading-relaxed">{ind.desc}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        <div className="text-center pt-2">
+        <div className="text-center pt-4">
           <button 
             onClick={() => { scrollToForm(); trackCTA('Industries_Corporate_Partner'); }}
-            className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+            className="px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer"
           >
             Become Corporate Partner
           </button>
@@ -591,89 +647,153 @@ export default function EWastePage() {
       </section>
 
       {/* Accepted Items Grid */}
-      <section className="px-4 sm:px-6 py-16 bg-slate-900 text-white border-b border-slate-800">
+      <section className="px-4 sm:px-6 py-20 bg-slate-950 text-white border-b border-slate-900">
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Accepted Electronics</h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-              We process a wide range of redundant electrical and IT inventory.
+            <h2 className="text-3xl font-extrabold tracking-tight">Accepted Electronics</h2>
+            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              We collect and process a wide range of redundant enterprise technology assets, networking infrastructure, and clinical electrical hardware.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
             {[
-              { item: 'Laptops', icon: '💻' },
-              { item: 'Desktops', icon: '🖥️' },
-              { item: 'CPUs', icon: '🔌' },
-              { item: 'Monitors', icon: '📺' },
-              { item: 'Printers', icon: '🖨️' },
-              { item: 'Servers', icon: '🗄️' },
-              { item: 'UPS System', icon: '🔋' },
-              { item: 'Batteries', icon: '🔋' },
-              { item: 'Hard Disks', icon: '💾' },
-              { item: 'SSDs', icon: '💾' },
-              { item: 'Motherboards', icon: '🎛️' },
-              { item: 'Routers', icon: '📶' },
-              { item: 'Switches', icon: '🔌' },
-              { item: 'Networking', icon: '🌐' },
-              { item: 'Industrial Gear', icon: '⚙️' },
-              { item: 'Medical Tech', icon: '🩺' }
-            ].map((itm, idx) => (
-              <div key={idx} className="p-4 bg-slate-800 border border-slate-700 rounded-xl text-center space-y-1">
-                <span className="text-xl block">{itm.icon}</span>
-                <span className="block text-xs font-bold text-slate-300">{itm.item}</span>
-              </div>
-            ))}
+              { item: 'Laptops & PCs', desc: 'Workstations, Notebooks', icon: Laptop },
+              { item: 'Enterprise Servers', desc: 'Blade Cabinets, Racks', icon: Server },
+              { item: 'CPUs & Processors', desc: 'Silicon Boards, Motherboards', icon: Cpu },
+              { item: 'Storage Systems', desc: 'Hard Drives, SAN, SSDs', icon: HardDrive },
+              { item: 'Office Electronics', desc: 'Monitors, Printers, Scanners', icon: Tv },
+              { item: 'UPS & Power Banks', desc: 'Lead Acid Batteries', icon: Battery },
+              { item: 'Network Hardware', desc: 'Switches, Routers, Hubs', icon: Network },
+              { item: 'Telecom Gear', desc: 'Transceivers, Fiber Lines', icon: Radio },
+              { item: 'Industrial Controllers', desc: 'PLC Systems, Control Boards', icon: Settings },
+              { item: 'Medical Equipment', desc: 'Lab Devices, Monitors', icon: Activity },
+              { item: 'Mobile Systems', desc: 'Smartphones, Tablets', icon: Smartphone },
+              { item: 'Datastore Modules', desc: 'Backup Arrays, Tape Vaults', icon: Database }
+            ].map((itm, idx) => {
+              const IconComp = itm.icon;
+              return (
+                <div key={idx} className="p-5 bg-slate-900 border border-slate-800 rounded-2xl text-center space-y-3 hover:border-green-500/50 hover:bg-slate-900/80 transition duration-300">
+                  <div className="mx-auto w-11 h-11 bg-slate-800 rounded-xl flex items-center justify-center text-green-400">
+                    <IconComp className="w-5 h-5" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="block text-sm font-extrabold text-white">{itm.item}</span>
+                    <span className="block text-[10px] text-slate-500 font-medium">{itm.desc}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          <div className="text-center pt-2">
+          <div className="text-center pt-4">
             <button 
               onClick={() => { scrollToForm(); trackCTA('Accepted_Download_Brochure'); }}
-              className="px-6 py-2.5 rounded-lg bg-green-500 hover:bg-green-600 text-slate-950 font-extrabold text-xs transition-all shadow-sm cursor-pointer"
+              className="px-6 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-slate-950 font-extrabold text-xs transition-all shadow-md cursor-pointer"
             >
-              Download Accepted Items List PDF
+              Download Full Inventory Catalog PDF
             </button>
           </div>
         </div>
       </section>
 
       {/* Recycling Process Infographic */}
-      <section className="px-4 sm:px-6 py-16 max-w-6xl mx-auto space-y-12">
-        <div className="text-center space-y-3">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Our Recycling Process Timeline</h2>
-          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-            From pickup inquiry to certificate dispatch — 12 structured steps.
-          </p>
-        </div>
+      <section className="px-4 sm:px-6 py-20 bg-white">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Our Recycling Process Timeline</h2>
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              We manage a transparent, fully tracked chain of custody from initial corporate booking to final compliance certification.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {[
-            { step: '1', title: 'Request Pickup', desc: 'Log on portal and request' },
-            { step: '2', title: 'Consultation', desc: 'Free audits & site survey' },
-            { step: '3', title: 'Quotation', desc: 'Commercial asset appraisal' },
-            { step: '4', title: 'Pickup Scheduled', desc: 'Secure dispatch lock-in' },
-            { step: '5', title: 'Collection', desc: 'Physical load & checklist' },
-            { step: '6', title: 'Transportation', desc: 'GPS tracked vehicles' },
-            { step: '7', title: 'Sorting', desc: 'Categorizing component types' },
-            { step: '8', title: 'Data Destruction', desc: 'Degaussing & NIST wiping' },
-            { step: '9', title: 'Recycling', desc: 'Authorized zero-landfill prep' },
-            { step: '10', title: 'Material Recovery', desc: 'Precious metal extractions' },
-            { step: '11', title: 'Compliance Cert', desc: 'Form-2 and Green dispatch' },
-            { step: '12', title: 'Long-term Partnership', desc: 'Recurring yearly contracts' }
-          ].map((st, idx) => (
-            <div key={idx} className="relative p-5 bg-white border border-slate-200 rounded-2xl hover:border-green-500/60 shadow-xs group transition-all duration-300">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-8 rounded-full bg-green-50 text-green-700 border border-green-100 font-extrabold flex items-center justify-center text-xs group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
-                  {st.step}
-                </span>
-                <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            {/* Phase 1: Intake & Logistics */}
+            <div className="space-y-6 relative">
+              <div className="p-3.5 bg-green-50 border border-green-200 rounded-xl text-center">
+                <span className="text-xs uppercase font-extrabold tracking-wider text-green-800">Phase 1: Scheduling & Intake</span>
               </div>
-              <p className="text-slate-500 text-xs">{st.desc}</p>
-              {idx < 11 && (
-                <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-[1.5px] bg-slate-200 pointer-events-none group-hover:bg-green-400 transition-colors z-10" />
-              )}
+              <div className="space-y-4 pl-4 border-l-2 border-green-100 relative">
+                {[
+                  { step: '1', title: 'Request Pickup', desc: 'Log on to the digital portal or call support to submit inventory manifests.', icon: FileCheck },
+                  { step: '2', title: 'Audits & Consultation', desc: 'Free regulatory compliance survey and inventory valuation.', icon: Users },
+                  { step: '3', title: 'Commercial Valuation', desc: 'Transparent asset appraisal matching circular commodity rates.', icon: FileText },
+                  { step: '4', title: 'Scheduling & Dispatch', desc: 'Secure transit vehicle lock-in and arrival date scheduling.', icon: Calendar }
+                ].map((st, idx) => {
+                  return (
+                    <div key={idx} className="relative bg-slate-50 border border-slate-200 p-5 rounded-2xl hover:border-green-600 hover:bg-white transition duration-300">
+                      <div className="absolute -left-[27px] top-6 w-3.5 h-3.5 rounded-full bg-green-500 border-4 border-white shadow-sm" />
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-green-100 text-green-700 flex items-center justify-center font-bold text-xs">
+                          {st.step}
+                        </div>
+                        <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
+                      </div>
+                      <p className="text-slate-500 text-xs leading-relaxed">{st.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          ))}
+
+            {/* Phase 2: Processing & Data Security */}
+            <div className="space-y-6">
+              <div className="p-3.5 bg-slate-900 text-white rounded-xl text-center">
+                <span className="text-xs uppercase font-extrabold tracking-wider text-slate-350">Phase 2: Secure Processing</span>
+              </div>
+              <div className="space-y-4 pl-4 border-l-2 border-slate-200 relative">
+                {[
+                  { step: '5', title: 'Physical Collection', desc: 'Physical load verify matching inventory checklist at your facility.', icon: Upload },
+                  { step: '6', title: 'GPS Tracked Transit', desc: 'Materials are transported in locked containers with live tracking.', icon: MapPin },
+                  { step: '7', title: 'Logistics Sorting', desc: 'Sorting materials by element type and precious metal grades.', icon: Activity },
+                  { step: '8', title: 'Certified Data Wiping', desc: 'NIST SP 800-88 compliant degaussing or physical shredding.', icon: Lock }
+                ].map((st, idx) => {
+                  return (
+                    <div key={idx} className="relative bg-slate-50 border border-slate-200 p-5 rounded-2xl hover:border-green-600 hover:bg-white transition duration-300">
+                      <div className="absolute -left-[27px] top-6 w-3.5 h-3.5 rounded-full bg-slate-700 border-4 border-white shadow-sm" />
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-xs">
+                          {st.step}
+                        </div>
+                        <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
+                      </div>
+                      <p className="text-slate-500 text-xs leading-relaxed">{st.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Phase 3: Compliance & Recovery */}
+            <div className="space-y-6">
+              <div className="p-3.5 bg-green-900 text-white rounded-xl text-center">
+                <span className="text-xs uppercase font-extrabold tracking-wider text-green-300">Phase 3: Material Recycling</span>
+              </div>
+              <div className="space-y-4 pl-4 border-l-2 border-green-800 relative">
+                {[
+                  { step: '9', title: 'Eco-Friendly Refining', desc: 'Disassembling parts for pollution-free material recovery.', icon: RefreshCw },
+                  { step: '10', title: 'Circular Commodity Recovery', desc: 'Precious metal extraction and channeling back to factories.', icon: Award },
+                  { step: '11', title: 'Compliance Green Certs', desc: 'Issuance of MPCB/CPCB Form-2 and ecological certificates.', icon: ShieldCheck },
+                  { step: '12', title: 'Enterprise SLA Lock-In', desc: 'Annual agreements to secure ongoing corporate waste audits.', icon: CheckCircle }
+                ].map((st, idx) => {
+                  return (
+                    <div key={idx} className="relative bg-slate-50 border border-slate-200 p-5 rounded-2xl hover:border-green-600 hover:bg-white transition duration-300">
+                      <div className="absolute -left-[27px] top-6 w-3.5 h-3.5 rounded-full bg-green-800 border-4 border-white shadow-sm" />
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-green-950 text-green-400 flex items-center justify-center font-bold text-xs">
+                          {st.step}
+                        </div>
+                        <h4 className="font-extrabold text-slate-900 text-sm">{st.title}</h4>
+                      </div>
+                      <p className="text-slate-500 text-xs leading-relaxed">{st.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -927,7 +1047,7 @@ export default function EWastePage() {
                         <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                         <input 
                           type="tel" 
-                          placeholder="e.g. 9876543210" 
+                          placeholder="e.g. 9765539107" 
                           required
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
@@ -1303,7 +1423,7 @@ export default function EWastePage() {
       {/* Floating Book Pickup Widget (Bottom-Right) */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-2">
         <a 
-          href="https://wa.me/919876543210" 
+          href="https://wa.me/919765539107" 
           target="_blank" 
           rel="noopener noreferrer"
           onClick={() => trackCTA('Floating_WhatsApp')}
