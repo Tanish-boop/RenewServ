@@ -73,6 +73,17 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    // 4.b Query audit logs
+    diagnostics.auditLogsCount = await prisma.auditLog.count();
+    diagnostics.latestAuditLogs = await prisma.auditLog.findMany({
+      take: 10,
+      orderBy: { createdAt: 'desc' }
+    });
+  } catch (err: any) {
+    diagnostics.auditLogsError = err.message;
+  }
+
+  try {
     // 5. Test status value insertions or queries to check if Enum fields are synced
     // Querying enum values from PG system catalog
     const pgBookingStatuses = await prisma.$queryRawUnsafe(
