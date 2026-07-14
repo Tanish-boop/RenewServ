@@ -248,6 +248,23 @@ export async function POST(
     });
   } catch (err: any) {
     console.error('Failed to submit direct UPI payment:', err);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    try {
+      await prisma.auditLog.create({
+        data: {
+          userId: session?.userId || null,
+          action: 'PAYMENT_SUBMIT_ERROR',
+          ipAddress: req.headers.get('x-forwarded-for') || '127.0.0.1',
+          userAgent: req.headers.get('user-agent') || 'unknown',
+          details: JSON.stringify({
+            bookingId,
+            message: err.message,
+            stack: err.stack,
+          }),
+        },
+      });
+    } catch (dbErr) {
+      console.error('Failed to log error to AuditLog:', dbErr);
+    }
+    return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });
   }
 }
