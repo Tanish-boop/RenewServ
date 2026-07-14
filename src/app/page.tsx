@@ -29,6 +29,18 @@ import {
 function LandingPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Analytics Tracker Callback
+  const trackCTA = (ctaName: string, additionalData: any = {}) => {
+    console.log(`[Analytics Event] CTA_CLICKED: ${ctaName}`, additionalData);
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'cta_click', {
+        event_category: 'Homepage',
+        event_label: ctaName,
+        ...additionalData
+      });
+    }
+  };
   
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -1323,6 +1335,26 @@ function LandingPageContent() {
           </div>
         </div>
       )}
+
+      {/* Floating WhatsApp Widget (Bottom-Right) */}
+      <div className="fixed bottom-20 md:bottom-6 right-6 z-40">
+        <a 
+          href="https://wa.me/919765539107" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          onClick={() => trackCTA('Floating_WhatsApp')}
+          className="w-12 h-12 bg-green-500 hover:bg-green-600 text-slate-950 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-105"
+          title="Contact via WhatsApp"
+        >
+          <svg 
+            className="w-6 h-6 fill-current text-slate-950" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.456L0 24zm6.59-4.846c1.6.95 3.498 1.452 5.418 1.453 5.474 0 9.928-4.453 9.931-9.929.002-2.653-1.03-5.147-2.906-7.025C17.214 1.775 14.723.744 12.01.744 6.536.744 2.083 5.197 2.08 10.67c-.001 1.928.502 3.814 1.457 5.414L2.53 21.57l5.117-1.341zM16.924 13.916c-.27-.135-1.597-.788-1.845-.878-.248-.09-.429-.135-.61.135-.181.27-.7.878-.858 1.058-.158.18-.316.203-.586.068-.27-.135-1.14-.42-2.172-1.34-.803-.717-1.346-1.603-1.503-1.873-.158-.27-.017-.417.118-.552.122-.122.27-.316.406-.473.135-.158.18-.27.27-.45.09-.18.045-.338-.023-.473-.068-.135-.61-1.468-.836-2.008-.22-.529-.44-.457-.61-.466-.157-.008-.338-.01-.518-.01-.18 0-.474.068-.72.338-.249.27-.95.928-.95 2.263s.972 2.628 1.108 2.81c.135.18 1.91 2.917 4.629 4.091.646.279 1.151.446 1.543.57.65.207 1.242.177 1.709.108.52-.078 1.597-.653 1.822-1.283.226-.63.226-1.171.158-1.283-.068-.112-.248-.18-.518-.315z" />
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }
