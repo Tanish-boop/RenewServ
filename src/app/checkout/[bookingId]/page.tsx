@@ -310,24 +310,24 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
   if (isPaid) activeTimelineStep = 5; // Confirmed
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 text-slate-100 py-12 px-4 relative overflow-hidden">
+    <main className="min-h-screen bg-slate-50 text-slate-900 py-12 px-4 relative overflow-hidden">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-      {/* Decorative Blur Orbs */}
-      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Decorative Soft Blur Orbs */}
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-sky-100 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-emerald-50 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         
         {/* Navigation Banner */}
         <div className="flex items-center justify-between mb-8">
-          <div className="text-2xl font-bold text-sky-450 tracking-tight">
-            Renew<span className="text-slate-100">serv</span>
+          <div className="text-2xl font-bold text-sky-600 tracking-tight">
+            Renew<span className="text-slate-800">serv</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-400">
+          <div className="flex items-center gap-2 text-sm text-slate-500">
             <span>Bookings</span>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-slate-200">Checkout</span>
+            <span className="text-slate-800 font-medium">Checkout</span>
           </div>
         </div>
 
@@ -338,15 +338,15 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-emerald-500/15 border border-emerald-500/30 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-6"
+              className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-6"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-full">
+                <div className="p-3 bg-emerald-100 text-emerald-600 rounded-full">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-emerald-300">Payment Verified & Slot Confirmed!</h2>
-                  <p className="text-sm text-slate-350 mt-1">
+                  <h2 className="text-lg font-semibold text-emerald-800">Payment Verified & Slot Confirmed!</h2>
+                  <p className="text-sm text-slate-600 mt-1">
                     Your solar technician slot is locked. You can track assignment details on your dashboard.
                   </p>
                 </div>
@@ -354,13 +354,13 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
               <div className="flex gap-3 w-full md:w-auto">
                 <a 
                   href="/dashboard"
-                  className="flex-1 md:flex-initial text-center bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 text-sm whitespace-nowrap"
+                  className="flex-1 md:flex-initial text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl transition duration-200 text-sm whitespace-nowrap"
                 >
                   Go to Dashboard
                 </a>
                 <a 
                   href={`/api/invoices/${bookingId}/download`}
-                  className="flex-1 md:flex-initial text-center bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold px-5 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2"
+                  className="flex-1 md:flex-initial text-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-5 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 border border-slate-200"
                 >
                   <Download className="w-4 h-4" /> Invoice
                 </a>
@@ -371,22 +371,22 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-red-500/15 border border-red-500/30 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-6"
+              className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-6"
             >
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-red-500/20 text-red-400 rounded-full">
+                <div className="p-3 bg-red-100 text-red-650 text-red-600 rounded-full">
                   <AlertTriangle className="w-8 h-8" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-red-300">Payment Session Expired</h2>
-                  <p className="text-sm text-slate-350 mt-1">
+                  <h2 className="text-lg font-semibold text-red-800">Payment Session Expired</h2>
+                  <p className="text-sm text-slate-655 text-slate-600 mt-1">
                     The 30-minute booking slot lock has expired. Your technician coordinates have been released.
                   </p>
                 </div>
               </div>
               <button 
                 onClick={handleRetrySession}
-                className="w-full md:w-auto bg-red-500 hover:bg-red-600 text-slate-950 font-bold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2"
+                className="w-full md:w-auto bg-red-650 bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2"
               >
                 Generate New Session
               </button>
@@ -395,15 +395,15 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
             <motion.div 
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-sky-500/10 border border-sky-500/20 rounded-2xl p-4 mb-8 flex items-center justify-between"
+              className="bg-sky-50 border border-sky-100 rounded-2xl p-4 mb-8 flex items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-sky-400 animate-pulse" />
-                <span className="text-sm font-medium text-slate-300">
+                <Clock className="w-5 h-5 text-sky-600 animate-pulse" />
+                <span className="text-sm font-medium text-slate-700">
                   Secure your slot. Payment session expires in:
                 </span>
               </div>
-              <div className="text-lg font-mono font-bold text-sky-400 bg-sky-500/15 px-3 py-1.5 rounded-lg border border-sky-500/20">
+              <div className="text-lg font-mono font-bold text-sky-700 bg-sky-100 px-3 py-1.5 rounded-lg border border-sky-200">
                 {formatTime(timeRemaining)}
               </div>
             </motion.div>
@@ -411,15 +411,15 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
         </AnimatePresence>
 
         {/* 2. Visual Payment Timeline */}
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-8 backdrop-blur-md">
-          <h3 className="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-6 text-center">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mb-8">
+          <h3 className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-6 text-center">
             Booking & Payment Progress
           </h3>
           <div className="flex items-center justify-between relative max-w-lg mx-auto">
             {/* Timeline connectors */}
-            <div className="absolute left-0 right-0 h-0.5 bg-slate-800 top-4 -z-10" />
+            <div className="absolute left-0 right-0 h-0.5 bg-slate-100 top-4 -z-10" />
             <div 
-              className="absolute left-0 h-0.5 bg-sky-500 top-4 -z-10 transition-all duration-500" 
+              className="absolute left-0 h-0.5 bg-sky-600 top-4 -z-10 transition-all duration-500" 
               style={{ width: `${((activeTimelineStep - 1) / 4) * 100}%` }}
             />
             
@@ -437,14 +437,14 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
               return (
                 <div key={node.step} className="flex flex-col items-center">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-                    isDone ? 'bg-sky-500 text-slate-950' : 
-                    isActive ? 'bg-sky-400 text-slate-950 ring-4 ring-sky-500/30' : 
-                    'bg-slate-800 text-slate-400'
+                    isDone ? 'bg-sky-600 text-white' : 
+                    isActive ? 'bg-sky-500 text-white ring-4 ring-sky-100' : 
+                    'bg-slate-100 text-slate-400'
                   }`}>
                     {node.step}
                   </div>
                   <span className={`text-[10px] mt-2 font-medium ${
-                    isActive ? 'text-sky-400 font-semibold' : 'text-slate-400'
+                    isActive ? 'text-sky-655 text-sky-600 font-semibold' : 'text-slate-550 text-slate-505 text-slate-500'
                   }`}>
                     {node.label}
                   </span>
@@ -459,47 +459,47 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
           
           {/* Booking Summary Panel */}
           <div className="md:col-span-1 flex flex-col gap-6">
-            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-md flex-1">
-              <h3 className="text-sm font-semibold text-slate-200 border-bottom border-slate-800 pb-3 mb-4">
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 flex-1">
+              <h3 className="text-sm font-semibold text-slate-800 border-b border-slate-100 pb-3 mb-4">
                 Booking Summary
               </h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs text-slate-450">Service Plan</label>
-                  <p className="text-sm font-semibold text-sky-300 mt-0.5">
+                  <label className="text-xs text-slate-500">Service Plan</label>
+                  <p className="text-sm font-semibold text-sky-600 mt-0.5">
                     {booking?.serviceType || 'Solar Health check'}
                   </p>
                 </div>
                 <div>
-                  <label className="text-xs text-slate-450">Scheduled Date</label>
-                  <p className="text-sm font-medium text-slate-200 mt-0.5">
+                  <label className="text-xs text-slate-500">Scheduled Date</label>
+                  <p className="text-sm font-medium text-slate-800 mt-0.5">
                     {booking?.scheduledDate ? new Date(booking.scheduledDate).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : ''}
                   </p>
                 </div>
                 <div>
-                  <label className="text-xs text-slate-450">Preferred Time Slot</label>
-                  <p className="text-sm font-medium text-slate-200 mt-0.5">
+                  <label className="text-xs text-slate-500">Preferred Time Slot</label>
+                  <p className="text-sm font-medium text-slate-800 mt-0.5">
                     {booking?.scheduledTime || 'Morning Slot'}
                   </p>
                 </div>
                 <div>
-                  <label className="text-xs text-slate-450">Reference ID</label>
-                  <p className="text-sm font-mono text-slate-400 mt-0.5">
+                  <label className="text-xs text-slate-505 text-slate-500">Reference ID</label>
+                  <p className="text-sm font-mono text-slate-500 mt-0.5">
                     #{bookingId.substring(0, 8).toUpperCase()}
                   </p>
                 </div>
               </div>
 
-              <div className="border-t border-slate-800 mt-6 pt-6">
+              <div className="border-t border-slate-100 mt-6 pt-6">
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-slate-400 font-semibold">Total Amount</span>
-                  <span className="text-2xl font-bold text-sky-400">₹99.00</span>
+                  <span className="text-xs text-slate-500 font-semibold">Total Amount</span>
+                  <span className="text-2xl font-bold text-sky-655 text-sky-600">₹99.00</span>
                 </div>
-                <div className="mt-4 p-3 bg-sky-500/10 border border-sky-500/15 rounded-xl flex items-start gap-2">
-                  <ShieldCheck className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                  <span className="text-[10px] text-sky-300 leading-normal">
-                    Secure checkout. 256-bit encryption.
+                <div className="mt-4 p-3 bg-sky-50 border border-sky-100 rounded-xl flex items-start gap-2">
+                  <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+                  <span className="text-[10px] text-sky-700 leading-normal">
+                    Secure checkout. 256-bit SSL encryption.
                   </span>
                 </div>
               </div>
@@ -510,23 +510,23 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
           <div className="md:col-span-2 space-y-6">
             
             {/* Wording Disclaimer */}
-            <div className="bg-slate-900/40 border border-slate-850 p-4 rounded-xl flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-slate-350 leading-relaxed">
+            <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-605 text-amber-600 shrink-0 mt-0.5" />
+              <p className="text-xs text-amber-800 leading-relaxed">
                 <strong>Site Fee Wording:</strong> The ₹99 Site Visit Fee covers technician scheduling and site inspection services and is charged separately from the final service quotation.
               </p>
             </div>
 
             {/* Error / Success Notifications */}
             {errorMsg && (
-              <div className="bg-red-500/15 border border-red-550/30 p-4 rounded-xl text-xs text-red-300 flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 shrink-0" />
+              <div className="bg-red-50 border border-red-200 p-4 rounded-xl text-xs text-red-800 flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 shrink-0 text-red-600" />
                 <span>{errorMsg}</span>
               </div>
             )}
             {successMsg && (
-              <div className="bg-emerald-500/15 border border-emerald-550/30 p-4 rounded-xl text-xs text-emerald-300 flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 shrink-0" />
+              <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-xs text-emerald-800 flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-600" />
                 <span>{successMsg}</span>
               </div>
             )}
@@ -534,7 +534,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
             {/* Payment Method Cards */}
             {!isPaid && !isSessionExpired && (
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-slate-250">
+                <h3 className="text-sm font-semibold text-slate-705 text-slate-700">
                   Select Payment Option
                 </h3>
                 
@@ -544,18 +544,18 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                     onClick={() => setSelectedMethod('razorpay')}
                     className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3.5 transition-all duration-200 ${
                       selectedMethod === 'razorpay' ? 
-                      'border-sky-500 bg-sky-500/10 shadow-[0_0_15px_rgba(14,165,233,0.15)]' : 
-                      'border-slate-800 bg-slate-900/40 hover:border-slate-700'
+                      'border-sky-505 border-sky-500 bg-sky-50 shadow-sm' : 
+                      'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`p-2.5 rounded-lg ${
-                      selectedMethod === 'razorpay' ? 'bg-sky-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                      selectedMethod === 'razorpay' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                     }`}>
                       <CreditCard className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold">Razorpay Online</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">Cards, Netbanking, Wallets</p>
+                      <h4 className="text-sm font-bold text-slate-805 text-slate-800">Razorpay Online</h4>
+                      <p className="text-[11px] text-slate-505 text-slate-500 mt-0.5">Cards, Netbanking, Wallets</p>
                     </div>
                   </div>
 
@@ -564,18 +564,18 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                     onClick={() => setSelectedMethod('upi_app')}
                     className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3.5 transition-all duration-200 ${
                       selectedMethod === 'upi_app' ? 
-                      'border-sky-500 bg-sky-500/10 shadow-[0_0_15px_rgba(14,165,233,0.15)]' : 
-                      'border-slate-800 bg-slate-900/40 hover:border-slate-700'
+                      'border-sky-505 border-sky-500 bg-sky-50 shadow-sm' : 
+                      'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`p-2.5 rounded-lg ${
-                      selectedMethod === 'upi_app' ? 'bg-sky-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                      selectedMethod === 'upi_app' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                     }`}>
                       <Smartphone className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold">UPI Apps</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">Pay via GPay, PhonePe, Paytm</p>
+                      <h4 className="text-sm font-bold text-slate-800">UPI Apps</h4>
+                      <p className="text-[11px] text-slate-500 mt-0.5">Pay via GPay, PhonePe, Paytm</p>
                     </div>
                   </div>
 
@@ -584,18 +584,18 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                     onClick={() => setSelectedMethod('qr_code')}
                     className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3.5 transition-all duration-200 ${
                       selectedMethod === 'qr_code' ? 
-                      'border-sky-500 bg-sky-500/10 shadow-[0_0_15px_rgba(14,165,233,0.15)]' : 
-                      'border-slate-800 bg-slate-900/40 hover:border-slate-700'
+                      'border-sky-505 border-sky-500 bg-sky-50 shadow-sm' : 
+                      'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`p-2.5 rounded-lg ${
-                      selectedMethod === 'qr_code' ? 'bg-sky-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                      selectedMethod === 'qr_code' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                     }`}>
                       <QrCode className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold">Scan QR Code</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">Instant checkout from mobile</p>
+                      <h4 className="text-sm font-bold text-slate-800">Scan QR Code</h4>
+                      <p className="text-[11px] text-slate-500 mt-0.5">Instant checkout from mobile</p>
                     </div>
                   </div>
 
@@ -604,35 +604,35 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                     onClick={() => setSelectedMethod('bank_transfer')}
                     className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3.5 transition-all duration-200 ${
                       selectedMethod === 'bank_transfer' ? 
-                      'border-sky-500 bg-sky-500/10 shadow-[0_0_15px_rgba(14,165,233,0.15)]' : 
-                      'border-slate-800 bg-slate-900/40 hover:border-slate-700'
+                      'border-sky-505 border-sky-500 bg-sky-50 shadow-sm' : 
+                      'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                   >
                     <div className={`p-2.5 rounded-lg ${
-                      selectedMethod === 'bank_transfer' ? 'bg-sky-500 text-slate-950' : 'bg-slate-800 text-slate-400'
+                      selectedMethod === 'bank_transfer' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
                     }`}>
                       <Building2 className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold">Bank Transfer</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">Direct Kotak bank account transfer</p>
+                      <h4 className="text-sm font-bold text-slate-800">Bank Transfer</h4>
+                      <p className="text-[11px] text-slate-500 mt-0.5">Direct Kotak bank account transfer</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Selected Method Details Panels */}
-                <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mt-6 backdrop-blur-md">
+                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-6 mt-6">
                   
                   {/* razorpay container */}
                   {selectedMethod === 'razorpay' && (
                     <div className="text-center py-4">
-                      <p className="text-xs text-slate-400 mb-6">
+                      <p className="text-xs text-slate-500 mb-6">
                         Complete your payment online using our secure card, netbanking, and wallet partner.
                       </p>
                       <button
                         onClick={handleRazorpayCheckout}
                         disabled={submitting}
-                        className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-slate-950 font-bold px-8 py-3.5 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 mx-auto disabled:opacity-50"
+                        className="w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white font-bold px-8 py-3.5 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 mx-auto disabled:opacity-50"
                       >
                         {submitting ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -647,42 +647,42 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                   {selectedMethod === 'upi_app' && (
                     <div className="space-y-6">
                       <div className="text-center py-2">
-                        <p className="text-xs text-slate-400 mb-4">
+                        <p className="text-xs text-slate-500 mb-4">
                           Deep-link redirect to Google Pay, PhonePe, Paytm, or BHIM. This works on mobile devices.
                         </p>
                         <a
                           href={upiUrl}
-                          className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-slate-950 font-bold px-8 py-3.5 rounded-xl transition duration-200 text-sm inline-flex items-center justify-center gap-2"
+                          className="w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white font-bold px-8 py-3.5 rounded-xl transition duration-200 text-sm inline-flex items-center justify-center gap-2"
                         >
                           Launch Payment App <ArrowRight className="w-4 h-4" />
                         </a>
                       </div>
                       
-                      <div className="border-t border-slate-800 pt-6">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase mb-4">
-                          Verification Details
+                      <div className="border-t border-slate-100 pt-6">
+                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
+                          <ShieldCheck className="w-4 h-4 text-emerald-600" /> Verification Details (Secure)
                         </h4>
                         <form onSubmit={handleUpiReceiptSubmit} className="space-y-4">
                           <div>
-                            <label className="text-xs text-slate-400 block mb-2">12-Digit UTR Number</label>
+                            <label className="text-xs text-slate-500 block mb-2 font-medium">12-Digit UTR Number</label>
                             <input 
                               type="text"
                               value={utr}
                               onChange={(e) => setUtr(e.target.value)}
                               placeholder="e.g. 123456789012"
-                              className="w-full bg-slate-950 border border-slate-800 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-200"
+                              className="w-full bg-white border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-800"
                             />
                           </div>
                           <div>
-                            <label className="text-xs text-slate-400 block mb-2">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
-                            <div className="relative border-2 border-dashed border-slate-850 hover:border-slate-700 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
+                            <label className="text-xs text-slate-500 block mb-2 font-medium">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
+                            <div className="relative border-2 border-dashed border-slate-200 hover:border-slate-300 bg-slate-50 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
                               <input 
                                 type="file"
                                 onChange={handleFileChange}
                                 className="absolute inset-0 opacity-0 cursor-pointer"
                               />
-                              <UploadCloud className="w-8 h-8 text-slate-550" />
-                              <span className="text-xs text-slate-400">
+                              <UploadCloud className="w-8 h-8 text-slate-400" />
+                              <span className="text-xs text-slate-500">
                                 {file ? file.name : 'Select receipt file to upload'}
                               </span>
                             </div>
@@ -690,7 +690,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
                           >
                             {submitting ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -707,46 +707,46 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                   {selectedMethod === 'qr_code' && (
                     <div className="space-y-6">
                       <div className="flex flex-col items-center text-center">
-                        <p className="text-xs text-slate-400 mb-4">
+                        <p className="text-xs text-slate-500 mb-4">
                           Scan this QR code using GPay, PhonePe, Paytm, or BHIM to complete the site visit transfer.
                         </p>
-                        <div className="bg-white p-3 rounded-2xl mb-2 flex items-center justify-center">
+                        <div className="bg-white p-3 rounded-2xl mb-2 flex items-center justify-center border border-slate-100 shadow-sm">
                           <img 
                             src="/tanish_qr.jpg"
                             alt="Payment QR Code" 
                             className="w-44 h-auto max-h-64 object-contain rounded-lg"
                           />
                         </div>
-                        <span className="text-xs font-semibold text-slate-400 mt-2">
-                          UPI ID: <span className="font-mono text-sky-400">{bankDetails.upiId}</span>
+                        <span className="text-xs font-semibold text-slate-500 mt-2">
+                          UPI ID: <span className="font-mono text-sky-600">{bankDetails.upiId}</span>
                         </span>
                       </div>
 
-                      <div className="border-t border-slate-800 pt-6">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase mb-4">
-                          Verification Details
+                      <div className="border-t border-slate-100 pt-6">
+                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
+                          <ShieldCheck className="w-4 h-4 text-emerald-600" /> Verification Details (Secure)
                         </h4>
                         <form onSubmit={handleUpiReceiptSubmit} className="space-y-4">
                           <div>
-                            <label className="text-xs text-slate-400 block mb-2">12-Digit UTR Number</label>
+                            <label className="text-xs text-slate-500 block mb-2 font-medium">12-Digit UTR Number</label>
                             <input 
                               type="text"
                               value={utr}
                               onChange={(e) => setUtr(e.target.value)}
                               placeholder="e.g. 123456789012"
-                              className="w-full bg-slate-950 border border-slate-800 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-200"
+                              className="w-full bg-white border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-800"
                             />
                           </div>
                           <div>
-                            <label className="text-xs text-slate-400 block mb-2">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
-                            <div className="relative border-2 border-dashed border-slate-850 hover:border-slate-700 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
+                            <label className="text-xs text-slate-500 block mb-2 font-medium">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
+                            <div className="relative border-2 border-dashed border-slate-200 hover:border-slate-300 bg-slate-50 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
                               <input 
                                 type="file"
                                 onChange={handleFileChange}
                                 className="absolute inset-0 opacity-0 cursor-pointer"
                               />
-                              <UploadCloud className="w-8 h-8 text-slate-550" />
-                              <span className="text-xs text-slate-400">
+                              <UploadCloud className="w-8 h-8 text-slate-400" />
+                              <span className="text-xs text-slate-500">
                                 {file ? file.name : 'Select receipt file to upload'}
                               </span>
                             </div>
@@ -754,7 +754,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
                           >
                             {submitting ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -771,79 +771,79 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                   {selectedMethod === 'bank_transfer' && (
                     <div className="space-y-6">
                       <div>
-                        <p className="text-xs text-slate-400 mb-6">
+                        <p className="text-xs text-slate-500 mb-6">
                           Transfer funds directly to the Renewserv business bank account. Details below:
                         </p>
                         
-                        <div className="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-850">
+                        <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100 font-medium">
                           <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-400">Account Holder:</span>
+                            <span className="text-slate-500">Account Holder:</span>
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-slate-200">{bankDetails.holder}</span>
+                              <span className="font-semibold text-slate-800">{bankDetails.holder}</span>
                               <button 
                                 onClick={() => copyToClipboard(bankDetails.holder, 'holder')}
-                                className="text-slate-450 hover:text-sky-400"
+                                className="text-slate-400 hover:text-sky-600"
                               >
-                                {copiedField === 'holder' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                                {copiedField === 'holder' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                               </button>
                             </div>
                           </div>
                           <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-400">Account Number:</span>
+                            <span className="text-slate-500">Account Number:</span>
                             <div className="flex items-center gap-2">
-                              <span className="font-mono font-semibold text-slate-200">{bankDetails.account}</span>
+                              <span className="font-mono font-semibold text-slate-800">{bankDetails.account}</span>
                               <button 
                                 onClick={() => copyToClipboard(bankDetails.account, 'account')}
-                                className="text-slate-450 hover:text-sky-400"
+                                className="text-slate-400 hover:text-sky-600"
                               >
-                                {copiedField === 'account' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                                {copiedField === 'account' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                               </button>
                             </div>
                           </div>
                           <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-400">IFSC Code:</span>
+                            <span className="text-slate-500">IFSC Code:</span>
                             <div className="flex items-center gap-2">
-                              <span className="font-mono font-semibold text-slate-200">{bankDetails.ifsc}</span>
+                              <span className="font-mono font-semibold text-slate-800">{bankDetails.ifsc}</span>
                               <button 
                                 onClick={() => copyToClipboard(bankDetails.ifsc, 'ifsc')}
-                                className="text-slate-450 hover:text-sky-400"
+                                className="text-slate-400 hover:text-sky-600"
                               >
-                                {copiedField === 'ifsc' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                                {copiedField === 'ifsc' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                               </button>
                             </div>
                           </div>
                           <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-400">Bank Name:</span>
-                            <span className="font-semibold text-slate-250">{bankDetails.bank}</span>
+                            <span className="text-slate-500">Bank Name:</span>
+                            <span className="font-semibold text-slate-800">{bankDetails.bank}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="border-t border-slate-800 pt-6">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase mb-4">
-                          Verification Details
+                      <div className="border-t border-slate-100 pt-6">
+                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
+                          <ShieldCheck className="w-4 h-4 text-emerald-600" /> Verification Details (Secure)
                         </h4>
                         <form onSubmit={handleUpiReceiptSubmit} className="space-y-4">
                           <div>
-                            <label className="text-xs text-slate-400 block mb-2">12-Digit UTR / Transaction Reference Number</label>
+                            <label className="text-xs text-slate-500 block mb-2 font-medium">12-Digit UTR / Transaction Reference Number</label>
                             <input 
                               type="text"
                               value={utr}
                               onChange={(e) => setUtr(e.target.value)}
                               placeholder="e.g. 123456789012"
-                              className="w-full bg-slate-950 border border-slate-800 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-200"
+                              className="w-full bg-white border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-800"
                             />
                           </div>
                           <div>
-                            <label className="text-xs text-slate-400 block mb-2">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
-                            <div className="relative border-2 border-dashed border-slate-850 hover:border-slate-700 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
+                            <label className="text-xs text-slate-500 block mb-2 font-medium">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
+                            <div className="relative border-2 border-dashed border-slate-200 hover:border-slate-300 bg-slate-55 bg-slate-50 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
                               <input 
                                 type="file"
                                 onChange={handleFileChange}
                                 className="absolute inset-0 opacity-0 cursor-pointer"
                               />
-                              <UploadCloud className="w-8 h-8 text-slate-550" />
-                              <span className="text-xs text-slate-400">
+                              <UploadCloud className="w-8 h-8 text-slate-400" />
+                              <span className="text-xs text-slate-500">
                                 {file ? file.name : 'Select receipt file to upload'}
                               </span>
                             </div>
@@ -851,7 +851,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                            className="w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
                           >
                             {submitting ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -870,10 +870,10 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
 
             {/* Under Verification banner */}
             {!isPaid && isUnderVerification && (
-              <div className="bg-sky-500/10 border border-sky-500/20 p-6 rounded-2xl text-center">
-                <Loader2 className="w-8 h-8 animate-spin text-sky-400 mx-auto mb-4" />
-                <h3 className="text-base font-semibold text-slate-200 mb-2">Payment Verification In Progress</h3>
-                <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+              <div className="bg-sky-50 border border-sky-100 p-6 rounded-2xl text-center">
+                <Loader2 className="w-8 h-8 animate-spin text-sky-600 mx-auto mb-4" />
+                <h3 className="text-base font-semibold text-slate-800 mb-2">Payment Verification In Progress</h3>
+                <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
                   We have received your receipt submission. Our billing desk is verifying the details with the bank. 
                   Your booking slot is temporarily reserved. We will update you via Email/WhatsApp shortly.
                 </p>
