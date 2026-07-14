@@ -37,7 +37,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
   const [submitting, setSubmitting] = useState(false);
   const [bookingData, setBookingData] = useState<any>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
-  const [selectedMethod, setSelectedMethod] = useState<'razorpay' | 'upi_app' | 'qr_code' | 'bank_transfer' | null>('razorpay');
+  const [selectedMethod, setSelectedMethod] = useState<'razorpay' | 'upi_app' | 'qr_code' | null>('razorpay');
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Form states for manual uploads
@@ -598,26 +598,6 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                       <p className="text-[11px] text-slate-500 mt-0.5">Instant checkout from mobile</p>
                     </div>
                   </div>
-
-                  {/* Card 4: Bank Transfer */}
-                  <div 
-                    onClick={() => setSelectedMethod('bank_transfer')}
-                    className={`border rounded-xl p-4 cursor-pointer flex items-center gap-3.5 transition-all duration-200 ${
-                      selectedMethod === 'bank_transfer' ? 
-                      'border-sky-505 border-sky-500 bg-sky-50 shadow-sm' : 
-                      'border-slate-200 bg-white hover:border-slate-300'
-                    }`}
-                  >
-                    <div className={`p-2.5 rounded-lg ${
-                      selectedMethod === 'bank_transfer' ? 'bg-sky-600 text-white' : 'bg-slate-100 text-slate-500'
-                    }`}>
-                      <Building2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-800">Bank Transfer</h4>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Direct Kotak bank account transfer</p>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Selected Method Details Panels */}
@@ -740,103 +720,6 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                           <div>
                             <label className="text-xs text-slate-500 block mb-2 font-medium">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
                             <div className="relative border-2 border-dashed border-slate-200 hover:border-slate-300 bg-slate-50 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
-                              <input 
-                                type="file"
-                                onChange={handleFileChange}
-                                className="absolute inset-0 opacity-0 cursor-pointer"
-                              />
-                              <UploadCloud className="w-8 h-8 text-slate-400" />
-                              <span className="text-xs text-slate-500">
-                                {file ? file.name : 'Select receipt file to upload'}
-                              </span>
-                            </div>
-                          </div>
-                          <button
-                            type="submit"
-                            disabled={submitting}
-                            className="w-full bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-xl transition duration-200 text-sm flex items-center justify-center gap-2 disabled:opacity-50"
-                          >
-                            {submitting ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              'Submit Details for Verification'
-                            )}
-                          </button>
-                        </form>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* bank_transfer container */}
-                  {selectedMethod === 'bank_transfer' && (
-                    <div className="space-y-6">
-                      <div>
-                        <p className="text-xs text-slate-500 mb-6">
-                          Transfer funds directly to the Renewserv business bank account. Details below:
-                        </p>
-                        
-                        <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100 font-medium">
-                          <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-500">Account Holder:</span>
-                            <div className="flex items-center gap-2">
-                              <span className="font-semibold text-slate-800">{bankDetails.holder}</span>
-                              <button 
-                                onClick={() => copyToClipboard(bankDetails.holder, 'holder')}
-                                className="text-slate-400 hover:text-sky-600"
-                              >
-                                {copiedField === 'holder' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-500">Account Number:</span>
-                            <div className="flex items-center gap-2">
-                              <span className="font-mono font-semibold text-slate-800">{bankDetails.account}</span>
-                              <button 
-                                onClick={() => copyToClipboard(bankDetails.account, 'account')}
-                                className="text-slate-400 hover:text-sky-600"
-                              >
-                                {copiedField === 'account' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-500">IFSC Code:</span>
-                            <div className="flex items-center gap-2">
-                              <span className="font-mono font-semibold text-slate-800">{bankDetails.ifsc}</span>
-                              <button 
-                                onClick={() => copyToClipboard(bankDetails.ifsc, 'ifsc')}
-                                className="text-slate-400 hover:text-sky-600"
-                              >
-                                {copiedField === 'ifsc' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                              </button>
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center text-xs">
-                            <span className="text-slate-500">Bank Name:</span>
-                            <span className="font-semibold text-slate-800">{bankDetails.bank}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="border-t border-slate-100 pt-6">
-                        <h4 className="text-xs font-bold text-slate-500 uppercase mb-4 flex items-center gap-2">
-                          <ShieldCheck className="w-4 h-4 text-emerald-600" /> Verification Details (Secure)
-                        </h4>
-                        <form onSubmit={handleUpiReceiptSubmit} className="space-y-4">
-                          <div>
-                            <label className="text-xs text-slate-500 block mb-2 font-medium">12-Digit UTR / Transaction Reference Number</label>
-                            <input 
-                              type="text"
-                              value={utr}
-                              onChange={(e) => setUtr(e.target.value)}
-                              placeholder="e.g. 123456789012"
-                              className="w-full bg-white border border-slate-200 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-sky-500 text-slate-800"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-xs text-slate-500 block mb-2 font-medium">Upload screenshot receipt (PDF, JPG, PNG, max 5MB)</label>
-                            <div className="relative border-2 border-dashed border-slate-200 hover:border-slate-300 bg-slate-55 bg-slate-50 rounded-xl p-6 text-center cursor-pointer flex flex-col items-center justify-center gap-2">
                               <input 
                                 type="file"
                                 onChange={handleFileChange}
