@@ -222,7 +222,7 @@ export async function POST(req: Request) {
           serviceType,
           scheduledDate,
           scheduledTime,
-          status: 'PAYMENT_PENDING',
+          status: 'PENDING',
           isEmergency: !!isEmergency,
           bookingFeePaid: false,
         },

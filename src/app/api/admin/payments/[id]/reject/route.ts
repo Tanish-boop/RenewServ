@@ -58,8 +58,8 @@ export async function POST(
       await tx.bookingTimeline.create({
         data: {
           bookingId: payment.bookingId,
-          status: 'PAYMENT_PENDING',
-          notes: `Payment details rejected by admin. Reason: ${reason}. Status remains PAYMENT_PENDING.`,
+          status: 'PENDING',
+          notes: `Payment details rejected by admin. Reason: ${reason}. Status remains PENDING.`,
         },
       });
 

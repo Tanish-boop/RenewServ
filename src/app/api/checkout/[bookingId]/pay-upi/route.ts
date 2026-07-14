@@ -75,11 +75,11 @@ export async function POST(
     const now = new Date();
     const isExpired = now > expiryTime;
 
-    if (isExpired && booking.status !== 'PAYMENT_EXPIRED') {
+    if (isExpired && booking.status !== 'CANCELLED') {
       await prisma.$transaction(async (tx) => {
         await tx.booking.update({
           where: { id: bookingId },
-          data: { status: 'PAYMENT_EXPIRED' },
+          data: { status: 'CANCELLED' },
         });
         await tx.payment.updateMany({
           where: { bookingId, status: 'PENDING' },
@@ -211,7 +211,7 @@ export async function POST(
     await prisma.bookingTimeline.create({
       data: {
         bookingId,
-        status: 'PAYMENT_PENDING',
+        status: 'PENDING',
         notes: `Customer submitted direct UPI payment details. UTR: ${normalizedUtr || 'N/A'}. Status: UNDER_VERIFICATION.`,
       },
     });

@@ -46,12 +46,12 @@ export async function GET(
     const timeRemaining = Math.max(0, Math.floor((expiryTime.getTime() - now.getTime()) / 1000));
 
     // Handle Inline Expiry Transition
-    if (isExpired && booking.status === 'PAYMENT_PENDING') {
+    if (isExpired && booking.status === 'PENDING') {
       await prisma.$transaction(async (tx) => {
         // Update booking status
         await tx.booking.update({
           where: { id: bookingId },
-          data: { status: 'PAYMENT_EXPIRED' },
+          data: { status: 'CANCELLED' },
         });
 
         // Mark pending payments as EXPIRED
@@ -69,7 +69,7 @@ export async function GET(
         await tx.bookingTimeline.create({
           data: {
             bookingId,
-            status: 'PAYMENT_EXPIRED',
+            status: 'CANCELLED',
             notes: 'Payment time window of 30 minutes expired. Booking slot released.',
           },
         });
@@ -93,7 +93,7 @@ export async function GET(
         console.error('Failed to send payment expired notification:', notifErr);
       }
 
-      booking.status = 'PAYMENT_EXPIRED';
+      booking.status = 'CANCELLED';
     }
 
     // Decrypt contacts for dashboard view
@@ -126,8 +126,8 @@ export async function GET(
       payments: booking.payments,
       expiry: {
         expiryTime,
-        isExpired: booking.status === 'PAYMENT_EXPIRED' || isExpired,
-        timeRemaining: booking.status === 'PAYMENT_EXPIRED' ? 0 : timeRemaining,
+        isExpired: booking.status === 'CANCELLED' || isExpired,
+        timeRemaining: booking.status === 'CANCELLED' ? 0 : timeRemaining,
       },
       bankDetails,
     });

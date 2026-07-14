@@ -37,7 +37,7 @@ export async function POST(
       await tx.booking.update({
         where: { id: bookingId },
         data: {
-          status: 'PAYMENT_PENDING',
+          status: 'PENDING',
           createdAt: new Date(), // reset 30-minute window
         },
       });
@@ -66,7 +66,7 @@ export async function POST(
       await tx.bookingTimeline.create({
         data: {
           bookingId,
-          status: 'PAYMENT_PENDING',
+          status: 'PENDING',
           notes: 'Customer initiated a payment retry. Expiry window reset to 30 minutes.',
         },
       });
