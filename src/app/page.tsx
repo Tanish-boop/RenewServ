@@ -357,7 +357,6 @@ function LandingPageContent() {
             <a href="/e-waste" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors flex items-center gap-1">
               E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[9px] font-bold">New</span>
             </a>
-            <a href="/e-waste#industries" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">Industries</a>
             <a href="#footer" className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors">Contact</a>
           </nav>
 
@@ -411,7 +410,6 @@ function LandingPageContent() {
             <a href="/e-waste" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-600 py-1 transition-colors flex items-center gap-1.5">
               E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">New</span>
             </a>
-            <a href="/e-waste#industries" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-600 py-1 transition-colors">Industries</a>
             <a href="#footer" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-blue-600 py-1 transition-colors">Contact</a>
           </div>
         )}
@@ -962,7 +960,7 @@ function LandingPageContent() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-450 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm">
+      <footer id="footer" className="bg-slate-900 text-slate-450 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <img src="/logo.png" alt="Renewserv Logo" className="h-12 w-auto object-contain" />

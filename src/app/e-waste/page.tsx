@@ -308,24 +308,9 @@ export default function EWastePage() {
               <a href="/#why-us" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">About</a>
               <a href="/#services" className="text-sm font-semibold text-slate-600 hover:text-green-600 transition-colors">Services</a>
               
-              {/* E-Waste Dropdown Menu */}
-              <div className="relative group py-2">
-                <button className="text-sm font-semibold text-green-700 hover:text-green-800 transition-colors flex items-center gap-1 cursor-pointer focus:outline-none">
-                  E-Waste <ChevronDown className="w-3 h-3 text-green-600" />
-                  <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[9px] font-bold">New</span>
-                </button>
-                <div className="absolute left-0 mt-1 w-48 rounded-xl bg-white border border-slate-100 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1.5">
-                  <a href="#" className="block px-4 py-2 text-xs font-semibold text-slate-750 hover:bg-slate-50 hover:text-green-600 transition-colors">
-                    Overview
-                  </a>
-                  <a href="#industries" className="block px-4 py-2 text-xs font-semibold text-slate-750 hover:bg-slate-50 hover:text-green-600 transition-colors">
-                    Industries We Serve
-                  </a>
-                  <a href="#footer" className="block px-4 py-2 text-xs font-semibold text-slate-750 hover:bg-slate-50 hover:text-green-600 transition-colors">
-                    Contact Us
-                  </a>
-                </div>
-              </div>
+              <a href="#" className="text-sm font-semibold text-green-700 hover:text-green-800 transition-colors flex items-center gap-1">
+                E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[9px] font-bold">New</span>
+              </a>
             </nav>
 
             <div className="flex items-center gap-3">
@@ -359,32 +344,25 @@ export default function EWastePage() {
 
         {showMobileMenu && (
           <div className="md:hidden bg-white border-b border-slate-200 py-3 px-4 shadow-inner space-y-2.5">
-            <a href="/" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">Home</a>
-            <a href="/#why-us" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">About</a>
-            <a href="/#services" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-605 py-1 transition-colors">Services</a>
-            <div className="border-t border-slate-100 my-1 pt-1.5">
-              <span className="block text-sm font-semibold text-green-700 py-1 flex items-center gap-1.5">
-                E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">New</span>
-              </span>
-              <div className="pl-3 border-l-2 border-green-500/25 ml-1 my-1 space-y-1">
-                <a href="#" onClick={() => setShowMobileMenu(false)} className="block text-xs font-semibold text-slate-600 hover:text-green-600 py-1 transition-colors">Overview</a>
-                <a href="#industries" onClick={() => setShowMobileMenu(false)} className="block text-xs font-semibold text-slate-600 hover:text-green-600 py-1 transition-colors">Industries We Serve</a>
-                <a href="#footer" onClick={() => setShowMobileMenu(false)} className="block text-xs font-semibold text-slate-600 hover:text-green-600 py-1 transition-colors">Contact Us</a>
-              </div>
-            </div>
+            <a href="/" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-600 py-1 transition-colors">Home</a>
+            <a href="/#why-us" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-600 py-1 transition-colors">About</a>
+            <a href="/#services" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-600 py-1 transition-colors">Services</a>
+            <a href="#" onClick={() => setShowMobileMenu(false)} className="block text-sm font-semibold text-slate-700 hover:text-green-600 py-1 transition-colors flex items-center gap-1.5">
+              E-Waste <span className="px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">New</span>
+            </a>
           </div>
         )}
       </div>
 
       {/* Hero Section */}
-      <section className="relative min-h-[75vh] md:min-h-[80vh] flex items-center bg-green-50/60 text-slate-900 overflow-hidden border-b border-green-100">
+      <section className="relative min-h-[75vh] md:min-h-[80vh] flex items-center bg-green-50 text-slate-900 overflow-hidden border-b border-green-200">
         {/* Background Pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(34,197,94,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(34,197,94,0.12),transparent_50%)]" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center opacity-5 mix-blend-multiply" />
 
         <div className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 py-20 flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 space-y-6 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 border border-green-200 text-green-850 text-xs font-bold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 border border-green-200 text-green-800 text-xs font-bold">
               ✓ CPCB Authorized &amp; ISO Certified Recycler
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight text-slate-900">
@@ -397,23 +375,23 @@ export default function EWastePage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
               <button 
                 onClick={() => { scrollToForm(); trackCTA('Hero_Book_Pickup'); }}
-                className="px-6 py-3 rounded-lg bg-green-650 hover:bg-green-700 text-white font-extrabold text-sm transition-all shadow-md cursor-pointer"
+                className="px-6 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white font-extrabold text-sm transition-all shadow-md cursor-pointer"
               >
                 Book Pickup
               </button>
               <button 
                 onClick={() => { scrollToForm(); trackCTA('Hero_Consultation'); }}
-                className="px-6 py-3 rounded-lg bg-white hover:bg-green-50 text-green-750 border border-green-200 font-extrabold text-sm transition-all cursor-pointer"
+                className="px-6 py-3 rounded-lg bg-white hover:bg-green-50 text-green-700 border border-green-200 font-extrabold text-sm transition-all cursor-pointer"
               >
                 Free Consultation
               </button>
             </div>
           </div>
 
-          <div className="flex-1 max-w-md w-full bg-white p-6 rounded-2xl border border-green-100 shadow-xl relative overflow-hidden">
+          <div className="flex-1 max-w-md w-full bg-white p-6 rounded-2xl border border-green-200 shadow-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-2xl pointer-events-none" />
             <h3 className="font-extrabold text-lg text-slate-900 mb-2 flex items-center gap-2">
-              <ShieldCheck className="text-green-650 w-5.5 h-5.5" />
+              <ShieldCheck className="text-green-600 w-5.5 h-5.5" />
               Corporate Partner Program
             </h3>
             <p className="text-slate-600 text-xs leading-relaxed mb-4">
@@ -426,7 +404,7 @@ export default function EWastePage() {
             </ul>
             <button 
               onClick={() => { scrollToForm(); trackCTA('Hero_Quick_Callback'); }}
-              className="w-full py-2.5 rounded-lg bg-green-650 hover:bg-green-700 text-white font-extrabold text-xs transition-all shadow-sm cursor-pointer"
+              className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs transition-all shadow-sm cursor-pointer"
             >
               Request Call Back →
             </button>
@@ -473,14 +451,14 @@ export default function EWastePage() {
           </div>
         </div>
 
-        <div className="p-6 rounded-2xl bg-green-50 border border-green-150 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="p-6 rounded-2xl bg-green-50 border border-green-200 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center sm:text-left">
             <h4 className="font-bold text-lg text-slate-900">Looking for E-Waste Consultation?</h4>
-            <p className="text-slate-605 text-slate-600 text-xs">Our regulatory consultants will audit your waste streams free of charge.</p>
+            <p className="text-slate-600 text-xs">Our regulatory consultants will audit your waste streams free of charge.</p>
           </div>
           <button 
             onClick={() => { scrollToForm(); trackCTA('About_Consultation'); }}
-            className="px-6 py-2.5 rounded-lg bg-green-650 hover:bg-green-700 text-white font-extrabold text-xs shrink-0 cursor-pointer"
+            className="px-6 py-2.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs shrink-0 cursor-pointer"
           >
             Get Free Consultation
           </button>
@@ -488,7 +466,7 @@ export default function EWastePage() {
       </section>
 
       {/* Sustainability Solutions Section */}
-      <section className="px-4 sm:px-6 py-16 bg-green-50/60 text-slate-900 border-b border-green-100">
+      <section className="px-4 sm:px-6 py-16 bg-green-50 text-slate-900 border-b border-green-200">
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sustainability Solutions</h2>
@@ -519,11 +497,11 @@ export default function EWastePage() {
             </div>
 
             {/* Active: E-Waste Management */}
-            <div className="p-6 rounded-2xl bg-white border border-green-100 space-y-4 hover:border-green-500 transition-colors flex flex-col justify-between shadow-sm">
+            <div className="p-6 rounded-2xl bg-white border border-green-200 space-y-4 hover:border-green-500 transition-colors flex flex-col justify-between shadow-sm">
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-[10px] uppercase font-black text-green-700 px-2 py-0.5 bg-green-50 rounded border border-green-200">E-Waste Vertical</span>
-                  <span className="text-xs text-green-650 font-bold">Active</span>
+                  <span className="text-xs text-green-600 font-bold">Active</span>
                 </div>
                 <h3 className="font-bold text-lg text-slate-900">E-Waste Management</h3>
                 <p className="text-slate-600 text-xs leading-relaxed">
@@ -532,18 +510,18 @@ export default function EWastePage() {
               </div>
               <button 
                 onClick={() => { scrollToForm(); trackCTA('Solutions_EWaste_Go'); }}
-                className="w-full py-2 bg-green-650 hover:bg-green-700 text-white font-extrabold text-xs rounded-lg transition-colors cursor-pointer"
+                className="w-full py-2 bg-green-600 hover:bg-green-700 text-white font-extrabold text-xs rounded-lg transition-colors cursor-pointer"
               >
                 Book Pickup Now →
               </button>
             </div>
 
             {/* Active: ITAD & Data Destruction */}
-            <div className="p-6 rounded-2xl bg-white border border-green-100 space-y-4 hover:border-green-500 transition-colors flex flex-col justify-between shadow-sm">
+            <div className="p-6 rounded-2xl bg-white border border-green-200 space-y-4 hover:border-green-500 transition-colors flex flex-col justify-between shadow-sm">
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-[10px] uppercase font-black text-green-700 px-2 py-0.5 bg-green-50 rounded border border-green-200">Security Vertical</span>
-                  <span className="text-xs text-green-650 font-bold">Active</span>
+                  <span className="text-xs text-green-600 font-bold">Active</span>
                 </div>
                 <h3 className="font-bold text-lg text-slate-900">IT Asset Disposal (ITAD)</h3>
                 <p className="text-slate-600 text-xs leading-relaxed">
@@ -560,7 +538,7 @@ export default function EWastePage() {
           </div>
 
           <div className="pt-6">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-450 mb-4 text-center">Future Sustainability Offerings (Coming Soon)</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 text-center">Future Sustainability Offerings (Coming Soon)</h4>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               {[
                 'Battery Waste',
@@ -729,11 +707,11 @@ export default function EWastePage() {
       </section>
 
       {/* Impact Dashboard */}
-      <section className="py-16 bg-white text-slate-900 border-b border-green-100">
+      <section className="py-16 bg-white text-slate-900 border-b border-green-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Our Environmental Impact</h2>
-            <p className="text-slate-655 text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
               Real-time ecological savings generated by our recycling programs.
             </p>
           </div>
@@ -747,7 +725,7 @@ export default function EWastePage() {
               { title: 'Carbon Saved', val: impactCounters.carbon, suffix: ' kg' },
               { title: 'Projects Finished', val: impactCounters.projects, suffix: '+' }
             ].map((stat, idx) => (
-              <div key={idx} className="p-5 bg-green-50/40 border border-green-100 rounded-2xl text-center space-y-2 shadow-xs">
+              <div key={idx} className="p-5 bg-green-50 border border-green-200 rounded-2xl text-center space-y-2 shadow-xs">
                 <span className="text-2xl sm:text-3xl font-extrabold text-green-700 block">
                   {stat.val}{stat.suffix}
                 </span>
@@ -758,26 +736,26 @@ export default function EWastePage() {
             ))}
           </div>
 
-          <div className="p-6 rounded-2xl bg-green-50 border border-green-150 text-center max-w-2xl mx-auto flex items-center justify-center gap-2">
-            <Award className="w-5 h-5 text-green-650 shrink-0" />
+          <div className="p-6 rounded-2xl bg-green-50 border border-green-200 text-center max-w-2xl mx-auto flex items-center justify-center gap-2">
+            <Award className="w-5 h-5 text-green-600 shrink-0" />
             <span className="text-xs text-green-800 font-bold">Every ton of e-waste recycled prevents approximately 3.7 tons of CO2 emissions.</span>
           </div>
         </div>
       </section>
 
       {/* Trust & Credibility Section */}
-      <section className="px-4 sm:px-6 py-16 bg-green-50/60 border-b border-green-100">
+      <section className="px-4 sm:px-6 py-16 bg-green-50 border-b border-green-200">
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Trust &amp; Credibility</h2>
-            <p className="text-slate-655 text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
               Why corporate procurement and compliance heads verify and select Renewserv.
             </p>
           </div>
 
           {/* Certifications Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="p-5 bg-white border border-green-100 rounded-2xl space-y-3 flex flex-col items-center shadow-xs">
+            <div className="p-5 bg-white border border-green-200 rounded-2xl space-y-3 flex flex-col items-center shadow-xs">
               <div className="w-12 h-12 rounded-xl bg-green-50 text-green-700 flex items-center justify-center">
                 <Award className="w-6 h-6" />
               </div>
@@ -817,12 +795,12 @@ export default function EWastePage() {
 
           {/* Testimonials */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-            <div className="p-6 bg-white rounded-2xl border border-green-100 space-y-3 shadow-xs">
+            <div className="p-6 bg-white rounded-2xl border border-green-200 space-y-3 shadow-xs">
               <p className="text-slate-600 text-xs italic leading-relaxed">
                 "Renewserv has managed our hardware decommissioning seamlessly. The data wiping certificates were shared within 48 hours of pickup. Truly professional team."
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-green-50 text-green-750 flex items-center justify-center font-bold text-xs">IT</div>
+                <div className="w-9 h-9 rounded-full bg-green-50 text-green-700 flex items-center justify-center font-bold text-xs">IT</div>
                 <div>
                   <span className="block text-xs font-bold text-slate-900">Vikram Deshmukh</span>
                   <span className="block text-[10px] text-slate-500">IT Infrastructure Head, Synechron Pune</span>
@@ -830,12 +808,12 @@ export default function EWastePage() {
               </div>
             </div>
 
-            <div className="p-6 bg-white rounded-2xl border border-green-100 space-y-3 shadow-xs">
+            <div className="p-6 bg-white rounded-2xl border border-green-200 space-y-3 shadow-xs">
               <p className="text-slate-600 text-xs italic leading-relaxed">
                 "EPR compliance audits used to take months of back-and-forth registry updates. Renewserv's automated annual documentation support has completely solved our pain point."
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-green-50 text-green-750 flex items-center justify-center font-bold text-xs">CO</div>
+                <div className="w-9 h-9 rounded-full bg-green-50 text-green-700 flex items-center justify-center font-bold text-xs">CO</div>
                 <div>
                   <span className="block text-xs font-bold text-slate-900">Anjali Kulkarni</span>
                   <span className="block text-[10px] text-slate-500">Compliance &amp; Legal Director, Cosmos Bank</span>
@@ -847,7 +825,7 @@ export default function EWastePage() {
       </section>
 
       {/* Become Our Corporate Partner */}
-      <section className="py-16 bg-white text-slate-900 border-b border-green-100">
+      <section className="py-16 bg-white text-slate-900 border-b border-green-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 space-y-6">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Become Our Corporate Recycling Partner</h2>
@@ -874,8 +852,8 @@ export default function EWastePage() {
             </div>
           </div>
 
-          <div className="w-full lg:max-w-md p-6 bg-green-50/30 border border-green-100 rounded-2xl text-center space-y-4 shadow-sm">
-            <span className="text-[10px] uppercase font-black text-green-700 px-2 py-0.5 bg-green-50 rounded border border-green-200">Partnership Program</span>
+          <div className="w-full lg:max-w-md p-6 bg-green-50 border border-green-200 rounded-2xl text-center space-y-4 shadow-sm">
+            <span className="text-[10px] uppercase font-black text-green-700 px-2 py-0.5 bg-green-50/50 rounded border border-green-200">Partnership Program</span>
             <h3 className="font-extrabold text-lg text-slate-900">Streamline Asset Retirement</h3>
             <p className="text-slate-600 text-xs leading-relaxed mb-4">
               Contact our sales lead division to draft a custom SLA agreement tailored to your compliance guidelines.
@@ -891,8 +869,8 @@ export default function EWastePage() {
       </section>
 
       {/* Multi-Step Request Pickup Wizard */}
-      <section id="pickup-wizard" className="px-4 sm:px-6 py-16 bg-green-50/40 border-b border-green-100">
-        <div className="max-w-xl mx-auto space-y-8 bg-white p-6 sm:p-8 rounded-2xl border border-green-100 shadow-2xl relative">
+      <section id="pickup-wizard" className="px-4 sm:px-6 py-16 bg-green-50 border-b border-green-200">
+        <div className="max-w-xl mx-auto space-y-8 bg-white p-6 sm:p-8 rounded-2xl border border-green-200 shadow-2xl relative">
           
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Request E-Waste Pickup</h2>
@@ -962,7 +940,7 @@ export default function EWastePage() {
                   <h4 className="font-extrabold text-sm text-slate-800 border-b pb-1.5 border-slate-100">Step 1: Contact Details</h4>
                   
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-655 text-slate-600 block">Company / Organization Name</label>
+                    <label className="text-xs font-bold text-slate-600 block">Company / Organization Name</label>
                     <div className="relative">
                       <Building className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                       <input 
@@ -1219,7 +1197,7 @@ export default function EWastePage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-655 text-slate-600 block">Additional Instructions / Notes</label>
+                    <label className="text-xs font-bold text-slate-600 block">Additional Instructions / Notes</label>
                     <textarea 
                       placeholder="e.g. gate security instructions, elevator status, loading dock availability" 
                       rows={2}
@@ -1247,7 +1225,7 @@ export default function EWastePage() {
                   <button
                     type="button"
                     onClick={handleNextStep}
-                    className="flex-1 py-2.5 bg-green-500 hover:bg-green-600 text-slate-950 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ml-auto"
+                    className="flex-1 py-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ml-auto"
                   >
                     Next <ChevronRight className="w-4 h-4" />
                   </button>
@@ -1269,11 +1247,11 @@ export default function EWastePage() {
       </section>
 
       {/* Recycling Process Infographic (Shortened & Moved to Bottom) */}
-      <section className="px-4 sm:px-6 py-16 bg-white border-b border-green-100">
+      <section className="px-4 sm:px-6 py-16 bg-white border-b border-green-200">
         <div className="max-w-5xl mx-auto space-y-10">
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Our Recycling Process</h2>
-            <p className="text-slate-655 text-slate-600 text-sm max-w-xl mx-auto leading-relaxed">
+            <p className="text-slate-600 text-sm max-w-xl mx-auto leading-relaxed">
               A secure, audited process from initial scheduling to final compliance certification.
             </p>
           </div>
@@ -1287,7 +1265,7 @@ export default function EWastePage() {
             ].map((st, idx) => {
               const IconComponent = st.icon;
               return (
-                <div key={idx} className="p-5 bg-green-50/30 border border-green-100 rounded-2xl space-y-3 relative hover:border-green-600 hover:bg-white transition duration-300 shadow-xs">
+                <div key={idx} className="p-5 bg-green-50 border border-green-200 rounded-2xl space-y-3 relative hover:border-green-600 hover:bg-white transition duration-300 shadow-xs">
                   <div className="w-10 h-10 rounded-lg bg-green-50 text-green-700 flex items-center justify-center">
                     <IconComponent className="w-5 h-5" />
                   </div>
@@ -1301,11 +1279,11 @@ export default function EWastePage() {
       </section>
 
       {/* Accordion FAQs */}
-      <section className="py-16 bg-green-50/40 border-b border-green-100 px-4 sm:px-6">
+      <section className="py-16 bg-green-50 border-b border-green-200 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">E-Waste Compliance FAQs</h2>
-            <p className="text-slate-605 text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
               Quick compliance details for corporate administration managers.
             </p>
           </div>
@@ -1329,7 +1307,7 @@ export default function EWastePage() {
                 a: 'For commercial housing societies and small offices in Pune/PCMC, we collect from 50 kg onwards. Large industrial lots and servers have no limits, and we manage multi-ton container dispatches.'
               }
             ].map((item, idx) => (
-              <div key={idx} className="border border-green-100 rounded-xl bg-white overflow-hidden shadow-xs">
+              <div key={idx} className="border border-green-200 rounded-xl bg-white overflow-hidden shadow-xs">
                 <button
                   onClick={() => toggleFaq(idx)}
                   className="w-full px-5 py-4 text-left font-bold text-sm sm:text-base text-slate-950 flex justify-between items-center hover:bg-slate-50 transition-colors"
@@ -1338,7 +1316,7 @@ export default function EWastePage() {
                   <span className="text-green-500 font-extrabold">{faqOpen === idx ? '−' : '+'}</span>
                 </button>
                 {faqOpen === idx && (
-                  <div className="px-5 pb-4 text-xs sm:text-sm text-slate-655 text-slate-600 border-t border-slate-100 pt-3 leading-relaxed">
+                  <div className="px-5 pb-4 text-xs sm:text-sm text-slate-600 border-t border-slate-100 pt-3 leading-relaxed">
                     {item.a}
                   </div>
                 )}
