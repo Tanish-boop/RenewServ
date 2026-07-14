@@ -95,6 +95,11 @@ export async function GET(req: NextRequest) {
       `SELECT enumlabel FROM pg_enum JOIN pg_type ON pg_enum.enumtypid = pg_type.oid WHERE pg_type.typname = 'PaymentStatus'`
     );
     diagnostics.pgPaymentStatuses = pgPaymentStatuses;
+
+    const tableList = await prisma.$queryRawUnsafe(
+      `SELECT table_name FROM information_schema.tables WHERE table_schema='public'`
+    );
+    diagnostics.tables = tableList;
   } catch (err: any) {
     diagnostics.enumQueriesError = err.message;
   }
