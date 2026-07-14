@@ -105,11 +105,11 @@ export async function GET(
 
     // Secure bank details fetched from server-side environment variables to prevent client-side tampering
     const bankDetails = {
-      holder: process.env.BANK_HOLDER_NAME || 'Renewserv Solar Solutions',
+      holder: process.env.BANK_HOLDER_NAME || 'TANISH SHAILESH THAKARE',
       account: process.env.BANK_ACCOUNT_NUMBER || '5012348899',
       ifsc: process.env.BANK_IFSC_CODE || 'KKBK0000811',
       bank: process.env.BANK_NAME || 'Kotak Mahindra Bank',
-      upiId: process.env.BANK_UPI_ID || 'renewserv@kotak',
+      upiId: process.env.BANK_UPI_ID || '9765539107@ybl',
     };
 
     return NextResponse.json({

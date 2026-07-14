@@ -48,11 +48,11 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
 
   // Bank Coordinates (Displayed for Bank Transfer option) loaded securely from server-side environment config
   const bankDetails = bookingData?.bankDetails || {
-    holder: 'Renewserv Solar Solutions',
+    holder: 'TANISH SHAILESH THAKARE',
     account: '5012348899',
     ifsc: 'KKBK0000811',
     bank: 'Kotak Mahindra Bank',
-    upiId: 'renewserv@kotak',
+    upiId: '9765539107@ybl',
   };
 
   // UPI Deep Link constructor
@@ -710,11 +710,11 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                         <p className="text-xs text-slate-400 mb-4">
                           Scan this QR code using GPay, PhonePe, Paytm, or BHIM to complete the site visit transfer.
                         </p>
-                        <div className="bg-white p-3 rounded-2xl mb-2">
+                        <div className="bg-white p-3 rounded-2xl mb-2 flex items-center justify-center">
                           <img 
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`}
+                            src="/tanish_qr.jpg"
                             alt="Payment QR Code" 
-                            className="w-44 h-44"
+                            className="w-44 h-auto max-h-64 object-contain rounded-lg"
                           />
                         </div>
                         <span className="text-xs font-semibold text-slate-400 mt-2">
