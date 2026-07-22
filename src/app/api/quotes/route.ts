@@ -223,7 +223,7 @@ export async function PUT(req: Request) {
           const customerPhone = decrypt(fullBooking.customer.encryptedPhone);
           await sendWhatsappMessage({
             to: customerPhone,
-            body: `💳 *Renewserv: Advance Paid!* 💳\n\nWe have received your 50% advance payment of ₹${advanceAmount.toFixed(2)}.\n\nTechnician is authorized to start cleaning.`,
+            body: `💳 *Green Orbit Energy: Advance Paid!* 💳\n\nWe have received your 50% advance payment of ₹${advanceAmount.toFixed(2)}.\n\nTechnician is authorized to start cleaning.`,
             userId: fullBooking.customerId
           });
         }

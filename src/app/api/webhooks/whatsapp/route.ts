@@ -46,15 +46,15 @@ export async function POST(req: NextRequest) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
     if (!user) {
-      replyMessage = `👋 *Welcome to Renewserv!* ☀️\n\nIt looks like this number is not registered on our portal.\n\nPlease visit ${appUrl} to register and book a professional solar panel health check or cleaning service.`;
+      replyMessage = `👋 *Welcome to Green Orbit Energy!* ☀️\n\nIt looks like this number is not registered on our portal.\n\nPlease visit ${appUrl} to register and book a professional solar panel health check or cleaning service.`;
     } else {
       const userName = user.profile?.name || 'Customer';
 
       if (command.includes('hi') || command === 'hello' || command === 'menu') {
-        replyMessage = `👋 *Namaste, ${userName}!* Welcome to Renewserv Customer Bot.\n\nReply with one of the commands below:\n\n*Book Service* - Get booking link\n*Track* - Live status & Tech ETA\n*My Booking* - List recent bookings\n*Pay Now* - Settle outstanding bills\n*Invoice* - Download invoice PDF\n*Reschedule* - Reschedule appointment\n*Support* - Open help ticket\n*Talk to Agent* - Chat with support`;
+        replyMessage = `👋 *Namaste, ${userName}!* Welcome to Green Orbit Energy Customer Bot.\n\nReply with one of the commands below:\n\n*Book Service* - Get booking link\n*Track* - Live status & Tech ETA\n*My Booking* - List recent bookings\n*Pay Now* - Settle outstanding bills\n*Invoice* - Download invoice PDF\n*Reschedule* - Reschedule appointment\n*Support* - Open help ticket\n*Talk to Agent* - Chat with support`;
       } 
       else if (command === 'book service' || command.includes('book')) {
-        replyMessage = `☀️ *Renewserv Solar Bookings* ☀️\n\nBook premium panel cleaning or system removal/reinstallation in just 2 minutes.\n\n👉 *Book Now:* ${appUrl}/book`;
+        replyMessage = `☀️ *Green Orbit Energy Solar Bookings* ☀️\n\nBook premium panel cleaning or system removal/reinstallation in just 2 minutes.\n\n👉 *Book Now:* ${appUrl}/book`;
       } 
       else if (command === 'my booking' || command.includes('bookings')) {
         const bookings = await prisma.booking.findMany({
@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
             eta = 'In progress';
           }
 
-          replyMessage = `📦 *Renewserv Live Status Tracker* 📦\n\n*Booking ID:* RNW-${booking.id.slice(0, 8).toUpperCase()}\n\n*Status:*\n${booking.status.replace(/_/g, ' ')}\n\n*Technician:*\n${techName} (${techRating.toFixed(1)} ★)\n\n*ETA:*\n${eta}\n\n👉 *Track Service:* ${appUrl}/dashboard?track=${booking.id}`;
+          replyMessage = `📦 *Green Orbit Energy Live Status Tracker* 📦\n\n*Booking ID:* RNW-${booking.id.slice(0, 8).toUpperCase()}\n\n*Status:*\n${booking.status.replace(/_/g, ' ')}\n\n*Technician:*\n${techName} (${techRating.toFixed(1)} ★)\n\n*ETA:*\n${eta}\n\n👉 *Track Service:* ${appUrl}/dashboard?track=${booking.id}`;
         }
       } 
       else if (command === 'pay now' || command === 'pay') {
@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
         }
       } 
       else if (command === 'support' || command === 'help') {
-        replyMessage = `🛠️ *Renewserv Support* 🛠️\n\nNeed help with panel scratches, voltage drops, or refund status? We are here!\n\n👉 *Raise Support Ticket:* ${appUrl}/dashboard`;
+        replyMessage = `🛠️ *Green Orbit Energy Support* 🛠️\n\nNeed help with panel scratches, voltage drops, or refund status? We are here!\n\n👉 *Raise Support Ticket:* ${appUrl}/dashboard`;
       } 
       else if (command === 'reschedule') {
         replyMessage = `📅 *Reschedule Service Request* 📅\n\nTo change your preferred cleaning date or time window, please open your dashboard below:\n\n👉 *Reschedule Slot:* ${appUrl}/dashboard`;
@@ -149,7 +149,7 @@ export async function POST(req: NextRequest) {
         replyMessage = `⚠️ *Cancel Booking Request* ⚠️\n\nYou can cancel your booking directly from the dashboard. Your ₹99 fee will be refunded back to your wallet instantly.\n\n👉 *Manage Booking:* ${appUrl}/dashboard`;
       } 
       else if (command === 'talk to agent' || command === 'agent') {
-        replyMessage = `🤝 *Transitioning to Support Agent...* 🤝\n\nI have flagged your query. A live Renewserv customer success representative will respond to your WhatsApp messages shortly.`;
+        replyMessage = `🤝 *Transitioning to Support Agent...* 🤝\n\nI have flagged your query. A live Green Orbit Energy customer success representative will respond to your WhatsApp messages shortly.`;
       } 
       else {
         replyMessage = `❓ *Unrecognized Command* ❓\n\nSorry, I couldn't understand that. Type *Hi* to see the list of interactive commands.`;

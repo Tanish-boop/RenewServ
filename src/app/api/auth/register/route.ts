@@ -138,7 +138,7 @@ export async function POST(req: Request) {
     });
 
     response.cookies.set({
-      name: 'renewserv_session',
+      name: 'greenorbitenergy_session',
       value: token,
       path: '/',
       httpOnly: true,

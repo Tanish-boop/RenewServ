@@ -243,10 +243,10 @@ export default function EWastePage() {
             '@graph': [
               {
                 '@type': 'Organization',
-                '@id': 'https://www.renewserv.com/#organization',
-                'name': 'Renewserv',
-                'url': 'https://www.renewserv.com',
-                'logo': 'https://www.renewserv.com/logo.png',
+                '@id': 'https://www.greenorbitenergy.com/#organization',
+                'name': 'Green Orbit Energy',
+                'url': 'https://www.greenorbitenergy.com',
+                'logo': 'https://www.greenorbitenergy.com/logo.png',
                 'contactPoint': {
                   '@type': 'ContactPoint',
                   'telephone': '+91-9765539107',
@@ -257,10 +257,10 @@ export default function EWastePage() {
               },
               {
                 '@type': 'Service',
-                '@id': 'https://www.renewserv.com/e-waste/#service',
+                '@id': 'https://www.greenorbitenergy.com/e-waste/#service',
                 'name': 'E-Waste Management & Recycling',
                 'provider': {
-                  '@id': 'https://www.renewserv.com/#organization'
+                  '@id': 'https://www.greenorbitenergy.com/#organization'
                 },
                 'description': 'Responsible collection, certified recycling, secure data destruction, IT Asset Disposal, and EPR compliance solutions.',
                 'areaServed': {
@@ -275,13 +275,13 @@ export default function EWastePage() {
                     '@type': 'ListItem',
                     'position': 1,
                     'name': 'Home',
-                    'item': 'https://www.renewserv.com'
+                    'item': 'https://www.greenorbitenergy.com'
                   },
                   {
                     '@type': 'ListItem',
                     'position': 2,
                     'name': 'E-Waste Management',
-                    'item': 'https://www.renewserv.com/e-waste'
+                    'item': 'https://www.greenorbitenergy.com/e-waste'
                   }
                 ]
               }
@@ -300,7 +300,7 @@ export default function EWastePage() {
         <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-3 shadow-sm">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-              <img src="/logo.png" alt="Renewserv Logo" className="h-14 w-auto object-contain" />
+              <img src="/logo.png" alt="Green Orbit Energy Logo" className="h-14 w-auto object-contain" />
             </div>
 
             <nav className="hidden md:flex items-center gap-6 lg:gap-8">
@@ -395,7 +395,7 @@ export default function EWastePage() {
               Corporate Partner Program
             </h3>
             <p className="text-slate-600 text-xs leading-relaxed mb-4">
-              Renewserv provides comprehensive e-waste compliance, zero-landfill documentation, and secure disposal services for Indian businesses.
+              Green Orbit Energy provides comprehensive e-waste compliance, zero-landfill documentation, and secure disposal services for Indian businesses.
             </p>
             <ul className="space-y-2.5 text-xs text-slate-600 mb-6">
               <li className="flex items-center gap-2"><CheckCircle className="text-green-600 w-4 h-4 shrink-0" /> CPCB/MPCB Form-2 &amp; Green Certificates</li>
@@ -749,7 +749,7 @@ export default function EWastePage() {
           <div className="text-center space-y-3">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Trust &amp; Credibility</h2>
             <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-              Why corporate procurement and compliance heads verify and select Renewserv.
+              Why corporate procurement and compliance heads verify and select Green Orbit Energy.
             </p>
           </div>
 
@@ -797,7 +797,7 @@ export default function EWastePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
             <div className="p-6 bg-white rounded-2xl border border-green-200 space-y-3 shadow-xs">
               <p className="text-slate-600 text-xs italic leading-relaxed">
-                "Renewserv has managed our hardware decommissioning seamlessly. The data wiping certificates were shared within 48 hours of pickup. Truly professional team."
+                "Green Orbit Energy has managed our hardware decommissioning seamlessly. The data wiping certificates were shared within 48 hours of pickup. Truly professional team."
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-green-50 text-green-700 flex items-center justify-center font-bold text-xs">IT</div>
@@ -810,7 +810,7 @@ export default function EWastePage() {
 
             <div className="p-6 bg-white rounded-2xl border border-green-200 space-y-3 shadow-xs">
               <p className="text-slate-600 text-xs italic leading-relaxed">
-                "EPR compliance audits used to take months of back-and-forth registry updates. Renewserv's automated annual documentation support has completely solved our pain point."
+                "EPR compliance audits used to take months of back-and-forth registry updates. Green Orbit Energy's automated annual documentation support has completely solved our pain point."
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-green-50 text-green-700 flex items-center justify-center font-bold text-xs">CO</div>
@@ -1292,7 +1292,7 @@ export default function EWastePage() {
             {[
               {
                 q: 'Do you issue formal recycling certificates for audit compliance?',
-                a: 'Yes, Renewserv issues official CPCB/MPCB-authorized Form-2 recycling certificates along with detailed destruction manifests, confirming green disposal for your corporate ESG audits.'
+                a: 'Yes, Green Orbit Energy issues official CPCB/MPCB-authorized Form-2 recycling certificates along with detailed destruction manifests, confirming green disposal for your corporate ESG audits.'
               },
               {
                 q: 'How do you guarantee secure data wiping on servers and laptops?',
@@ -1330,7 +1330,7 @@ export default function EWastePage() {
       <footer id="footer" className="bg-slate-950 text-slate-400 border-t border-slate-900 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <img src="/logo.png" alt="Renewserv Logo" className="h-12 w-auto object-contain" />
+            <img src="/logo-light.png" alt="Green Orbit Energy Logo" className="h-12 w-auto object-contain" />
             <span className="text-slate-500">© 2026. Pune, Maharashtra, India.</span>
           </div>
 

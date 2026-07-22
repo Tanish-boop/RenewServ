@@ -7,23 +7,23 @@ import path from 'path';
 const SETTINGS_FILE_PATH = path.join(process.cwd(), 'settings.json');
 
 const DEFAULT_SETTINGS = {
-  companyName: 'RenewServ Solar Solutions',
+  companyName: 'Green Orbit Energy PVT LTD',
   gstNumber: '27AAAAA1111A1Z1',
   supportPhone: '+91 9765539107',
-  supportEmail: 'support@renewserv.com',
+  supportEmail: 'support@greenorbitenergy.com',
   companyAddress: '123 Solar Street, Shivaji Nagar, Pune, MH, 411005',
   razorpayKeyId: 'rzp_test_mockKeyId12345',
   razorpayKeySecret: 'mockSecretKeyId67890',
   smtpHost: 'smtp.gmail.com',
   smtpPort: '587',
-  smtpUser: 'operator@renewserv.com',
+  smtpUser: 'operator@greenorbitenergy.com',
   smtpPass: 'mockSmtpPassword123',
   whatsappNumber: '+91 9765539107',
   whatsappApiKey: 'mock_wa_api_key_xyz',
   googleMapsApiKey: 'mock_google_maps_api_key',
   businessHours: '09:00 AM - 06:00 PM',
   serviceAreas: '411001, 411002, 411003, 411004, 411005, 411006, 411007, 411008, 411009, 411014, 411027, 411030, 411038, 411045',
-  invoicePrefix: 'RS-2026-',
+  invoicePrefix: 'GOE-2026-',
   taxRatePercent: '18',
 };
 

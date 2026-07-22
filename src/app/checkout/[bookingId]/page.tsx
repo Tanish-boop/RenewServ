@@ -150,7 +150,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: 'Renewserv',
+        name: 'Green Orbit Energy',
         description: 'Site Visit & Booking Fee',
         order_id: orderData.orderId,
         handler: async function (response: any) {
@@ -322,7 +322,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
         {/* Navigation Banner */}
         <div className="flex items-center justify-between mb-8">
           <div className="text-2xl font-bold text-sky-600 tracking-tight">
-            Renew<span className="text-slate-800">serv</span>
+            Green Orbit <span className="text-slate-800">Energy</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <span>Bookings</span>

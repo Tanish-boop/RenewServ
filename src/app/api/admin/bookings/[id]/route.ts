@@ -449,15 +449,15 @@ export async function PUT(
         
         let messageBody = '';
         if (status === 'CONFIRMED') {
-          messageBody = `⚡ *RenewServ Update:* Your booking #${bookingId.substring(0, 8)} is CONFIRMED! Our technician will visit on ${scheduledDate || booking.scheduledDate}.`;
+          messageBody = `⚡ *Green Orbit Energy Update:* Your booking #${bookingId.substring(0, 8)} is CONFIRMED! Our technician will visit on ${scheduledDate || booking.scheduledDate}.`;
         } else if (status === 'ON_THE_WAY') {
-          messageBody = `⚡ *RenewServ Update:* Our technician is ON THE WAY to your solar panels!`;
+          messageBody = `⚡ *Green Orbit Energy Update:* Our technician is ON THE WAY to your solar panels!`;
         } else if (status === 'ARRIVED') {
-          messageBody = `⚡ *RenewServ Update:* Our technician has ARRIVED at your location. Starting inspection shortly.`;
+          messageBody = `⚡ *Green Orbit Energy Update:* Our technician has ARRIVED at your location. Starting inspection shortly.`;
         } else if (status === 'WORK_STARTED') {
-          messageBody = `⚡ *RenewServ Update:* Solar panel cleaning has STARTED! Restoring peak panel efficiency.`;
+          messageBody = `⚡ *Green Orbit Energy Update:* Solar panel cleaning has STARTED! Restoring peak panel efficiency.`;
         } else if (status === 'WORK_COMPLETED') {
-          messageBody = `⚡ *RenewServ Update:* Work COMPLETED successfully! Thank you for choosing RenewServ.`;
+          messageBody = `⚡ *Green Orbit Energy Update:* Work COMPLETED successfully! Thank you for choosing Green Orbit Energy.`;
         }
 
         if (messageBody) {

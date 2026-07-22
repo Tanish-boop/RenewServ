@@ -48,11 +48,11 @@ export async function POST(req: NextRequest) {
     if (match) {
       aiReply = match.answer;
     } else if (query.includes('invoice') || query.includes('bill') || query.includes('pay')) {
-      aiReply = 'Renewserv invoices include an 18% GST tax rate according to clean energy guidelines. Note that the ₹99 booking fee is treated as a separate service charge for site inspection.';
+      aiReply = 'Green Orbit Energy invoices include an 18% GST tax rate according to clean energy guidelines. Note that the ₹99 booking fee is treated as a separate service charge for site inspection.';
     } else if (query.includes('predict') || query.includes('maintenance')) {
-      aiReply = '🔮 *Renewserv AI Maintenance Predictor:* Based on local Pune air quality index (AQI) values and historic rainfall records, your rooftop installation will experience a 12% output degradation in approximately *42 days*. We suggest booking a wash session around mid-August.';
+      aiReply = '🔮 *Green Orbit Energy AI Maintenance Predictor:* Based on local Pune air quality index (AQI) values and historic rainfall records, your rooftop installation will experience a 12% output degradation in approximately *42 days*. We suggest booking a wash session around mid-August.';
     } else {
-      aiReply = 'Thank you for reaching out to Renewserv AI. I am trained on solar panel diagnostics. I can explain solar health check results, invoice tax codes, cleaning frequencies, or predict your next wash date. Can you ask me about AMC plans, cleaning frequencies, or voltage drops?';
+      aiReply = 'Thank you for reaching out to Green Orbit Energy AI. I am trained on solar panel diagnostics. I can explain solar health check results, invoice tax codes, cleaning frequencies, or predict your next wash date. Can you ask me about AMC plans, cleaning frequencies, or voltage drops?';
     }
 
     // Return the response structured for future LLM prompt feeds

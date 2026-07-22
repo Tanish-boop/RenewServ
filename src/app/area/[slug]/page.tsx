@@ -30,10 +30,10 @@ interface AreaDetails {
 const areaData: Record<string, AreaDetails> = {
   pune: {
     areaName: "Pune",
-    title: "Solar Panel Cleaning & Maintenance Services in Pune | Renewserv",
-    description: "Restore up to 35% solar efficiency with Renewserv's professional soft-water solar panel cleaning and diagnostics in Pune. Senior-citizen friendly roof service.",
+    title: "Solar Panel Cleaning & Maintenance Services in Pune | Green Orbit Energy",
+    description: "Restore up to 35% solar efficiency with Green Orbit Energy's professional soft-water solar panel cleaning and diagnostics in Pune. Senior-citizen friendly roof service.",
     h1: "Solar Panel Cleaning & Maintenance Services in Pune",
-    intro: "Renewserv is Pune's leading professional solar panel cleaning and solar maintenance service provider. We offer high-quality rooftop solar cleaning, diagnostics, and repairs with background-verified teams across Pune City.",
+    intro: "Green Orbit Energy is Pune's leading professional solar panel cleaning and solar maintenance service provider. We offer high-quality rooftop solar cleaning, diagnostics, and repairs with background-verified teams across Pune City.",
     keywords: ["Solar Panel Cleaning Pune", "Solar Cleaning Services Pune", "Solar Maintenance Pune", "Solar Panel Inspection Pune", "Solar Reinstallation Pune"],
     faqs: [
       { q: "How often should I clean solar panels in Pune?", a: "Due to high dust levels in Pune, we recommend professional solar cleaning every 3 to 4 weeks to maintain peak electricity output." },
@@ -43,10 +43,10 @@ const areaData: Record<string, AreaDetails> = {
   },
   pcmc: {
     areaName: "PCMC",
-    title: "Solar Panel Service & Maintenance in PCMC | Renewserv",
-    description: "Get certified solar panel inspection and cleaning in PCMC (Pimpri-Chinchwad). Maximize your solar output with Renewserv's professional maintenance services.",
+    title: "Solar Panel Service & Maintenance in PCMC | Green Orbit Energy",
+    description: "Get certified solar panel inspection and cleaning in PCMC (Pimpri-Chinchwad). Maximize your solar output with Green Orbit Energy's professional maintenance services.",
     h1: "Expert Solar Panel Service & Maintenance in PCMC",
-    intro: "Looking for reliable solar panel services in PCMC? Renewserv provides certified solar panel inspections, maintenance plans, and deep cleaning for residential societies and commercial systems.",
+    intro: "Looking for reliable solar panel services in PCMC? Green Orbit Energy provides certified solar panel inspections, maintenance plans, and deep cleaning for residential societies and commercial systems.",
     keywords: ["Solar Panel Service PCMC", "Solar Cleaning PCMC", "Solar Maintenance Pune", "Solar Panel Cleaning PCMC"],
     faqs: [
       { q: "Which areas in PCMC do you cover?", a: "We cover all major locations in PCMC including Akurdi, Chinchwad, Pimpri, Wakad, Hinjawadi, Ravet, and Moshi." },
@@ -55,10 +55,10 @@ const areaData: Record<string, AreaDetails> = {
   },
   bavdhan: {
     areaName: "Bavdhan",
-    title: "Professional Solar Cleaning Services in Bavdhan | Renewserv",
-    description: "Renewserv provides local solar cleaning and maintenance services in Bavdhan, Pune. Get a comprehensive site inspection and soft-water panel wash.",
+    title: "Professional Solar Cleaning Services in Bavdhan | Green Orbit Energy",
+    description: "Green Orbit Energy provides local solar cleaning and maintenance services in Bavdhan, Pune. Get a comprehensive site inspection and soft-water panel wash.",
     h1: "Professional Solar Cleaning Services in Bavdhan",
-    intro: "Maximize your solar system generation in Bavdhan with Renewserv's soft-water solar panel cleaning and inspection services. We guarantee up to 35% restored solar power.",
+    intro: "Maximize your solar system generation in Bavdhan with Green Orbit Energy's soft-water solar panel cleaning and inspection services. We guarantee up to 35% restored solar power.",
     keywords: ["Solar Cleaning Bavdhan", "Solar Panel Cleaning Pune", "Solar Maintenance Pune", "Solar Cleaning Services Pune"],
     faqs: [
       { q: "How long does a cleaning session take in Bavdhan?", a: "A typical 3kW residential system cleaning session takes approximately 45 to 60 minutes." },
@@ -67,14 +67,14 @@ const areaData: Record<string, AreaDetails> = {
   },
   india: {
     areaName: "India",
-    title: "Solar Maintenance & Lifecycle Support in India | Renewserv",
+    title: "Solar Maintenance & Lifecycle Support in India | Green Orbit Energy",
     description: "Enterprise-grade solar maintenance, panel cleaning, and dismantling services across India. Trusted solar lifecycle platform.",
     h1: "Solar Maintenance & Lifecycle Support in India",
-    intro: "Renewserv provides comprehensive solar maintenance and operations support across India. From rooftop residential installations to large-scale utility plants, we ensure safety, double-entry ledger security, and peak performance.",
+    intro: "Green Orbit Energy provides comprehensive solar maintenance and operations support across India. From rooftop residential installations to large-scale utility plants, we ensure safety, double-entry ledger security, and peak performance.",
     keywords: ["Solar Maintenance India", "Solar Panel Cleaning India", "Solar Lifecycle Support", "Solar Installation India"],
     faqs: [
-      { q: "What services does Renewserv provide across India?", a: "We provide commercial solar cleaning, annual maintenance contracts (AMC), decommissioning, reinstallation, and technical advisory services." },
-      { q: "How does Renewserv guarantee transaction safety?", a: "We operate a dedicated double-entry escrow ledger vault system where payments are held secure and released only upon verified technician completion of the service checklist." }
+      { q: "What services does Green Orbit Energy provide across India?", a: "We provide commercial solar cleaning, annual maintenance contracts (AMC), decommissioning, reinstallation, and technical advisory services." },
+      { q: "How does Green Orbit Energy guarantee transaction safety?", a: "We operate a dedicated double-entry escrow ledger vault system where payments are held secure and released only upon verified technician completion of the service checklist." }
     ]
   }
 };
@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const resolvedParams = await params;
   const slug = resolvedParams.slug.toLowerCase();
   const data = areaData[slug] || areaData['pune'];
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://renewserv.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://greenorbitenergy.com";
   
   return {
     title: data.title,
@@ -96,7 +96,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: data.title,
       description: data.description,
       url: `${baseUrl}/area/${slug}`,
-      siteName: "Renewserv",
+      siteName: "Green Orbit Energy",
       images: [
         {
           url: `${baseUrl}/icon.png`,
@@ -121,13 +121,13 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
   const resolvedParams = await params;
   const slug = resolvedParams.slug.toLowerCase();
   const data = areaData[slug] || areaData['pune'];
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://renewserv.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://greenorbitenergy.com";
 
   // Build JSON-LD Structured Data
   const jsonLdLocalBusiness = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": `Renewserv Solar Services ${data.areaName}`,
+    "name": `Green Orbit Energy Solar Services ${data.areaName}`,
     "image": `${baseUrl}/icon.png`,
     "@id": `${baseUrl}/area/${slug}#localbusiness`,
     "url": `${baseUrl}/area/${slug}`,
@@ -221,7 +221,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
       <header className="border-b border-slate-900 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-bold tracking-tight text-sky-450">
-            Renew<span className="text-white">serv</span>
+            Green Orbit <span className="text-white">Energy</span>
           </Link>
           <div className="flex items-center gap-6">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-400">
@@ -388,14 +388,14 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
               </ul>
             </div>
             <div className="space-y-3">
-              <h4 className="font-bold text-slate-400">Renewserv Platform</h4>
+              <h4 className="font-bold text-slate-400">Green Orbit Energy Platform</h4>
               <p className="leading-relaxed">
                 India's enterprise-grade operations platform for solar lifecycle management. Powered by transaction-safe escrow clearing.
               </p>
             </div>
           </div>
           <div className="text-center pt-8 border-t border-slate-900 text-[10px] text-slate-650">
-            &copy; {new Date().getFullYear()} Renewserv. All rights reserved.
+            &copy; {new Date().getFullYear()} Green Orbit Energy. All rights reserved.
           </div>
         </div>
       </footer>

@@ -86,6 +86,6 @@ export async function sendSms({
 }
 
 export async function sendOtpSms(to: string, code: string) {
-  const body = `Your Renewserv solar OTP is: ${code}. Do not share this code with anyone. Valid for 5 minutes.`;
+  const body = `Your Green Orbit Energy solar OTP is: ${code}. Do not share this code with anyone. Valid for 5 minutes.`;
   return await sendSms({ to, body });
 }

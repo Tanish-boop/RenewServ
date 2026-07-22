@@ -194,7 +194,7 @@ export async function GET(
         <div class="invoice-box">
           <div class="header">
             <div>
-              <div class="company-logo">Renew<span>serv</span></div>
+              <div class="company-logo">Green Orbit <span>Energy</span></div>
               <p style="margin: 4px 0 0 0; font-size: 14px; color: #64748b;">Solar Maintenance & Cleaning Services</p>
             </div>
             <div>
@@ -222,7 +222,7 @@ export async function GET(
                   ${invoice.status === 'PAID' ? 'Paid' : 'Unpaid'}
                 </span>
               </div>
-              <p><strong>Renewserv Solar Solutions</strong></p>
+              <p><strong>Green Orbit Energy PVT LTD</strong></p>
               <p>GSTIN: 27AABCR9999P1Z8 (Clean Energy Code)</p>
               <p>Pune, Maharashtra, India</p>
             </div>
@@ -274,7 +274,7 @@ export async function GET(
           </div>
 
           <div class="footer">
-            <p>Thank you for choosing Renewserv. Let's power the future cleanly!</p>
+            <p>Thank you for choosing Green Orbit Energy. Let's power the future cleanly!</p>
             <p style="font-size: 11px; margin-top: 8px; color: #cbd5e1;">This is a computer-generated invoice. No physical signature is required.</p>
           </div>
         </div>

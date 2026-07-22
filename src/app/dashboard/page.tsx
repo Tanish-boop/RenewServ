@@ -86,7 +86,7 @@ export default function CustomerDashboard() {
 
   // Developer Simulator State
   const [chatMessages, setChatMessages] = useState<any[]>([
-    { role: 'bot', text: '👋 *Renewserv WhatsApp Chatbot Simulator* ☀️\n\nType any message like *Hi*, *Track*, *Pay Now*, or *Invoice* to test the WhatsApp automation in real time.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+    { role: 'bot', text: '👋 *Green Orbit Energy WhatsApp Chatbot Simulator* ☀️\n\nType any message like *Hi*, *Track*, *Pay Now*, or *Invoice* to test the WhatsApp automation in real time.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
   ]);
   const [chatInput, setChatInput] = useState('');
   const [chatSending, setChatSending] = useState(false);
@@ -474,7 +474,7 @@ export default function CustomerDashboard() {
       <header className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-4 shadow-sm hidden md:block">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('home')}>
-            <img src="/logo.png" alt="Renewserv Logo" className="h-14 md:h-16 w-auto object-contain transition-all duration-350" />
+            <img src="/logo.png" alt="Green Orbit Energy Logo" className="h-14 md:h-16 w-auto object-contain transition-all duration-350" />
           </div>
 
           <nav className="flex items-center gap-6">
@@ -523,7 +523,7 @@ export default function CustomerDashboard() {
       {/* Mobile Top Header */}
       <header className="bg-white border-b border-slate-200 px-4 py-3 shadow-sm md:hidden flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setActiveTab('home')}>
-          <img src="/logo.png" alt="Renewserv Logo" className="h-14 sm:h-16 w-auto object-contain transition-all duration-350" />
+          <img src="/logo.png" alt="Green Orbit Energy Logo" className="h-14 sm:h-16 w-auto object-contain transition-all duration-350" />
         </div>
 
         <button 
@@ -730,7 +730,7 @@ export default function CustomerDashboard() {
                 <span className="text-xs font-bold text-amber-400 uppercase tracking-widest block">Direct Helpline</span>
                 <h4 className="font-extrabold text-base text-white">Speak Directly With Support</h4>
                 <p className="text-slate-400 text-xs leading-relaxed">
-                  Renewserv is Pune's local solar partner. If you have custom systems, queries, or need direct booking assistance, connect with us now.
+                  Green Orbit Energy is Pune's local solar partner. If you have custom systems, queries, or need direct booking assistance, connect with us now.
                 </p>
               </div>
 
@@ -743,7 +743,7 @@ export default function CustomerDashboard() {
                   Call Support (+91 9765539107)
                 </a>
                 <a 
-                  href="https://wa.me/919765539107?text=Hi%20Renewserv" 
+                  href="https://wa.me/919765539107?text=Hi%20Green%20Orbit%20Energy" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-lg text-xs transition shadow-sm"
@@ -754,10 +754,10 @@ export default function CustomerDashboard() {
               </div>
             </div>
 
-            {/* WHY CHOOSE RENEWSERV FEATURE GRID */}
+            {/* WHY CHOOSE GREEN ORBIT ENERGY FEATURE GRID */}
             <div className="space-y-4 text-left">
               <div>
-                <h3 className="font-extrabold text-slate-900 text-xl tracking-tight">Why Choose Renewserv?</h3>
+                <h3 className="font-extrabold text-slate-900 text-xl tracking-tight">Why Choose Green Orbit Energy?</h3>
                 <p className="text-[9px] text-slate-500 mt-0.5">Professional service. Transparent pricing. Happy homes.</p>
               </div>
 
@@ -963,7 +963,7 @@ export default function CustomerDashboard() {
 
               <div className="flex items-center gap-1.5 text-xs text-green-700 font-extrabold">
                 <span>✅</span>
-                <span>Solar panels cleaned by Renewserv technician in Pune</span>
+                <span>Solar panels cleaned by Green Orbit Energy technician in Pune</span>
               </div>
             </div>
 
@@ -1026,7 +1026,7 @@ export default function CustomerDashboard() {
                       ★★★★★
                     </div>
                     <p className="text-xs text-slate-755 text-slate-700 italic leading-relaxed">
-                      "Easy booking, timely service and clear communication. Happy with Renewserv!"
+                      "Easy booking, timely service and clear communication. Happy with Green Orbit Energy!"
                     </p>
                   </div>
                   <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
@@ -1230,7 +1230,7 @@ export default function CustomerDashboard() {
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
                 <h3 className="font-extrabold text-slate-900 text-base">Request Instant Callback</h3>
                 <p className="text-xs text-slate-600">
-                  Enter your question below. A Renewserv support representative or supervisor will call you back on your registered phone number ending in <strong className="text-slate-955 text-slate-950">*{currentUser.phone?.slice(-4)}</strong>.
+                  Enter your question below. A Green Orbit Energy support representative or supervisor will call you back on your registered phone number ending in <strong className="text-slate-955 text-slate-950">*{currentUser.phone?.slice(-4)}</strong>.
                 </p>
 
                 <form onSubmit={handleCreateSupportTicket} className="space-y-3">
@@ -1276,7 +1276,7 @@ export default function CustomerDashboard() {
                     </div>
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4 text-slate-400" />
-                      <span>Email support: <strong className="text-slate-900">support@renewserv.com</strong></span>
+                      <span>Email support: <strong className="text-slate-900">support@greenorbitenergy.com</strong></span>
                     </div>
                   </div>
                 </div>
@@ -1375,7 +1375,7 @@ export default function CustomerDashboard() {
                   </div>
                   <div>
                     <h3 className="font-extrabold text-slate-950 text-base">
-                      {currentUser.profile?.name || currentUser.name || 'Renewserv Customer'}
+                      {currentUser.profile?.name || currentUser.name || 'Green Orbit Energy Customer'}
                     </h3>
                     <p className="text-xs text-slate-500">Registered Account</p>
                   </div>
@@ -1521,7 +1521,7 @@ export default function CustomerDashboard() {
                   <div className="bg-slate-850 p-3 flex items-center gap-2 border-b border-slate-800">
                     <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
                     <div>
-                      <span className="text-xs font-extrabold text-white block leading-tight">Renewserv Support Bot</span>
+                      <span className="text-xs font-extrabold text-white block leading-tight">Green Orbit Energy Support Bot</span>
                       <span className="text-[9px] text-slate-500">Online</span>
                     </div>
                   </div>
@@ -1862,7 +1862,7 @@ export default function CustomerDashboard() {
       <footer className="bg-slate-900 text-slate-400 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm mt-12 w-full">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-left">
-            <img src="/logo.png" alt="Renewserv Logo" className="h-12 md:h-14 w-auto object-contain transition-all duration-300" />
+            <img src="/logo-light.png" alt="Green Orbit Energy Logo" className="h-12 md:h-14 w-auto object-contain transition-all duration-300" />
             <span className="text-slate-500">© 2026. Pune, Maharashtra, India.</span>
           </div>
 

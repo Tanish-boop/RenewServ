@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://renewserv.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://greenorbitenergy.com";
   const areas = ["pune", "pcmc", "bavdhan", "india"];
   
   const areaSitemaps = areas.map((slug) => ({

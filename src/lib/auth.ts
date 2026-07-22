@@ -1,7 +1,7 @@
 import * as jose from 'jose';
 import { cookies } from 'next/headers';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'renewserv-enterprise-jwt-super-secret-key-2026-06';
+const JWT_SECRET = process.env.JWT_SECRET || 'greenorbitenergy-enterprise-jwt-super-secret-key-2026-06';
 const secret = new TextEncoder().encode(JWT_SECRET);
 
 /**
@@ -48,7 +48,7 @@ export async function verifySessionToken(token: string): Promise<{
 export async function getSession() {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get('renewserv_session')?.value;
+    const token = cookieStore.get('greenorbitenergy_session')?.value;
     if (!token) return null;
     return await verifySessionToken(token);
   } catch (err) {
@@ -61,5 +61,5 @@ export async function getSession() {
  */
 export async function clearSession() {
   const cookieStore = await cookies();
-  cookieStore.delete('renewserv_session');
+  cookieStore.delete('greenorbitenergy_session');
 }

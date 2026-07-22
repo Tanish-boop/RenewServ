@@ -144,7 +144,7 @@ export async function POST(req: Request) {
 
     // Access Token Cookie (15 mins as requested)
     response.cookies.set({
-      name: 'renewserv_session',
+      name: 'greenorbitenergy_session',
       value: token,
       path: '/',
       httpOnly: true,
@@ -155,7 +155,7 @@ export async function POST(req: Request) {
 
     // Refresh Token Cookie (7 days)
     response.cookies.set({
-      name: 'renewserv_refresh',
+      name: 'greenorbitenergy_refresh',
       value: refreshToken,
       path: '/',
       httpOnly: true,
@@ -196,6 +196,6 @@ export async function POST(req: Request) {
 }
 export async function DELETE() {
   const response = NextResponse.json({ success: true });
-  response.cookies.delete('renewserv_session');
+  response.cookies.delete('greenorbitenergy_session');
   return response;
 }

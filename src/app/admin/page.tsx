@@ -1177,7 +1177,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
         <div className="p-2 border-b border-slate-800 flex justify-center items-center">
-          <img src="/logo.png" alt="RenewServ Logo" className="h-16 sm:h-20 w-auto object-contain max-w-full transition-all duration-300" />
+          <img src="/logo-light.png" alt="Green Orbit Energy Logo" className="h-16 sm:h-20 w-auto object-contain max-w-full transition-all duration-300" />
         </div>
 
         <div className="p-4 border-b border-slate-800 bg-slate-900/50">
@@ -2070,7 +2070,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                               </button>
                               <button 
                                 onClick={() => {
-                                  const text = `Hi ${b.customer?.profile?.name || 'Customer'}, this is RenewServ. Your solar technician Ramesh has been assigned. Please track updates live at RenewServ!`;
+                                  const text = `Hi ${b.customer?.profile?.name || 'Customer'}, this is Green Orbit Energy. Your solar technician Ramesh has been assigned. Please track updates live at Green Orbit Energy!`;
                                   handleSimulateWhatsappSend(b.customer?.phone || '', 'CONFIRMED', b.customer?.profile?.name || 'Customer', b.id);
                                 }}
                                 className="p-1.5 hover:bg-slate-800 text-teal-400 hover:text-teal-200 rounded"
@@ -2155,7 +2155,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                         value={newTechEmail}
                         onChange={(e) => setNewTechEmail(e.target.value)}
                         className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm focus:outline-none focus:border-amber-500"
-                        placeholder="tech@renewserv.com"
+                        placeholder="tech@greenorbitenergy.com"
                       />
                     </div>
                     <div>
@@ -2279,7 +2279,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
                           value={newOwnerEmail}
                           onChange={(e) => setNewOwnerEmail(e.target.value)}
                           className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded text-sm focus:outline-none focus:border-amber-500"
-                          placeholder="tanish@renewserv.com"
+                          placeholder="tanish@greenorbitenergy.com"
                         />
                       </div>
                       <div>
@@ -3430,11 +3430,11 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
               </div>
 
               <div className="p-3 bg-teal-500/10 border border-teal-500/20 text-xs text-teal-300 rounded-lg italic">
-                {whatsappTemplateModal.templateType === 'CONFIRMED' && `⚡ *RenewServ Update:* Your booking is CONFIRMED! Our technician will visit soon.`}
-                {whatsappTemplateModal.templateType === 'TECHNICIAN_ON_THE_WAY' && `⚡ *RenewServ Update:* Our technician is ON THE WAY to your solar panels!`}
-                {whatsappTemplateModal.templateType === 'ARRIVED' && `⚡ *RenewServ Update:* Our technician has ARRIVED at your location.`}
-                {whatsappTemplateModal.templateType === 'WORK_STARTED' && `⚡ *RenewServ Update:* Solar panel cleaning has STARTED!`}
-                {whatsappTemplateModal.templateType === 'COMPLETED' && `⚡ *RenewServ Update:* Solar cleaning COMPLETED successfully!`}
+                {whatsappTemplateModal.templateType === 'CONFIRMED' && `⚡ *Green Orbit Energy Update:* Your booking is CONFIRMED! Our technician will visit soon.`}
+                {whatsappTemplateModal.templateType === 'TECHNICIAN_ON_THE_WAY' && `⚡ *Green Orbit Energy Update:* Our technician is ON THE WAY to your solar panels!`}
+                {whatsappTemplateModal.templateType === 'ARRIVED' && `⚡ *Green Orbit Energy Update:* Our technician has ARRIVED at your location.`}
+                {whatsappTemplateModal.templateType === 'WORK_STARTED' && `⚡ *Green Orbit Energy Update:* Solar panel cleaning has STARTED!`}
+                {whatsappTemplateModal.templateType === 'COMPLETED' && `⚡ *Green Orbit Energy Update:* Solar cleaning COMPLETED successfully!`}
               </div>
 
               <button 

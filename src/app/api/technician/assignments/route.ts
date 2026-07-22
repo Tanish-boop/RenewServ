@@ -184,7 +184,7 @@ export async function PUT(req: Request) {
         } else if (status === 'WORK_STARTED') {
           await sendWhatsappMessage({
             to: customerPhone,
-            body: `⚡ *Renewserv: Work Started!* ⚡\n\n${techName} has started washing your panels using RO soft water. Restoring peak output!`,
+            body: `⚡ *Green Orbit Energy: Work Started!* ⚡\n\n${techName} has started washing your panels using RO soft water. Restoring peak output!`,
             userId: customerId
           });
         } else if (status === 'COMPLETED') {

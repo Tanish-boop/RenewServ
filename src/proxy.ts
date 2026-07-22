@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import * as jose from 'jose';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'renewserv-enterprise-jwt-super-secret-key-2026-06';
+const JWT_SECRET = process.env.JWT_SECRET || 'greenorbitenergy-enterprise-jwt-super-secret-key-2026-06';
 const secret = new TextEncoder().encode(JWT_SECRET);
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const token = request.cookies.get('renewserv_session')?.value;
+  const token = request.cookies.get('greenorbitenergy_session')?.value;
 
   if (!token) {
     return NextResponse.redirect(new URL('/?login=true', request.url));
@@ -49,7 +49,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   } catch (err) {
     const response = NextResponse.redirect(new URL('/?login=true', request.url));
-    response.cookies.delete('renewserv_session');
+    response.cookies.delete('greenorbitenergy_session');
     return response;
   }
 }

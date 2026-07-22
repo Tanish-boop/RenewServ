@@ -98,46 +98,46 @@ export async function sendWhatsappMessage({
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 export async function sendBookingConfirmedWA(to: string, userId: string, bookingId: string) {
-  const body = `⚡ *Renewserv: Booking Confirmed!* ⚡\n\nYour solar health check is scheduled successfully.\nBooking Reference: ${bookingId}\n\n👉 Track Service: ${appUrl}/dashboard?track=${bookingId}\n👉 Open Dashboard: ${appUrl}/dashboard`;
+  const body = `⚡ *Green Orbit Energy: Booking Confirmed!* ⚡\n\nYour solar health check is scheduled successfully.\nBooking Reference: ${bookingId}\n\n👉 Track Service: ${appUrl}/dashboard?track=${bookingId}\n👉 Open Dashboard: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendTechnicianAssignedWA(to: string, userId: string, bookingId: string, techName: string, rating: number) {
-  const body = `👤 *Renewserv: Technician Assigned* 👤\n\nOur solar specialist *${techName}* (${rating.toFixed(1)} ★) will service your panels.\n\n👉 View Tech Details: ${appUrl}/dashboard`;
+  const body = `👤 *Green Orbit Energy: Technician Assigned* 👤\n\nOur solar specialist *${techName}* (${rating.toFixed(1)} ★) will service your panels.\n\n👉 View Tech Details: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendTechnicianOnTheWayWA(to: string, userId: string, bookingId: string, techName: string, etaMinutes: number) {
-  const body = `🚚 *Renewserv: Expert is On the Way!* 🚚\n\n${techName} is traveling to your rooftop installation.\nETA: ${etaMinutes} minutes.\n\n👉 Track Service: ${appUrl}/dashboard?track=${bookingId}`;
+  const body = `🚚 *Green Orbit Energy: Expert is On the Way!* 🚚\n\n${techName} is traveling to your rooftop installation.\nETA: ${etaMinutes} minutes.\n\n👉 Track Service: ${appUrl}/dashboard?track=${bookingId}`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendInspectionCompletedWA(to: string, userId: string, bookingId: string) {
-  const body = `📋 *Renewserv: Health Check Complete* 📋\n\nOur diagnostic report has been filed. Please check pricing quote to approve.\n\n👉 View Report & Quote: ${appUrl}/dashboard`;
+  const body = `📋 *Green Orbit Energy: Health Check Complete* 📋\n\nOur diagnostic report has been filed. Please check pricing quote to approve.\n\n👉 View Report & Quote: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendQuoteGeneratedWA(to: string, userId: string, bookingId: string, amount: number) {
-  const body = `💰 *Renewserv: Pricing Quote Generated* 💰\n\nItemized solar panel cleaning quote is ready for ₹${amount.toFixed(2)}.\n\n👉 View & Approve Quote: ${appUrl}/dashboard`;
+  const body = `💰 *Green Orbit Energy: Pricing Quote Generated* 💰\n\nItemized solar panel cleaning quote is ready for ₹${amount.toFixed(2)}.\n\n👉 View & Approve Quote: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendPaymentReminderWA(to: string, userId: string, bookingId: string, amount: number) {
-  const body = `⚠️ *Renewserv: Payment Pending* ⚠️\n\nPlease pay the outstanding balance of ₹${amount.toFixed(2)} to clear service dues.\n\n👉 Pay Now: ${appUrl}/dashboard`;
+  const body = `⚠️ *Green Orbit Energy: Payment Pending* ⚠️\n\nPlease pay the outstanding balance of ₹${amount.toFixed(2)} to clear service dues.\n\n👉 Pay Now: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendInvoiceSentWA(to: string, userId: string, bookingId: string, invoiceNumber: string, amount: number) {
-  const body = `📄 *Renewserv: Invoice Generated* 📄\n\nInvoice ${invoiceNumber} for ₹${amount.toFixed(2)} has been cleared.\n\n👉 View Invoice: ${appUrl}/api/invoices/${bookingId}/download`;
+  const body = `📄 *Green Orbit Energy: Invoice Generated* 📄\n\nInvoice ${invoiceNumber} for ₹${amount.toFixed(2)} has been cleared.\n\n👉 View Invoice: ${appUrl}/api/invoices/${bookingId}/download`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendServiceCompletedWA(to: string, userId: string, bookingId: string) {
-  const body = `🎉 *Renewserv: Cleaning Done!* 🎉\n\nYour solar panels are washed and output metrics restored. Thank you for choosing Renewserv!\n\n👉 View Inverter Stats: ${appUrl}/dashboard`;
+  const body = `🎉 *Green Orbit Energy: Cleaning Done!* 🎉\n\nYour solar panels are washed and output metrics restored. Thank you for choosing Green Orbit Energy!\n\n👉 View Inverter Stats: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }
 
 export async function sendAmcReminderWA(to: string, userId: string) {
-  const body = `📅 *Renewserv: Solar Panel Care Alert* 📅\n\nIt has been 6 months since your last panel cleaning! Protect your solar generation output with our Annual Maintenance Contract (AMC).\n\n👉 Subscribe: ${appUrl}/dashboard`;
+  const body = `📅 *Green Orbit Energy: Solar Panel Care Alert* 📅\n\nIt has been 6 months since your last panel cleaning! Protect your solar generation output with our Annual Maintenance Contract (AMC).\n\n👉 Subscribe: ${appUrl}/dashboard`;
   return await sendWhatsappMessage({ to, body, userId });
 }

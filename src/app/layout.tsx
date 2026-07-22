@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Renewserv | India's Trusted Solar Lifecycle Service Platform",
+  title: "Green Orbit Energy | Powering a Greener Future",
   description: "Enterprise-grade solar panel cleaning, system dismantling, and diagnostic services in Pune & PCMC, Maharashtra.",
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || "google-site-verification-placeholder",

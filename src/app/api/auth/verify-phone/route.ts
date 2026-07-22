@@ -205,7 +205,7 @@ export async function POST(req: NextRequest) {
 
       const response = NextResponse.json({ success: true, message: 'Mobile number verified successfully!' });
       response.cookies.set({
-        name: 'renewserv_session',
+        name: 'greenorbitenergy_session',
         value: token,
         path: '/',
         httpOnly: true,
