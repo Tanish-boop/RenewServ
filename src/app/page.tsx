@@ -282,10 +282,7 @@ function LandingPageContent() {
       if (authTab === 'login') {
         const identifier = email.trim();
         if (!identifier.includes('@')) {
-          const cleanP = identifier.replace(/\D/g, '');
-          if (cleanP.length !== 10) {
-            throw new Error('Mobile number must be exactly 10 digits.');
-          }
+          throw new Error('Please enter a valid email address.');
         }
 
         const res = await fetch('/api/auth/login', {
@@ -1132,13 +1129,13 @@ function LandingPageContent() {
 
                       <div className="space-y-1 text-left">
                         <label className="text-xs font-bold text-slate-600">
-                          {authTab === 'login' ? 'Email or Mobile Number' : 'Email Address'}
+                          Email Address
                         </label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-3.5 w-4 h-4 text-slate-400" />
                           <input 
-                            type="text" 
-                            placeholder={authTab === 'login' ? "john@example.com or 9765539107" : "john@example.com"} 
+                            type="email" 
+                            placeholder="john@example.com" 
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
