@@ -1177,7 +1177,7 @@ export default function AdminDashboard({ initialTab = 'dashboard' }: AdminDashbo
         isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
       }`}>
         <div className="p-2 border-b border-slate-800 flex justify-center items-center">
-          <img src="/logo-light.png" alt="Green Orbit Energy Logo" className="h-16 sm:h-20 w-auto object-contain max-w-full transition-all duration-300" />
+          <img src="/logo-light.png?v=2" alt="Green Orbit Energy Logo" className="h-16 sm:h-20 w-auto object-contain max-w-full transition-all duration-300" />
         </div>
 
         <div className="p-4 border-b border-slate-800 bg-slate-900/50">

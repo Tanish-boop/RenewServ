@@ -474,7 +474,7 @@ export default function CustomerDashboard() {
       <header className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-4 shadow-sm hidden md:block">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('home')}>
-            <img src="/logo.png" alt="Green Orbit Energy Logo" className="h-14 md:h-16 w-auto object-contain transition-all duration-350" />
+            <img src="/logo.png?v=2" alt="Green Orbit Energy Logo" className="h-14 md:h-16 w-auto object-contain transition-all duration-350" />
           </div>
 
           <nav className="flex items-center gap-6">
@@ -523,7 +523,7 @@ export default function CustomerDashboard() {
       {/* Mobile Top Header */}
       <header className="bg-white border-b border-slate-200 px-4 py-3 shadow-sm md:hidden flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-1.5 cursor-pointer" onClick={() => setActiveTab('home')}>
-          <img src="/logo.png" alt="Green Orbit Energy Logo" className="h-14 sm:h-16 w-auto object-contain transition-all duration-350" />
+          <img src="/logo.png?v=2" alt="Green Orbit Energy Logo" className="h-14 sm:h-16 w-auto object-contain transition-all duration-350" />
         </div>
 
         <button 
@@ -1862,7 +1862,7 @@ export default function CustomerDashboard() {
       <footer className="bg-slate-900 text-slate-400 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm mt-12 w-full">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-left">
-            <img src="/logo-light.png" alt="Green Orbit Energy Logo" className="h-12 md:h-14 w-auto object-contain transition-all duration-300" />
+            <img src="/logo-light.png?v=2" alt="Green Orbit Energy Logo" className="h-12 md:h-14 w-auto object-contain transition-all duration-300" />
             <span className="text-slate-500">© 2026. Pune, Maharashtra, India.</span>
           </div>
 

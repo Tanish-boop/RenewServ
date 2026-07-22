@@ -359,7 +359,7 @@ function LandingPageContent() {
       <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-3 shadow-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/')}>
-            <img src="/logo.png" alt="Green Orbit Energy Logo" className="h-14 w-auto object-contain" />
+            <img src="/logo.png?v=2" alt="Green Orbit Energy Logo" className="h-14 w-auto object-contain" />
           </div>
 
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
@@ -975,7 +975,7 @@ function LandingPageContent() {
       <footer id="footer" className="bg-slate-900 text-slate-450 border-t border-slate-800 py-12 px-4 sm:px-6 text-center text-xs sm:text-sm">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <img src="/logo-light.png" alt="Green Orbit Energy Logo" className="h-12 w-auto object-contain" />
+            <img src="/logo-light.png?v=2" alt="Green Orbit Energy Logo" className="h-12 w-auto object-contain" />
             <span className="text-slate-500">© 2026. Pune, Maharashtra, India.</span>
           </div>
 
